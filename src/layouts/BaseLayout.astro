@@ -30,6 +30,8 @@ const {
 const canonical = new URL(canonicalPath, site.origin).toString();
 const socialImage = new URL(image, site.origin).toString();
 const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
+const assetPrefix = site.id === "telliapps" ? "" : `/${site.id}`;
+const favicon = site.id === "telliapps" ? "/favicon.svg" : `${assetPrefix}/favicon.png`;
 ---
 
 <!doctype html>
@@ -62,8 +64,17 @@ const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="icon"
+      href={favicon}
+      type={site.id === "telliapps" ? "image/svg+xml" : "image/png"}
+    />
+    {
+      site.id !== "telliapps" && (
+        <link rel="apple-touch-icon" href={`${assetPrefix}/apple-touch-icon.png`} />
+      )
+    }
+    <link rel="manifest" href={`${assetPrefix}/site.webmanifest`} />
     <ThemeInit />
     {
       structuredData && (

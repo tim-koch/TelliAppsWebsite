@@ -39,6 +39,13 @@ www.telli-apps.de {
 planteller.telli-apps.de {
   import security
 
+  @site_meta path /planteller/favicon.png /planteller/apple-touch-icon.png /planteller/site.webmanifest
+  handle @site_meta {
+    uri strip_prefix /planteller
+    root * /srv/planteller
+    file_server
+  }
+
   @shared path /_astro/* /assets/* /media/*
   handle @shared {
     root * /srv
@@ -68,6 +75,13 @@ planteller.telli-apps.de {
 
 planparty.telli-apps.de {
   import security
+
+  @site_meta path /planparty/favicon.png /planparty/apple-touch-icon.png /planparty/site.webmanifest
+  handle @site_meta {
+    uri strip_prefix /planparty
+    root * /srv/planparty
+    file_server
+  }
 
   @shared path /_astro/* /assets/* /media/*
   handle @shared {

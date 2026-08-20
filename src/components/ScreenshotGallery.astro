@@ -1,0 +1,98 @@
+---
+import { Picture } from "astro:assets";
+
+/* global ImageMetadata */
+
+interface GalleryItem {
+  src: ImageMetadata;
+  title: string;
+  text: string;
+}
+
+interface Props {
+  appName: string;
+  items: readonly GalleryItem[];
+  ratio: "planteller" | "planparty";
+}
+
+const { appName, items, ratio } = Astro.props;
+---
+
+<div class="screenshot-carousel" data-screenshot-carousel>
+  <div
+    class="screenshot-gallery"
+    role="region"
+    aria-label={`${appName} App-Screenshots – horizontal scrollbar`}
+    tabindex="0"
+    data-screenshot-track
+  >
+    {
+      items.map(({ src, title, text }, index) => (
+        <figure class="screenshot-card" data-reveal>
+          <a
+            class:list={["screenshot-card__image", `screenshot-card__image--${ratio}`]}
+            href={src.src}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${appName} Ansicht „${title}“ in Originalgröße öffnen`}
+          >
+            <Picture
+              src={src}
+              alt={`${appName} ${title}`}
+              formats={["avif", "webp"]}
+              widths={[360, 540, 720, 1080]}
+              sizes="(max-width: 600px) 88vw, 27rem"
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+            />
+            <span class="screenshot-card__zoom">Originalgröße öffnen ↗</span>
+          </a>
+          <figcaption>
+            <strong>{title}</strong>
+            <span>{text}</span>
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+  <div class="screenshot-carousel__controls" aria-label="Screenshot-Navigation">
+    <button
+      type="button"
+      data-screenshot-previous
+      aria-label="Vorherigen Screenshot zeigen"
+    >
+      <span aria-hidden="true">←</span> Zurück
+    </button>
+    <p>Wischen, scrollen oder in Originalgröße öffnen</p>
+    <button type="button" data-screenshot-next aria-label="Nächsten Screenshot zeigen">
+      Weiter <span aria-hidden="true">→</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  for (const carousel of document.querySelectorAll<HTMLElement>(
+    "[data-screenshot-carousel]",
+  )) {
+    const track = carousel.querySelector<HTMLElement>("[data-screenshot-track]");
+    const previous = carousel.querySelector<HTMLButtonElement>(
+      "[data-screenshot-previous]",
+    );
+    const next = carousel.querySelector<HTMLButtonElement>("[data-screenshot-next]");
+
+    if (!track || !previous || !next || carousel.dataset.ready) continue;
+    carousel.dataset.ready = "true";
+
+    const move = (direction: number) => {
+      const card = track.querySelector<HTMLElement>(".screenshot-card");
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 16;
+      track.scrollBy({
+        left: direction * ((card?.offsetWidth ?? track.clientWidth * 0.88) + gap),
+        behavior: "smooth",
+      });
+    };
+
+    previous.addEventListener("click", () => move(-1));
+    next.addEventListener("click", () => move(1));
+  }
+</script>

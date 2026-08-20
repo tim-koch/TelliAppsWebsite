@@ -1,12 +1,13 @@
 ---
 import { Picture } from "astro:assets";
 import telliHelper from "../assets/brand/telli-helper.png";
-import planPartyStart from "../assets/planparty/start.png";
-import planTellerHero from "../assets/planteller/hero.png";
+import planPartyIcon from "../assets/planparty/icon.png";
+import planTellerIcon from "../assets/planteller/icon.png";
 import AppCard from "../components/AppCard.astro";
 import Button from "../components/Button.astro";
 import FeatureCard from "../components/FeatureCard.astro";
 import Icon from "../components/Icon.astro";
+import Logo from "../components/Logo.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import { SITES } from "../config/sites";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -73,23 +74,43 @@ const structuredData = [
           </ul>
         </div>
         <div class="home-hero__visual">
-          <div class="hero-orbit hero-orbit--one" aria-hidden="true"></div>
-          <div class="hero-orbit hero-orbit--two" aria-hidden="true"></div>
-          <Picture
-            src={telliHelper}
-            alt="Telli, der freundliche digitale Helfer der TelliApps Collection"
-            formats={["avif", "webp"]}
-            widths={[420, 640, 880]}
-            sizes="(max-width: 760px) 86vw, 38rem"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-          <div class="floating-note floating-note--sage">
-            <Icon name="plate" /><span>PlanTeller</span>
-          </div>
-          <div class="floating-note floating-note--violet">
-            <Icon name="calendar" /><span>PlanParty</span>
+          <div class="home-brand-stage">
+            <div class="home-brand-stage__identity">
+              <Logo site={SITES.telliapps} hero />
+              <p>Praktische Software mit Ruhe, Klarheit und Charakter.</p>
+            </div>
+            <div class="home-brand-stage__apps" aria-label="Apps der Collection">
+              <a
+                href={SITES.planteller.origin}
+                data-app-transition="true"
+                data-transition-name="sage"
+              >
+                <Picture
+                  src={planTellerIcon}
+                  alt=""
+                  formats={["avif", "webp"]}
+                  widths={[72, 120]}
+                  sizes="3.5rem"
+                  loading="eager"
+                />
+                <span><strong>PlanTeller</strong><small>Kochen organisieren</small></span>
+              </a>
+              <a
+                href={SITES.planparty.origin}
+                data-app-transition="true"
+                data-transition-name="violet"
+              >
+                <Picture
+                  src={planPartyIcon}
+                  alt=""
+                  formats={["avif", "webp"]}
+                  widths={[72, 120]}
+                  sizes="3.5rem"
+                  loading="eager"
+                />
+                <span><strong>PlanParty</strong><small>Feiern planen</small></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -105,20 +126,20 @@ const structuredData = [
         <AppCard
           name="PlanTeller"
           eyebrow="Kochen & Haushalt"
-          text="Rezepte sammeln, Mahlzeiten planen, Vorräte im Blick behalten und den Einkauf im Haushalt synchron organisieren."
+          text="Rezepte, Wochenplan und Einkauf gemeinsam organisieren."
           href={SITES.planteller.origin}
-          image={planTellerHero}
-          alt="PlanTeller App mit Rezeptübersicht"
+          image={planTellerIcon}
+          alt="Offizielles PlanTeller App-Icon"
           tone="sage"
           status="Geschlossene Android-Beta"
         />
         <AppCard
           name="PlanParty"
           eyebrow="Feiern & Mengenplanung"
-          text="Realistische Mengen für Essen und Getränke berechnen, Einkaufsliste abhaken und die nächste Feier entspannter vorbereiten."
+          text="Mengen berechnen und Feiern entspannter vorbereiten."
           href={SITES.planparty.origin}
-          image={planPartyStart}
-          alt="Startansicht der PlanParty App"
+          image={planPartyIcon}
+          alt="Offizielles PlanParty App-Icon"
           tone="violet"
           status="Interner Android-Test"
         />
@@ -162,6 +183,15 @@ const structuredData = [
         <div data-reveal>
           <p class="eyebrow">Über TelliApps</p>
           <h2>Aus einer Kochidee wird eine kleine App-Familie.</h2>
+          <Picture
+            class="about-telli"
+            src={telliHelper}
+            alt="TelliApps Markenhelfer Telli"
+            formats={["avif", "webp"]}
+            widths={[180, 280]}
+            sizes="9rem"
+            loading="lazy"
+          />
         </div>
         <div class="about-copy" data-reveal>
           <p>

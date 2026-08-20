@@ -7,11 +7,12 @@ import result from "../../assets/planparty/result.png";
 import shopping from "../../assets/planparty/shopping.png";
 import checklist from "../../assets/planparty/checklist.png";
 import Button from "../../components/Button.astro";
-import DemoVideo from "../../components/DemoVideo.astro";
 import Faq from "../../components/Faq.astro";
 import FeatureCard from "../../components/FeatureCard.astro";
 import Icon from "../../components/Icon.astro";
+import LoopingAppPreview from "../../components/LoopingAppPreview.astro";
 import PhoneFrame from "../../components/PhoneFrame.astro";
+import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
 import { SITES } from "../../config/sites";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -69,27 +70,31 @@ const structuredData = [
 ];
 
 const gallery = [
-  [start, "Schnell starten", "Neue Party beginnen oder eine lokale Planung fortsetzen."],
-  [
-    event,
-    "Anlass auswählen",
-    "Acht Profile liefern eine passende, direkt nutzbare Vorauswahl.",
-  ],
-  [
-    result,
-    "Einkaufsempfehlung",
-    "Richtwerte werden in Stück, Packungen und Flaschen übersetzt.",
-  ],
-  [
-    shopping,
-    "Einkauf abhaken",
-    "Die berechnete Liste bleibt lokal und kann systemweit geteilt werden.",
-  ],
-  [
-    checklist,
-    "Party vorbereiten",
-    "Automatische und eigene Aufgaben passend zur ausgewählten Feier.",
-  ],
+  {
+    src: start,
+    title: "Schnell starten",
+    text: "Neue Party beginnen oder eine lokale Planung fortsetzen.",
+  },
+  {
+    src: event,
+    title: "Anlass auswählen",
+    text: "Acht Profile liefern eine passende, direkt nutzbare Vorauswahl.",
+  },
+  {
+    src: result,
+    title: "Einkaufsempfehlung",
+    text: "Richtwerte werden in Stück, Packungen und Flaschen übersetzt.",
+  },
+  {
+    src: shopping,
+    title: "Einkauf abhaken",
+    text: "Die berechnete Liste bleibt lokal und kann systemweit geteilt werden.",
+  },
+  {
+    src: checklist,
+    title: "Party vorbereiten",
+    text: "Automatische und eigene Aufgaben passend zur ausgewählten Feier.",
+  },
 ] as const;
 ---
 
@@ -125,7 +130,17 @@ const gallery = [
           </ul>
         </div>
         <div class="app-hero__visual">
-          <PhoneFrame src={start} alt="Startansicht der PlanParty App" eager />
+          <LoopingAppPreview
+            appName="PlanParty"
+            source="/media/planparty-intro.webm"
+            poster="/assets/planparty-video-poster.webp"
+            transcript={[
+              "PlanParty startet eine neue Planung.",
+              "Ein Anlass und die Gäste werden ausgewählt.",
+              "Die App berechnet nachvollziehbare Einkaufsmengen.",
+              "Einkauf und Party-Aufgaben können abgehakt werden.",
+            ]}
+          />
           <Picture
             class="planparty-icon-float"
             src={appIcon}
@@ -259,58 +274,7 @@ const gallery = [
           text="Die Aufnahmen wurden aus dem aktuellen Release-1-Build selbst erstellt und werden vollständig ohne Zuschnitt gezeigt."
         />
       </div>
-      <div
-        class="screenshot-gallery"
-        role="region"
-        aria-label="PlanParty App-Screenshots – horizontal scrollbar"
-        tabindex="0"
-      >
-        {
-          gallery.map(([src, title, text]) => (
-            <figure class="screenshot-card" data-reveal>
-              <div class="screenshot-card__image screenshot-card__image--planparty">
-                <Picture
-                  src={src}
-                  alt={`PlanParty ${title}`}
-                  formats={["avif", "webp"]}
-                  widths={[360, 540, 720]}
-                  sizes="(max-width: 600px) 76vw, 22rem"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <figcaption>
-                <>
-                  <strong>{title}</strong>
-                  <span>{text}</span>
-                </>
-              </figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section shell demo-section">
-      <div>
-        <p class="eyebrow">10 Sekunden PlanParty</p>
-        <h2>Vom Anlass zur fertigen Liste.</h2>
-        <p>
-          Die tonlose Vorschau zeigt den aktuellen Release-1-Build vollständig im
-          Hochformat. Sie lässt sich jederzeit pausieren und wiederholen.
-        </p>
-      </div>
-      <DemoVideo
-        appName="PlanParty"
-        source="/media/planparty-intro.webm"
-        poster="/assets/planparty-video-poster.webp"
-        transcript={[
-          "PlanParty startet eine neue Planung.",
-          "Ein Anlass und die Gäste werden ausgewählt.",
-          "Die App berechnet nachvollziehbare Einkaufsmengen.",
-          "Einkauf und Party-Aufgaben können abgehakt werden.",
-        ]}
-      />
+      <ScreenshotGallery appName="PlanParty" items={gallery} ratio="planparty" />
     </section>
 
     <section class="section shell">

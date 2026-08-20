@@ -6,5 +6,18 @@
   "display": "browser",
   "background_color": "#f5f1eb",
   "theme_color": "#667d62",
-  "lang": "de"
+  "lang": "de",
+  "icons": [
+    {
+      "src": "./favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
 }

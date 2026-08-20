@@ -116,6 +116,62 @@ test("Beide App-Videos sind erreichbar", async ({ request }) => {
   }
 });
 
+test("App-Vorschauen laufen im Hero und lassen sich pausieren", async ({ page }) => {
+  test.skip(test.info().project.name !== "desktop", "Ein Browser-Durchlauf genügt");
+  for (const path of ["/planteller/", "/planparty/"]) {
+    await page.goto(path);
+    const video = page.locator(".loop-preview video");
+    await expect(video).toHaveAttribute("autoplay", "");
+    await expect(video).toHaveAttribute("loop", "");
+    await expect
+      .poll(() => video.evaluate((element) => !(element as HTMLVideoElement).paused))
+      .toBe(true);
+    await page.getByRole("button", { name: "Animation pausieren" }).click();
+    await expect
+      .poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused))
+      .toBe(true);
+  }
+});
+
+test("App-Auswahl bleibt auf kleinen Displays zweispaltig", async ({ page }) => {
+  test.skip(test.info().project.name !== "mobile", "Nur für kleine Displays relevant");
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto("/");
+  const cards = page.locator(".app-card");
+  await expect(cards).toHaveCount(2);
+  const first = await cards.nth(0).boundingBox();
+  const second = await cards.nth(1).boundingBox();
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(Math.abs((first?.y ?? 0) - (second?.y ?? 0))).toBeLessThan(2);
+});
+
+test("Screenshot-Strecken zeigen große Bilder mit Originalansicht", async ({ page }) => {
+  test.skip(test.info().project.name !== "mobile", "Nur ein mobiler Durchlauf nötig");
+  for (const path of ["/planteller/", "/planparty/"]) {
+    await page.goto(path);
+    const firstCard = page.locator(".screenshot-card").first();
+    await firstCard.scrollIntoViewIfNeeded();
+    const image = firstCard.locator("img");
+    await expect
+      .poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth))
+      .toBeGreaterThan(0);
+    const imageBox = await image.boundingBox();
+    expect(imageBox?.width ?? 0).toBeGreaterThan(300);
+    await expect(firstCard.getByRole("link")).toHaveAttribute("target", "_blank");
+  }
+});
+
+test("App-Seiten verwenden ihre offiziellen Favicons", async ({ page }) => {
+  for (const [path, favicon] of [
+    ["/planteller/", "/planteller/favicon.png"],
+    ["/planparty/", "/planparty/favicon.png"],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.locator('link[rel="icon"]')).toHaveAttribute("href", favicon);
+  }
+});
+
 test("Mobile Navigation ist per Tastatur bedienbar", async ({ page }) => {
   test.skip(test.info().project.name !== "mobile", "Nur für den mobilen Header relevant");
   await page.goto("/planparty/");
