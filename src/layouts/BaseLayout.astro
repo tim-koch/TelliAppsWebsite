@@ -1,9 +1,11 @@
 ---
+import "@fontsource-variable/manrope/wght.css";
 import Analytics from "../components/Analytics.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import ThemeInit from "../components/ThemeInit.astro";
-import type { SiteConfig } from "../config/sites";
+import { withBase } from "../config/deployment";
+import { siteUrl, type SiteConfig } from "../config/sites";
 import "../styles/global.css";
 
 interface Props {
@@ -27,11 +29,14 @@ const {
   structuredData,
   bodyClass,
 } = Astro.props;
-const canonical = new URL(canonicalPath, site.origin).toString();
-const socialImage = new URL(image, site.origin).toString();
+const canonical = siteUrl(site, canonicalPath);
+const assetOrigin = import.meta.env.PUBLIC_GITHUB_PAGES_ORIGIN || site.origin;
+const socialImage = new URL(withBase(image), assetOrigin).toString();
 const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
 const assetPrefix = site.id === "telliapps" ? "" : `/${site.id}`;
-const favicon = site.id === "telliapps" ? "/favicon.svg" : `${assetPrefix}/favicon.png`;
+const favicon = withBase(
+  site.id === "telliapps" ? "/favicon.svg" : `${assetPrefix}/favicon.png`,
+);
 ---
 
 <!doctype html>
@@ -71,10 +76,13 @@ const favicon = site.id === "telliapps" ? "/favicon.svg" : `${assetPrefix}/favic
     />
     {
       site.id !== "telliapps" && (
-        <link rel="apple-touch-icon" href={`${assetPrefix}/apple-touch-icon.png`} />
+        <link
+          rel="apple-touch-icon"
+          href={withBase(`${assetPrefix}/apple-touch-icon.png`)}
+        />
       )
     }
-    <link rel="manifest" href={`${assetPrefix}/site.webmanifest`} />
+    <link rel="manifest" href={withBase(`${assetPrefix}/site.webmanifest`)} />
     <ThemeInit />
     {
       structuredData && (

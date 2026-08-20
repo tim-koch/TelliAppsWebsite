@@ -16,6 +16,7 @@ interface Props {
 }
 
 const { appName, items, ratio } = Astro.props;
+const dialogTitleId = `${appName.toLowerCase()}-screenshot-dialog-title`;
 ---
 
 <div class="screenshot-carousel" data-screenshot-carousel>
@@ -29,12 +30,16 @@ const { appName, items, ratio } = Astro.props;
     {
       items.map(({ src, title, text }, index) => (
         <figure class="screenshot-card" data-reveal>
-          <a
+          <button
+            type="button"
             class:list={["screenshot-card__image", `screenshot-card__image--${ratio}`]}
-            href={src.src}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${appName} Ansicht „${title}“ in Originalgröße öffnen`}
+            data-screenshot-open
+            data-full-src={src.src}
+            data-title={title}
+            data-text={text}
+            data-alt={`${appName} ${title}`}
+            aria-haspopup="dialog"
+            aria-label={`Groß ansehen: ${appName} Ansicht „${title}“`}
           >
             <Picture
               src={src}
@@ -45,8 +50,8 @@ const { appName, items, ratio } = Astro.props;
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
             />
-            <span class="screenshot-card__zoom">Originalgröße öffnen ↗</span>
-          </a>
+            <span class="screenshot-card__zoom">Groß ansehen</span>
+          </button>
           <figcaption>
             <strong>{title}</strong>
             <span>{text}</span>
@@ -63,11 +68,41 @@ const { appName, items, ratio } = Astro.props;
     >
       <span aria-hidden="true">←</span> Zurück
     </button>
-    <p>Wischen, scrollen oder in Originalgröße öffnen</p>
+    <p>Wischen, scrollen oder groß ansehen</p>
     <button type="button" data-screenshot-next aria-label="Nächsten Screenshot zeigen">
       Weiter <span aria-hidden="true">→</span>
     </button>
   </div>
+  <dialog
+    class="screenshot-lightbox"
+    data-screenshot-dialog
+    aria-labelledby={dialogTitleId}
+  >
+    <div class="screenshot-lightbox__surface">
+      <header class="screenshot-lightbox__header">
+        <p>
+          <span>{appName} · App-Einblick</span>
+          <strong id={dialogTitleId} data-lightbox-title>Screenshot</strong>
+        </p>
+        <button type="button" class="screenshot-lightbox__close" data-lightbox-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only">Bildansicht schließen</span>
+        </button>
+      </header>
+      <figure class="screenshot-lightbox__figure">
+        <img alt="" data-lightbox-image />
+        <figcaption data-lightbox-caption></figcaption>
+      </figure>
+      <nav class="screenshot-lightbox__navigation" aria-label="Bilder durchblättern">
+        <button type="button" data-lightbox-previous>
+          <span aria-hidden="true">←</span> Vorheriges Bild
+        </button>
+        <button type="button" data-lightbox-next>
+          Nächstes Bild <span aria-hidden="true">→</span>
+        </button>
+      </nav>
+    </div>
+  </dialog>
 </div>
 
 <script>
@@ -79,9 +114,39 @@ const { appName, items, ratio } = Astro.props;
       "[data-screenshot-previous]",
     );
     const next = carousel.querySelector<HTMLButtonElement>("[data-screenshot-next]");
+    const dialog = carousel.querySelector<HTMLDialogElement>("[data-screenshot-dialog]");
+    const openButtons = [
+      ...carousel.querySelectorAll<HTMLButtonElement>("[data-screenshot-open]"),
+    ];
+    const lightboxImage = dialog?.querySelector<HTMLImageElement>(
+      "[data-lightbox-image]",
+    );
+    const lightboxTitle = dialog?.querySelector<HTMLElement>("[data-lightbox-title]");
+    const lightboxCaption = dialog?.querySelector<HTMLElement>("[data-lightbox-caption]");
+    const close = dialog?.querySelector<HTMLButtonElement>("[data-lightbox-close]");
+    const lightboxPrevious = dialog?.querySelector<HTMLButtonElement>(
+      "[data-lightbox-previous]",
+    );
+    const lightboxNext = dialog?.querySelector<HTMLButtonElement>("[data-lightbox-next]");
 
-    if (!track || !previous || !next || carousel.dataset.ready) continue;
+    if (
+      !track ||
+      !previous ||
+      !next ||
+      !dialog ||
+      !lightboxImage ||
+      !lightboxTitle ||
+      !lightboxCaption ||
+      !close ||
+      !lightboxPrevious ||
+      !lightboxNext ||
+      !openButtons.length ||
+      carousel.dataset.ready
+    )
+      continue;
     carousel.dataset.ready = "true";
+    let activeIndex = 0;
+    let activeTrigger: HTMLButtonElement | undefined;
 
     const move = (direction: number) => {
       const card = track.querySelector<HTMLElement>(".screenshot-card");
@@ -94,5 +159,37 @@ const { appName, items, ratio } = Astro.props;
 
     previous.addEventListener("click", () => move(-1));
     next.addEventListener("click", () => move(1));
+
+    const updateDialog = () => {
+      const trigger = openButtons[activeIndex];
+      if (!trigger) return;
+      lightboxImage.src = trigger.dataset.fullSrc || "";
+      lightboxImage.alt = trigger.dataset.alt || "";
+      lightboxTitle.textContent = trigger.dataset.title || "Screenshot";
+      lightboxCaption.textContent = trigger.dataset.text || "";
+    };
+
+    const show = (index: number) => {
+      activeIndex = (index + openButtons.length) % openButtons.length;
+      activeTrigger = openButtons[activeIndex];
+      updateDialog();
+      if (!dialog.open) dialog.showModal();
+      close.focus({ preventScroll: true });
+    };
+
+    openButtons.forEach((button, index) => {
+      button.addEventListener("click", () => show(index));
+    });
+    close.addEventListener("click", () => dialog.close());
+    lightboxPrevious.addEventListener("click", () => show(activeIndex - 1));
+    lightboxNext.addEventListener("click", () => show(activeIndex + 1));
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") show(activeIndex - 1);
+      if (event.key === "ArrowRight") show(activeIndex + 1);
+    });
+    dialog.addEventListener("close", () => activeTrigger?.focus({ preventScroll: true }));
   }
 </script>

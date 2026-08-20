@@ -1,5 +1,5 @@
 ---
-import { SITES } from "../config/sites";
+import { SITES, siteUrl } from "../config/sites";
 import LegalLayout from "../layouts/LegalLayout.astro";
 ---
 
@@ -39,7 +39,7 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   <h2>Feedback und Kontakt</h2>
   <p>
     Wenn dir eine Barriere auffällt, sende bitte eine Nachricht über das <a
-      href="/kontakt/">Kontaktformular</a
+      href={siteUrl(SITES.telliapps, "/kontakt/")}>Kontaktformular</a
     > oder an <a href={`mailto:${SITES.telliapps.email}`}>{SITES.telliapps.email}</a>.
     Beschreibe möglichst die betroffene Seite, dein Gerät und die verwendete
     Hilfstechnologie.

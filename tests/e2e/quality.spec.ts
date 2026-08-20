@@ -66,7 +66,7 @@ for (const path of homepages) {
 
   test(`${path} lädt sichtbare Bilder vollständig`, async ({ page }) => {
     await page.goto(path);
-    const images = page.locator("img");
+    const images = page.locator("img:not([data-lightbox-image])");
     const imageCount = await images.count();
     for (let index = 0; index < imageCount; index += 1) {
       const image = images.nth(index);
@@ -126,6 +126,15 @@ test("App-Vorschauen laufen im Hero und lassen sich pausieren", async ({ page })
     await expect
       .poll(() => video.evaluate((element) => !(element as HTMLVideoElement).paused))
       .toBe(true);
+    const videoBox = await video.boundingBox();
+    expect(videoBox?.width ?? 0).toBeGreaterThan(390);
+    await expect
+      .poll(() =>
+        page
+          .locator(".loop-preview")
+          .evaluate((element) => getComputedStyle(element).borderTopWidth),
+      )
+      .toBe("0px");
     await page.getByRole("button", { name: "Animation pausieren" }).click();
     await expect
       .poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused))
@@ -146,7 +155,9 @@ test("App-Auswahl bleibt auf kleinen Displays zweispaltig", async ({ page }) => 
   expect(Math.abs((first?.y ?? 0) - (second?.y ?? 0))).toBeLessThan(2);
 });
 
-test("Screenshot-Strecken zeigen große Bilder mit Originalansicht", async ({ page }) => {
+test("Screenshot-Strecken öffnen eine große Ansicht im Seitendialog", async ({
+  page,
+}) => {
   test.skip(test.info().project.name !== "mobile", "Nur ein mobiler Durchlauf nötig");
   for (const path of ["/planteller/", "/planparty/"]) {
     await page.goto(path);
@@ -158,7 +169,22 @@ test("Screenshot-Strecken zeigen große Bilder mit Originalansicht", async ({ pa
       .toBeGreaterThan(0);
     const imageBox = await image.boundingBox();
     expect(imageBox?.width ?? 0).toBeGreaterThan(300);
-    await expect(firstCard.getByRole("link")).toHaveAttribute("target", "_blank");
+    const openButton = firstCard.getByRole("button", { name: /Groß ansehen/ });
+    await openButton.click();
+    const dialog = page.locator("dialog[data-screenshot-dialog]");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("[data-lightbox-image]")).toHaveAttribute(
+      "src",
+      /_astro\//,
+    );
+    const results = await new AxeBuilder({ page })
+      .include("dialog[data-screenshot-dialog]")
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .analyze();
+    expect(results.violations).toEqual([]);
+    await page.keyboard.press("Escape");
+    await expect(dialog).not.toBeVisible();
+    await expect(openButton).toBeFocused();
   }
 });
 

@@ -23,10 +23,13 @@ const { site, compact = false, hero = false } = Astro.props;
   {
     site.id === "telliapps" ? (
       <svg class="brand-logo__mark" viewBox="0 0 48 48" aria-hidden="true">
-        <rect x="4" y="4" width="27" height="27" rx="8" />
         <rect x="17" y="17" width="27" height="27" rx="8" class="brand-logo__secondary" />
+        <path
+          d="M25 25v12m0-12h12m-12 6h9m-9 6h12"
+          class="brand-logo__line brand-logo__line--secondary"
+        />
+        <rect x="4" y="4" width="27" height="27" rx="8" class="brand-logo__primary" />
         <path d="M11 13h13M17.5 13v11" class="brand-logo__line" />
-        <path d="M25 25v12m0-12h12m-12 6h9m-9 6h12" class="brand-logo__line" />
       </svg>
     ) : (
       <Picture
@@ -40,5 +43,21 @@ const { site, compact = false, hero = false } = Astro.props;
       />
     )
   }
-  <span class="brand-logo__text">{site.name}</span>
+  <span
+    class:list={[
+      "brand-logo__text",
+      site.id === "telliapps" && "brand-logo__text--telliapps",
+    ]}
+  >
+    {
+      site.id === "telliapps" ? (
+        <>
+          <span>Telli</span>
+          <span>Apps</span>
+        </>
+      ) : (
+        site.name
+      )
+    }
+  </span>
 </span>

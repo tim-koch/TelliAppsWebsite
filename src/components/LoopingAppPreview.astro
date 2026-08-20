@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../config/deployment";
+
 interface Props {
   appName: string;
   source: string;
@@ -8,6 +10,8 @@ interface Props {
 
 const { appName, source, poster, transcript } = Astro.props;
 const descriptionId = `${appName.toLowerCase()}-preview-description`;
+const videoSource = withBase(source);
+const videoPoster = withBase(poster);
 ---
 
 <div class="loop-preview" data-loop-preview>
@@ -18,11 +22,11 @@ const descriptionId = `${appName.toLowerCase()}-preview-description`;
     loop
     playsinline
     preload="metadata"
-    poster={poster}
+    poster={videoPoster}
     aria-label={`${appName} in einer kurzen, wiederholten App-Vorschau`}
     aria-describedby={descriptionId}
   >
-    <source src={source} type="video/webm" />
+    <source src={videoSource} type="video/webm" />
     Dein Browser kann die App-Vorschau nicht wiedergeben.
   </video>
   <button type="button" class="loop-preview__toggle" data-loop-toggle>

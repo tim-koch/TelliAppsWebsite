@@ -24,6 +24,7 @@
     "qa:screenshots": "node scripts/capture-quality-screenshots.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
     "astro": "^7.1.0",
     "sharp": "^0.35.3"
   },

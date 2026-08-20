@@ -1,5 +1,5 @@
 ---
-import { LEGAL_OWNER, SITES } from "../config/sites";
+import { LEGAL_OWNER, SITES, siteUrl } from "../config/sites";
 import LegalLayout from "../layouts/LegalLayout.astro";
 ---
 
@@ -19,7 +19,9 @@ import LegalLayout from "../layouts/LegalLayout.astro";
   <h2>Kontakt</h2>
   <p>
     E-Mail: <a href={`mailto:${SITES.telliapps.email}`}>{SITES.telliapps.email}</a><br
-    />Kontaktformular: <a href="/kontakt/">www.telli-apps.de/kontakt</a>
+    />Kontaktformular: <a href={siteUrl(SITES.telliapps, "/kontakt/")}
+      >www.telli-apps.de/kontakt</a
+    >
   </p>
   <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
   <p>Tim Koch, Anschrift wie oben.</p>

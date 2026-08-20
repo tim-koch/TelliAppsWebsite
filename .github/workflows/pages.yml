@@ -1,0 +1,60 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bauen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v5
+      - name: Node.js einrichten
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: GitHub Pages konfigurieren
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Abhängigkeiten installieren
+        run: npm ci
+      - name: Astro für GitHub Pages bauen
+        run: npm run build
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PUBLIC_GITHUB_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+      - name: Pages-Pfade prüfen
+        run: node scripts/check-pages-build.mjs
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PUBLIC_GITHUB_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+      - name: Pages-Artefakt hochladen
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  veroeffentlichen:
+    if: github.event_name != 'pull_request'
+    needs: bauen
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Website auf GitHub Pages veröffentlichen
+        id: deployment
+        uses: actions/deploy-pages@v5

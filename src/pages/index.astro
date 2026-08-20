@@ -9,7 +9,7 @@ import FeatureCard from "../components/FeatureCard.astro";
 import Icon from "../components/Icon.astro";
 import Logo from "../components/Logo.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import { SITES } from "../config/sites";
+import { SITES, siteUrl } from "../config/sites";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const structuredData = [
@@ -206,7 +206,9 @@ const structuredData = [
             im Charakter, aber mit derselben Haltung bei Design, Datenschutz und
             Wartbarkeit.
           </p>
-          <Button href="/kontakt/" variant="secondary">Idee oder Feedback teilen</Button>
+          <Button href={siteUrl(SITES.telliapps, "/kontakt/")} variant="secondary"
+            >Idee oder Feedback teilen</Button
+          >
         </div>
       </div>
     </section>
