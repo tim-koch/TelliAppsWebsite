@@ -19,6 +19,17 @@ const { name, eyebrow, text, href, image, alt, tone, status } = Astro.props;
 ---
 
 <article class:list={["app-card", `app-card--${tone}`]} data-reveal>
+  <div class="app-card__visual">
+    <Picture
+      src={image}
+      {alt}
+      formats={["avif", "webp"]}
+      widths={[96, 160, 256]}
+      sizes="(max-width: 760px) 4.5rem, 5.5rem"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
   <div class="app-card__content">
     <p class="eyebrow">{eyebrow}</p>
     <h3>{name}</h3>
@@ -31,18 +42,7 @@ const { name, eyebrow, text, href, image, alt, tone, status } = Astro.props;
       data-transition-name={tone}
       data-analytics-event={`${name.toLowerCase()}_collection_open`}
     >
-      Website öffnen <Icon name="arrow" />
+      Öffnen <Icon name="arrow" />
     </a>
-  </div>
-  <div class="app-card__visual">
-    <Picture
-      src={image}
-      {alt}
-      formats={["avif", "webp"]}
-      widths={[300, 480, 720]}
-      sizes="(max-width: 760px) 70vw, 25rem"
-      loading="lazy"
-      decoding="async"
-    />
   </div>
 </article>

@@ -55,7 +55,7 @@ async function renderDemo(browser, demo) {
   const context = await browser.newContext({
     viewport: { width: 720, height: 1280 },
     colorScheme: "light",
-    recordVideo: { dir: temporaryDirectory, size: { width: 720, height: 1280 } },
+    recordVideo: { dir: temporaryDirectory, size: { width: 360, height: 640 } },
   });
   const page = await context.newPage();
   const frames = await Promise.all(

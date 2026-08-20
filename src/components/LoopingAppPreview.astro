@@ -1,0 +1,60 @@
+---
+interface Props {
+  appName: string;
+  source: string;
+  poster: string;
+  transcript: readonly string[];
+}
+
+const { appName, source, poster, transcript } = Astro.props;
+const descriptionId = `${appName.toLowerCase()}-preview-description`;
+---
+
+<div class="loop-preview" data-loop-preview>
+  <span class="loop-preview__speaker" aria-hidden="true"></span>
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={poster}
+    aria-label={`${appName} in einer kurzen, wiederholten App-Vorschau`}
+    aria-describedby={descriptionId}
+  >
+    <source src={source} type="video/webm" />
+    Dein Browser kann die App-Vorschau nicht wiedergeben.
+  </video>
+  <button type="button" class="loop-preview__toggle" data-loop-toggle>
+    Animation pausieren
+  </button>
+  <p class="sr-only" id={descriptionId}>{transcript.join(" ")}</p>
+</div>
+
+<script>
+  for (const preview of document.querySelectorAll<HTMLElement>("[data-loop-preview]")) {
+    const video = preview.querySelector<HTMLVideoElement>("video");
+    const toggle = preview.querySelector<HTMLButtonElement>("[data-loop-toggle]");
+    if (!video || !toggle || preview.dataset.ready) continue;
+    preview.dataset.ready = "true";
+
+    const updateButton = () => {
+      toggle.textContent = video.paused ? "Animation abspielen" : "Animation pausieren";
+      preview.toggleAttribute("data-paused", video.paused);
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      video.pause();
+    } else {
+      void video.play().catch(updateButton);
+    }
+
+    toggle.addEventListener("click", () => {
+      if (video.paused) void video.play();
+      else video.pause();
+    });
+    video.addEventListener("play", updateButton);
+    video.addEventListener("pause", updateButton);
+    updateButton();
+  }
+</script>

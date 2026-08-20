@@ -1,18 +1,18 @@
 ---
 import { Picture } from "astro:assets";
-import hero from "../../assets/planteller/hero.png";
 import impression1 from "../../assets/planteller/impression-1.png";
 import impression2 from "../../assets/planteller/impression-2.png";
 import impression3 from "../../assets/planteller/impression-3.png";
 import impression4 from "../../assets/planteller/impression-4.png";
 import impression5 from "../../assets/planteller/impression-5.png";
 import impression6 from "../../assets/planteller/impression-6.png";
+import telliAvatar from "../../assets/planteller/telli-avatar.png";
 import Button from "../../components/Button.astro";
-import DemoVideo from "../../components/DemoVideo.astro";
 import Faq from "../../components/Faq.astro";
 import FeatureCard from "../../components/FeatureCard.astro";
 import Icon from "../../components/Icon.astro";
-import PhoneFrame from "../../components/PhoneFrame.astro";
+import LoopingAppPreview from "../../components/LoopingAppPreview.astro";
+import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
 import { SITES } from "../../config/sites";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -68,36 +68,36 @@ const structuredData = [
 ];
 
 const gallery = [
-  [
-    impression1,
-    "Rezeptübersicht",
-    "Eigene Rezepte, Importe, Kategorien und Favoriten ruhig organisiert.",
-  ],
-  [
-    impression2,
-    "Rezeptdetails",
-    "Zutaten, Schritte und Aktionen dort, wo sie beim Kochen gebraucht werden.",
-  ],
-  [
-    impression3,
-    "Einkaufsliste",
-    "Zutaten bündeln, nach Bereichen sortieren und gemeinsam abhaken.",
-  ],
-  [
-    impression4,
-    "Vorräte",
-    "Vorhandene Lebensmittel im Blick behalten und Doppelkäufe reduzieren.",
-  ],
-  [
-    impression5,
-    "Wochenplanung",
-    "Mahlzeiten flexibel planen und ohne Abschreiben in den Einkauf übernehmen.",
-  ],
-  [
-    impression6,
-    "Haushalt",
-    "Mitglieder, Einstellungen und Synchronisierung verständlich verwalten.",
-  ],
+  {
+    src: impression1,
+    title: "Rezeptübersicht",
+    text: "Eigene Rezepte, Importe, Kategorien und Favoriten ruhig organisiert.",
+  },
+  {
+    src: impression2,
+    title: "Rezeptdetails",
+    text: "Zutaten, Schritte und Aktionen dort, wo sie beim Kochen gebraucht werden.",
+  },
+  {
+    src: impression3,
+    title: "Einkaufsliste",
+    text: "Zutaten bündeln, nach Bereichen sortieren und gemeinsam abhaken.",
+  },
+  {
+    src: impression4,
+    title: "Vorräte",
+    text: "Vorhandene Lebensmittel im Blick behalten und Doppelkäufe reduzieren.",
+  },
+  {
+    src: impression5,
+    title: "Wochenplanung",
+    text: "Mahlzeiten flexibel planen und ohne Abschreiben in den Einkauf übernehmen.",
+  },
+  {
+    src: impression6,
+    title: "Haushalt",
+    text: "Mitglieder, Einstellungen und Synchronisierung verständlich verwalten.",
+  },
 ] as const;
 ---
 
@@ -133,10 +133,16 @@ const gallery = [
           </ul>
         </div>
         <div class="app-hero__visual">
-          <PhoneFrame
-            src={hero}
-            alt="PlanTeller App mit geöffneter Rezeptübersicht"
-            eager
+          <LoopingAppPreview
+            appName="PlanTeller"
+            source="/media/planteller-intro.webm"
+            poster="/assets/planteller-video-poster.webp"
+            transcript={[
+              "PlanTeller zeigt die Rezeptübersicht.",
+              "Die gemeinsame Einkaufsliste wird geöffnet.",
+              "Der Wochenplan ordnet Mahlzeiten nach Tagen.",
+              "Die Vorratsübersicht zeigt vorhandene Lebensmittel.",
+            ]}
           />
           <div class="app-hero__badge app-hero__badge--top">
             <Icon name="plate" /> Rezepte
@@ -178,10 +184,16 @@ const gallery = [
 
     <section class="section telli-section">
       <div class="shell telli-section__grid">
-        <div class="telli-orb" data-reveal aria-hidden="true">
-          <div class="telli-orb__hat"></div>
-          <div class="telli-orb__face"><span></span><span></span><i></i></div>
-          <div class="telli-orb__ring"></div>
+        <div class="telli-avatar" data-reveal>
+          <Picture
+            src={telliAvatar}
+            alt="Telli, der Kochassistent aus der PlanTeller App"
+            formats={["avif", "webp"]}
+            widths={[280, 440, 640]}
+            sizes="(max-width: 760px) 72vw, 25rem"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div data-reveal>
           <p class="eyebrow">Hallo, ich bin Telli</p>
@@ -254,58 +266,7 @@ const gallery = [
           text="Die Aufnahmen stammen direkt aus der aktuellen PlanTeller-App und werden ohne Zuschnitt vollständig dargestellt."
         />
       </div>
-      <div
-        class="screenshot-gallery"
-        role="region"
-        aria-label="PlanTeller App-Screenshots – horizontal scrollbar"
-        tabindex="0"
-      >
-        {
-          gallery.map(([src, title, text]) => (
-            <figure class="screenshot-card" data-reveal>
-              <div class="screenshot-card__image">
-                <Picture
-                  src={src}
-                  alt={`PlanTeller ${title}`}
-                  formats={["avif", "webp"]}
-                  widths={[320, 480, 720]}
-                  sizes="(max-width: 600px) 76vw, 22rem"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <figcaption>
-                <>
-                  <strong>{title}</strong>
-                  <span>{text}</span>
-                </>
-              </figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
-
-    <section class="section shell demo-section">
-      <div>
-        <p class="eyebrow">10 Sekunden PlanTeller</p>
-        <h2>Ein kurzer Blick auf den ganzen Ablauf.</h2>
-        <p>
-          Die Vorschau verbindet echte App-Aufnahmen von Rezepten, Einkauf, Wochenplanung
-          und Vorräten – ohne Ton und jederzeit pausierbar.
-        </p>
-      </div>
-      <DemoVideo
-        appName="PlanTeller"
-        source="/media/planteller-intro.webm"
-        poster="/assets/planteller-video-poster.webp"
-        transcript={[
-          "PlanTeller zeigt die Rezeptübersicht.",
-          "Die gemeinsame Einkaufsliste wird geöffnet.",
-          "Der Wochenplan ordnet Mahlzeiten nach Tagen.",
-          "Die Vorratsübersicht zeigt vorhandene Lebensmittel.",
-        ]}
-      />
+      <ScreenshotGallery appName="PlanTeller" items={gallery} ratio="planteller" />
     </section>
 
     <section class="section shell">
