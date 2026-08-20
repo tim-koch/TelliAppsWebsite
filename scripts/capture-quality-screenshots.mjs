@@ -55,6 +55,11 @@ try {
         .screenshot({
           path: resolve(output, `${name}-screenshot-card.png`),
         });
+      await page.locator("[data-screenshot-open]").first().click();
+      await page.locator("[data-screenshot-dialog]").screenshot({
+        path: resolve(output, `${name}-screenshot-dialog.png`),
+      });
+      await page.keyboard.press("Escape");
     }
     await page.close();
   }
@@ -90,6 +95,11 @@ try {
         .screenshot({
           path: resolve(output, `${name}-screenshot-card-mobile.png`),
         });
+      await page.locator("[data-screenshot-open]").first().click();
+      await page.locator("[data-screenshot-dialog]").screenshot({
+        path: resolve(output, `${name}-screenshot-dialog-mobile.png`),
+      });
+      await page.keyboard.press("Escape");
     }
     await page.close();
   }
