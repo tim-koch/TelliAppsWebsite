@@ -45,6 +45,23 @@ Cookie-Banner angezeigt.
 
 ## Deployment
 
+### GitHub Pages
+
+Der Workflow `GitHub Pages` baut Astro selbst und veröffentlicht die Vorschau unter:
+
+`https://tim-koch.github.io/TelliAppsWebsite/`
+
+PlanTeller und PlanParty sind dort unter `/planteller/` und `/planparty/` erreichbar.
+Der Pages-Build setzt den Projektpfad automatisch; die produktive Konfiguration bleibt
+davon unberührt. In den Repository-Einstellungen muss unter **Settings → Pages → Source**
+die Option **GitHub Actions** aktiv sein.
+
+GitHub Pages unterstützt für ein Repository nur eine primäre Custom Domain. Die drei
+späteren Hosts `www`, `planteller` und `planparty` werden deshalb weiterhin gemeinsam über
+den Caddy-Container veröffentlicht.
+
+### Eigener Server / Subdomains
+
 ```sh
 docker compose -f deploy/compose.yml up -d --build
 ```

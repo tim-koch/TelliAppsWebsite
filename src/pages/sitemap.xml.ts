@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { SITES } from "../config/sites";
+import { SITES, siteUrl } from "../config/sites";
 
 const paths = ["/", "/kontakt/", "/datenschutz/", "/impressum/", "/barrierefreiheit/"];
 
@@ -7,7 +7,7 @@ export const GET: APIRoute = () => {
   const urls = paths
     .map(
       (path) =>
-        `<url><loc>${new URL(path, SITES.telliapps.origin)}</loc><changefreq>monthly</changefreq></url>`,
+        `<url><loc>${siteUrl(SITES.telliapps, path)}</loc><changefreq>monthly</changefreq></url>`,
     )
     .join("");
   return new Response(

@@ -1,3 +1,5 @@
+import { DEPLOY_BASE } from "./deployment";
+
 export type SiteId = "telliapps" | "planteller" | "planparty";
 
 export interface SiteConfig {
@@ -14,12 +16,20 @@ export interface SiteConfig {
   locale: string;
 }
 
+const pagesOrigin = import.meta.env.PUBLIC_GITHUB_PAGES_ORIGIN?.replace(/\/$/, "");
+const pagesRoot = pagesOrigin ? `${pagesOrigin}${DEPLOY_BASE}` : undefined;
+
+function configuredOrigin(id: SiteId, productionOrigin: string): string {
+  if (!pagesRoot) return productionOrigin;
+  return id === "telliapps" ? pagesRoot : `${pagesRoot}/${id}`;
+}
+
 export const SITES = {
   telliapps: {
     id: "telliapps",
     name: "TelliApps",
     legalName: "TelliApps · Tim Koch",
-    origin: "https://www.telli-apps.de",
+    origin: configuredOrigin("telliapps", "https://www.telli-apps.de"),
     description:
       "Praktische Apps, die Planung im Alltag verständlicher und ruhiger machen.",
     email: "kochbuch_app@outlook.de",
@@ -31,7 +41,7 @@ export const SITES = {
     id: "planteller",
     name: "PlanTeller",
     legalName: "PlanTeller · Tim Koch",
-    origin: "https://planteller.telli-apps.de",
+    origin: configuredOrigin("planteller", "https://planteller.telli-apps.de"),
     description:
       "Rezepte, Wochenplanung und Einkauf gemeinsam an einem Ort organisieren.",
     email: "kochbuch_app@outlook.de",
@@ -45,7 +55,7 @@ export const SITES = {
     id: "planparty",
     name: "PlanParty",
     legalName: "PlanParty · Tim Koch",
-    origin: "https://planparty.telli-apps.de",
+    origin: configuredOrigin("planparty", "https://planparty.telli-apps.de"),
     description:
       "Realistische Einkaufs- und Getränkemengen für Feiern in etwa einer Minute planen.",
     email: "kochbuch_app@outlook.de",
@@ -58,7 +68,8 @@ export const SITES = {
 } as const satisfies Record<SiteId, SiteConfig>;
 
 export function siteUrl(site: SiteConfig, path = "/"): string {
-  return new URL(path, site.origin).toString();
+  const normalizedPath = path.replace(/^\/+/, "");
+  return new URL(normalizedPath, `${site.origin.replace(/\/$/, "")}/`).toString();
 }
 
 export const LEGAL_OWNER = {
