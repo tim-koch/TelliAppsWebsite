@@ -1,0 +1,26 @@
+---
+interface Item {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-list">
+  {
+    items.map((item, index) => (
+      <details class="faq-item surface-card" data-reveal open={index === 0}>
+        <summary>
+          <span>{item.question}</span>
+          <span aria-hidden="true">+</span>
+        </summary>
+        <p>{item.answer}</p>
+      </details>
+    ))
+  }
+</div>

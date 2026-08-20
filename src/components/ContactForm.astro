@@ -1,0 +1,94 @@
+---
+import type { SiteConfig } from "../config/sites";
+
+interface Props {
+  site: SiteConfig;
+  source?: string;
+}
+
+const { site, source = "/kontakt" } = Astro.props;
+---
+
+<form
+  class="form-card surface-card"
+  action={site.contactEndpoint}
+  method="POST"
+  data-async-form
+>
+  <div class="form-card__heading">
+    <p class="eyebrow">Direkter Draht</p>
+    <h2>Nachricht senden</h2>
+    <p>Pflichtfelder sind mit * gekennzeichnet.</p>
+  </div>
+
+  <div class="form-field">
+    <label for="anliegen">Anliegen *</label>
+    <select id="anliegen" name="anliegen" required>
+      <option value="allgemein">Allgemeine Frage</option>
+      <option value="beta">Beta-Teilnahme</option>
+      <option value="feedback">Feedback oder Fehler</option>
+      <option value="datenschutz">Datenschutzanfrage</option>
+    </select>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="name">Name <span>(optional)</span></label>
+      <input id="name" name="name" type="text" autocomplete="name" maxlength="100" />
+    </div>
+    <div class="form-field">
+      <label for="email">E-Mail-Adresse *</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        maxlength="254"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="message">Nachricht *</label>
+    <textarea
+      id="message"
+      name="message"
+      rows="7"
+      minlength="10"
+      maxlength="5000"
+      required
+      aria-describedby="message-help"></textarea>
+    <p class="field-hint" id="message-help">
+      Bitte sende keine Passwörter oder unnötig sensible Angaben.
+    </p>
+  </div>
+
+  <label class="consent-field">
+    <input type="checkbox" name="datenschutz_bestaetigt" value="ja" required />
+    <span
+      >Ich habe die <a href={`${site.origin}/datenschutz/#kontaktformular`}
+        >Datenschutzhinweise</a
+      > zur Kenntnis genommen. Meine Angaben werden über Formspree übermittelt. *</span
+    >
+  </label>
+
+  <div class="honeypot" aria-hidden="true">
+    <label for="company">Firma</label>
+    <input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="_subject" value={`${site.name} Website – Kontaktanfrage`} />
+  <input type="hidden" name="quelle" value={source} />
+
+  <p class="form-privacy">
+    Formspree verarbeitet die Formulardaten erst beim Absenden. Abgeschlossene Anfragen
+    werden grundsätzlich innerhalb von 90 Tagen gelöscht, sofern keine Pflicht zur
+    längeren Aufbewahrung besteht.
+  </p>
+  <button class="form-submit" type="submit" data-submit>Nachricht senden</button>
+  <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+</form>
+
+<script>
+  import "../scripts/forms";
+</script>

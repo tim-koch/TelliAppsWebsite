@@ -1,0 +1,55 @@
+---
+import BetaForm from "../../components/BetaForm.astro";
+import Icon from "../../components/Icon.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planteller}
+  title="PlanTeller Beta testen"
+  description="Bewirb dich mit deiner Google-Mail-Adresse für die geschlossene Android-Beta von PlanTeller."
+  canonicalPath="/beta/"
+>
+  <main class="shell beta-page" id="main-content">
+    <section class="beta-intro" data-reveal>
+      <span class="status-pill"><span></span>Geschlossene Android-Beta</span>
+      <p class="eyebrow">Mitgestalten</p>
+      <h1>Teste PlanTeller im echten Alltag.</h1>
+      <p>
+        Gesucht werden Menschen, die Rezepte, Wochenplanung und Einkauf regelmäßig
+        organisieren – allein oder gemeinsam im Haushalt.
+      </p>
+      <ol class="beta-process">
+        <li>
+          <span>1</span><div>
+            <strong>Anfrage senden</strong><p>
+              Nutze dieselbe Google-Adresse wie im Play Store.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>2</span><div>
+            <strong>Einladung erhalten</strong><p>
+              Nach Freigabe schicken wir dir Testlink und kurze Hinweise.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span>3</span><div>
+            <strong>Feedback teilen</strong><p>
+              Deine Rückmeldung fließt direkt in die Entwicklung ein.
+            </p>
+          </div>
+        </li>
+      </ol>
+      <div class="beta-safety">
+        <Icon name="shield" /><p>
+          <strong>Wichtig:</strong> Die Beta kann Fehler enthalten. Lege keine sensiblen Inhalte
+          ab und prüfe importierte oder KI-erzeugte Angaben vor der Nutzung.
+        </p>
+      </div>
+    </section>
+    <BetaForm site={SITES.planteller} source="/beta" />
+  </main>
+</BaseLayout>

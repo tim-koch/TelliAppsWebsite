@@ -1,0 +1,34 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planteller}
+  title="Hinweise und Haftungsausschluss"
+  description="Wichtige Hinweise zu Rezepten, Allergenen, Nährwerten und importierten Inhalten in PlanTeller."
+  canonicalPath="/hinweise/"
+>
+  <h2>Rezepte und Zubereitung</h2><p>
+    Rezepte sind allgemeine Informationen. Prüfe Mengen, Garzeiten, Temperaturen, Hygiene
+    und sichere Lagerung passend zu Zutaten, Geräten und persönlicher Situation.
+  </p>
+  <h2>Allergene und Unverträglichkeiten</h2><p>
+    Automatische Zuordnungen können unvollständig sein. Maßgeblich sind Zutatenlisten und
+    Warnhinweise auf Produkten sowie individuelle medizinische Empfehlungen.
+  </p>
+  <h2>Nährwerte</h2><p>
+    Berechnete oder importierte Nährwerte sind Näherungen und nicht für medizinische
+    Entscheidungen geeignet. Schwankungen durch Produkte, Portionsgrößen und Zubereitung
+    sind möglich.
+  </p>
+  <h2>Importierte Inhalte</h2><p>
+    Bei importierten Rezepten bleiben Rechte und Verantwortung bei der jeweiligen Quelle
+    beziehungsweise der einstellenden Person. Inhalte dürfen nur im zulässigen Umfang
+    gespeichert und geteilt werden.
+  </p>
+  <h2>Planung und Vorräte</h2><p>
+    Bestands- und Einkaufsangaben ersetzen keine Kontrolle vor Ort. Prüfe Haltbarkeit,
+    Lagerbedingungen und tatsächliche Bestände eigenständig.
+  </p>
+</LegalLayout>

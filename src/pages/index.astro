@@ -1,0 +1,210 @@
+---
+import { Picture } from "astro:assets";
+import telliHelper from "../assets/brand/telli-helper.png";
+import planPartyStart from "../assets/planparty/start.png";
+import planTellerHero from "../assets/planteller/hero.png";
+import AppCard from "../components/AppCard.astro";
+import Button from "../components/Button.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import Icon from "../components/Icon.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { SITES } from "../config/sites";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "TelliApps",
+    url: SITES.telliapps.origin,
+    email: SITES.telliapps.email,
+    founder: { "@type": "Person", name: "Tim Koch" },
+    description: SITES.telliapps.description,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "TelliApps App Collection",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "PlanTeller",
+        url: SITES.planteller.origin,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "PlanParty",
+        url: SITES.planparty.origin,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  site={SITES.telliapps}
+  title="TelliApps – Praktische Apps für einen ruhigeren Alltag"
+  description="Entdecke die TelliApps Collection: PlanTeller organisiert Rezepte und Einkäufe, PlanParty berechnet realistische Mengen für Feiern. Beide Apps sind aktuell in der Testphase."
+  {structuredData}
+>
+  <main id="main-content">
+    <section class="home-hero">
+      <div class="shell home-hero__grid">
+        <div class="home-hero__content">
+          <p class="eyebrow">Apps, die mitdenken</p>
+          <h1>Weniger Alltagschaos. Mehr Zeit fürs Wesentliche.</h1>
+          <p>
+            TelliApps entwickelt freundliche, fokussierte Werkzeuge für echte
+            Alltagsfragen – verständlich gestaltet, transparent und ohne unnötigen
+            Ballast.
+          </p>
+          <div class="hero-actions">
+            <Button href="#apps" analyticsEvent="collection_hero_open"
+              >App Collection entdecken <Icon name="arrow" /></Button
+            >
+            <Button href="#ueber-uns" variant="secondary">Was uns wichtig ist</Button>
+          </div>
+          <ul class="trust-list" aria-label="TelliApps Grundsätze">
+            <li><Icon name="heart" /> Alltagstauglich</li>
+            <li><Icon name="shield" /> Datenschutzbewusst</li>
+            <li><Icon name="check" /> Klar getestet</li>
+          </ul>
+        </div>
+        <div class="home-hero__visual">
+          <div class="hero-orbit hero-orbit--one" aria-hidden="true"></div>
+          <div class="hero-orbit hero-orbit--two" aria-hidden="true"></div>
+          <Picture
+            src={telliHelper}
+            alt="Telli, der freundliche digitale Helfer der TelliApps Collection"
+            formats={["avif", "webp"]}
+            widths={[420, 640, 880]}
+            sizes="(max-width: 760px) 86vw, 38rem"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <div class="floating-note floating-note--sage">
+            <Icon name="plate" /><span>PlanTeller</span>
+          </div>
+          <div class="floating-note floating-note--violet">
+            <Icon name="calendar" /><span>PlanParty</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="apps">
+      <SectionHeading
+        eyebrow="Die App Collection"
+        title="Zwei Apps. Ein gemeinsamer Anspruch."
+        text="Jede App löst eine klar umrissene Aufgabe und bekommt dafür eine eigene visuelle Sprache – verbunden durch dieselben Qualitäts- und Bedienprinzipien."
+      />
+      <div class="app-collection">
+        <AppCard
+          name="PlanTeller"
+          eyebrow="Kochen & Haushalt"
+          text="Rezepte sammeln, Mahlzeiten planen, Vorräte im Blick behalten und den Einkauf im Haushalt synchron organisieren."
+          href={SITES.planteller.origin}
+          image={planTellerHero}
+          alt="PlanTeller App mit Rezeptübersicht"
+          tone="sage"
+          status="Geschlossene Android-Beta"
+        />
+        <AppCard
+          name="PlanParty"
+          eyebrow="Feiern & Mengenplanung"
+          text="Realistische Mengen für Essen und Getränke berechnen, Einkaufsliste abhaken und die nächste Feier entspannter vorbereiten."
+          href={SITES.planparty.origin}
+          image={planPartyStart}
+          alt="Startansicht der PlanParty App"
+          tone="violet"
+          status="Interner Android-Test"
+        />
+      </div>
+    </section>
+
+    <section class="section values-section" id="werte">
+      <div class="shell">
+        <SectionHeading
+          eyebrow="Unser Maßstab"
+          title="Freundlich im Ton. Präzise im Detail."
+          text="Gute Software soll nicht beeindrucken müssen, bevor sie hilft. Deshalb beginnen wir bei der Aufgabe – und reduzieren alles, was davon ablenkt."
+        />
+        <div class="feature-grid">
+          <FeatureCard
+            icon="sparkles"
+            title="Klar statt kompliziert"
+            text="Verständliche Sprache, nachvollziehbare Schritte und Funktionen, die genau dann sichtbar werden, wenn du sie brauchst."
+          />
+          <FeatureCard
+            icon="shield"
+            title="Privatsphäre mitgedacht"
+            text="So wenig Datenerhebung wie möglich. PlanParty arbeitet vollständig lokal; Tracking bleibt auf der Website optional und cookielos."
+          />
+          <FeatureCard
+            icon="check"
+            title="Qualität vor Tempo"
+            text="Mobile-first, zugänglich, schnell und getestet – von kleinen Viewports bis zur Tastaturbedienung."
+          />
+          <FeatureCard
+            icon="heart"
+            title="Mit Feedback wachsen"
+            text="Beide Apps sind in der Testphase. Rückmeldungen fließen direkt in verständlichere Abläufe und sinnvollere Funktionen ein."
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="ueber-uns">
+      <div class="about-grid">
+        <div data-reveal>
+          <p class="eyebrow">Über TelliApps</p>
+          <h2>Aus einer Kochidee wird eine kleine App-Familie.</h2>
+        </div>
+        <div class="about-copy" data-reveal>
+          <p>
+            Mit PlanTeller begann die Suche nach einer ruhigeren Verbindung zwischen
+            Rezepten, Wochenplanung und Einkauf. Daraus entstand Telli – ein kleiner
+            Helfer, der nicht alles besser weiß, sondern zur richtigen Zeit Orientierung
+            gibt.
+          </p>
+          <p>
+            TelliApps führt diesen Gedanken weiter: Jede App konzentriert sich auf einen
+            konkreten Moment im Alltag. PlanParty ist der nächste Schritt – eigenständig
+            im Charakter, aber mit derselben Haltung bei Design, Datenschutz und
+            Wartbarkeit.
+          </p>
+          <Button href="/kontakt/" variant="secondary">Idee oder Feedback teilen</Button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell">
+      <div class="collection-cta" data-reveal>
+        <div>
+          <p class="eyebrow">Noch in Bewegung</p>
+          <h2>Teste mit. Gestalte mit.</h2>
+          <p>
+            PlanTeller und PlanParty befinden sich aktuell in Testphasen. Dein Feedback
+            hilft, beide Apps alltagstauglicher zu machen.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <Button
+            href={`${SITES.planteller.origin}/beta/`}
+            transitionName="sage"
+            analyticsEvent="planteller_beta_collection">PlanTeller testen</Button
+          >
+          <Button
+            href={`${SITES.planparty.origin}/beta/`}
+            variant="secondary"
+            transitionName="violet"
+            analyticsEvent="planparty_beta_collection">PlanParty testen</Button
+          >
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

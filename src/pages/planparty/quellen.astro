@@ -1,0 +1,115 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planparty}
+  title="Berechnungsgrundlagen und Quellen"
+  description="So entstehen die PlanParty-Richtwerte für Portionsmengen, Getränke und Einkaufseinheiten."
+  canonicalPath="/quellen/"
+>
+  <p class="legal-note">
+    PlanParty kombiniert öffentlich belastbare Orientierungswerte mit Catering-Praxis und
+    typischen Handelsgebinden. Die Ergebnisse sind Einkaufsrichtwerte, keine Ernährungs-
+    oder Alkoholempfehlungen.
+  </p>
+  <h2>Methodik</h2><ol>
+    <li>
+      Relevante Gäste in Erwachsenen-Äquivalente umrechnen; Kinder werden in Release 1
+      transparent mit Faktor 0,6 berücksichtigt.
+    </li><li>
+      Gesamtbudgets für Hauptmahlzeit, Beilagen, Snacks, Kuchen sowie alkoholfreie und
+      alkoholische Getränke bilden.
+    </li><li>Anlass, Appetit, Tageszeit und Dauer anwenden.</li><li>
+      Budgets kompatibel auf Ernährungsgruppen und ausgewählte Produkte verteilen.
+    </li><li>
+      Erst am Ende auf reale Stück-, Packungs-, Dosen-, Flaschen- oder Kastengrößen
+      aufrunden.
+    </li>
+  </ol>
+  <h2>Wichtige Invarianten</h2><ul>
+    <li>Mehr ausgewählte Produkte vervielfachen das Gesamtbudget nicht.</li><li>
+      Omnivore Produkte werden vegetarischen oder veganen Gästen nicht zugerechnet.
+    </li><li>
+      Vegane Gäste erhalten bei vorhandener veganer Auswahl ein vollständiges Budget.
+    </li><li>Einkaufseinheiten werden nie abgerundet.</li><li>
+      Alkohol wird nur für die angegebene Zahl erwachsener Alkoholtrinker geplant.
+    </li>
+  </ul>
+  <h2>Zentrale Primär- und Fachquellen</h2>
+  <ul class="source-list">
+    <li>
+      <a
+        href="https://www.verbraucherzentrale.de/portionsplaner"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Verbraucherzentrale: Für Gäste kochen und Portionen planen</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.verbraucherzentrale.de/wissen/lebensmittel/auswaehlen-zubereiten-aufbewahren/weihnachtsessen-reste-vermeiden-und-sinnvoll-verwerten-11231"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Verbraucherzentrale: Weihnachtsessen und Lebensmittelreste</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.umweltbundesamt.de/publikationen/leitfaden-vermeidung-von-lebensmittelabfaellen-beim"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Umweltbundesamt: Lebensmittelabfälle beim Catering vermeiden</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.dge.de/wissenschaft/referenzwerte/wasser/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Deutsche Gesellschaft für Ernährung: Referenzwerte Wasser</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.dge.de/gesunde-ernaehrung/gut-essen-und-trinken/dge-empfehlungen/am-besten-wasser-trinken/"
+        target="_blank"
+        rel="noopener noreferrer">DGE: Getränkeempfehlung und Alkoholhinweis</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.swissmilk.ch/de/rezepte-kochideen/tipps-tricks/grillparty-welche-mengen-pro-person/"
+        target="_blank"
+        rel="noopener noreferrer">Swissmilk: Grillparty-Mengen pro Person</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.nestleprofessional.de/news/alles-zu-fingerfood"
+        target="_blank"
+        rel="noopener noreferrer">Nestlé Professional: Fingerfood im Catering</a
+      >
+    </li>
+    <li>
+      <a
+        href="https://www.oetker.de/inspiration/tipps-tricks/t/kuchenbuffet-hochzeit-so-gehts-ganz-einfach"
+        target="_blank"
+        rel="noopener noreferrer">Dr. Oetker: Kuchenbuffet planen</a
+      >
+    </li>
+  </ul>
+  <h2>Produktannahmen</h2><p>
+    Wo keine belastbare Norm existiert, verwendet PlanParty ausdrücklich markierte
+    Produktannahmen innerhalb üblicher Bandbreiten. Typische Gebinde stammen ergänzend aus
+    Hersteller- und Handelsangaben. Gramm- beziehungsweise Milliliterbedarf und
+    tatsächlich zu kaufende Gebinde bleiben in der Ausgabe getrennt sichtbar.
+  </p>
+  <h2>Reserve und Scheingenauigkeit</h2><p>
+    Feste Gebinde werden immer aufgerundet; diese Rundung bildet bereits eine Reserve.
+    Lose, lagerfähige Produkte erhalten eine kleine Reserve. Die App zeigt bewusst „ca.“
+    und verständlich gerundete Werte. Wetter wird in Release 1 nicht abgefragt und muss
+    eigenständig berücksichtigt werden.
+  </p>
+</LegalLayout>

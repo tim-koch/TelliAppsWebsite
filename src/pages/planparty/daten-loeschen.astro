@@ -1,0 +1,60 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planparty}
+  title="Lokale PlanParty-Daten löschen"
+  description="Schritt-für-Schritt-Anleitung zum Löschen einzelner Planungen oder aller lokalen PlanParty-Daten auf Android."
+  canonicalPath="/daten-loeschen/"
+>
+  <p class="legal-note">
+    PlanParty hat kein Konto und speichert Release-1-Planungen ausschließlich lokal.
+    Deshalb ist keine serverseitige Löschanfrage nötig.
+  </p>
+  <h2>Einzelne Party löschen</h2>
+  <ol class="deletion-steps">
+    <li>
+      <strong>„Meine Partys“ öffnen</strong><span
+        >Starte PlanParty und öffne deine lokal gespeicherten Planungen.</span
+      >
+    </li><li>
+      <strong>Planung auswählen</strong><span
+        >Öffne das Menü der Party, die du entfernen möchtest.</span
+      >
+    </li><li>
+      <strong>„Löschen“ bestätigen</strong><span
+        >Die Party einschließlich Einkauf, Checkliste und Rückblick wird lokal entfernt.</span
+      >
+    </li>
+  </ol>
+  <h2>Alle App-Daten unter Android löschen</h2>
+  <ol class="deletion-steps">
+    <li>
+      <strong>Systemeinstellungen öffnen</strong><span
+        >Öffne „Apps“ und wähle „PlanParty“.</span
+      >
+    </li><li>
+      <strong>„Speicher“ öffnen</strong><span
+        >Die Bezeichnung kann je nach Hersteller „Speicher und Cache“ lauten.</span
+      >
+    </li><li>
+      <strong>„Speicherinhalt löschen“ wählen</strong><span
+        >Bestätige die Abfrage. Alle lokalen Planungen und Einstellungen werden entfernt.</span
+      >
+    </li>
+  </ol>
+  <h2>Deinstallation</h2><p>
+    Auch eine vollständige Deinstallation entfernt im Regelfall den lokalen App-Speicher.
+    Automatische Gerätesicherungen des Betriebssystems können je nach
+    Android-Konfiguration separat bestehen; verwalte sie in deinem Google- oder
+    Geräte-Backup.
+  </p>
+  <h2>Hilfe</h2><p>
+    Wenn die Schritte auf deinem Gerät anders heißen, sende Hersteller, Android-Version
+    und ein Bildschirmfoto ohne persönliche Daten über das <a
+      href={`${SITES.planparty.origin}/kontakt/`}>Supportformular</a
+    >.
+  </p>
+</LegalLayout>

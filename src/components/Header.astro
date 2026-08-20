@@ -1,0 +1,93 @@
+---
+import { SITES, siteUrl, type SiteConfig } from "../config/sites";
+import { navigationFor } from "../data/navigation";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+interface Props {
+  site: SiteConfig;
+}
+
+const { site } = Astro.props;
+const navigation = navigationFor(site);
+---
+
+<header class="site-header" data-site-header>
+  <div class="shell site-header__inner">
+    <a
+      class="site-header__brand"
+      href={site.origin}
+      aria-label={`${site.name} Startseite`}
+    >
+      <Logo {site} />
+    </a>
+
+    <button
+      class="icon-button site-header__menu"
+      type="button"
+      aria-controls="primary-navigation"
+      aria-expanded="false"
+      aria-label="Menü öffnen"
+      data-menu-button
+    >
+      <Icon name="menu" class="menu-open-icon" />
+      <Icon name="x" class="menu-close-icon" />
+    </button>
+
+    <nav
+      class="site-header__nav"
+      id="primary-navigation"
+      aria-label="Hauptnavigation"
+      data-menu
+    >
+      <ul>
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="site-header__actions">
+        <button
+          class="icon-button"
+          type="button"
+          aria-label="Farbschema wechseln"
+          data-theme-button
+        >
+          <Icon name="sun" class="theme-light-icon" />
+          <Icon name="moon" class="theme-dark-icon" />
+        </button>
+        {
+          site.id === "telliapps" ? (
+            <a class="header-cta" href={siteUrl(site, "/#apps")}>
+              Apps entdecken
+            </a>
+          ) : (
+            <a
+              class="header-cta"
+              href={siteUrl(site, "/beta/")}
+              data-analytics-event={`${site.id}_beta_header`}
+            >
+              Beta testen
+            </a>
+          )
+        }
+      </div>
+    </nav>
+  </div>
+  {
+    site.id !== "telliapps" && (
+      <a
+        class="ecosystem-ribbon"
+        href={SITES.telliapps.origin}
+        data-app-transition="true"
+        data-transition-name="neutral"
+      >
+        <span>Teil der TelliApps Collection</span>
+        <Icon name="arrow" />
+      </a>
+    )
+  }
+</header>

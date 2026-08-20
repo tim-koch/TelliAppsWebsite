@@ -1,0 +1,27 @@
+---
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "quiet";
+  class?: string;
+  transitionName?: string;
+  analyticsEvent?: string;
+}
+
+const {
+  href,
+  variant = "primary",
+  class: className,
+  transitionName,
+  analyticsEvent,
+} = Astro.props;
+---
+
+<a
+  class:list={["button", `button--${variant}`, className]}
+  {href}
+  data-app-transition={transitionName ? "true" : undefined}
+  data-transition-name={transitionName}
+  data-analytics-event={analyticsEvent}
+>
+  <slot />
+</a>

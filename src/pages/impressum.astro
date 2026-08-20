@@ -1,0 +1,31 @@
+---
+import { LEGAL_OWNER, SITES } from "../config/sites";
+import LegalLayout from "../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.telliapps}
+  title="Impressum"
+  description="Anbieterkennzeichnung und Kontakt für TelliApps."
+  canonicalPath="/impressum/"
+>
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <address>
+    {LEGAL_OWNER.name}<br />
+    {LEGAL_OWNER.street}<br />
+    {LEGAL_OWNER.city}<br />
+    Deutschland
+  </address>
+  <h2>Kontakt</h2>
+  <p>
+    E-Mail: <a href={`mailto:${SITES.telliapps.email}`}>{SITES.telliapps.email}</a><br
+    />Kontaktformular: <a href="/kontakt/">www.telli-apps.de/kontakt</a>
+  </p>
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>Tim Koch, Anschrift wie oben.</p>
+  <h2>Verbraucherstreitbeilegung gemäß § 36 VSBG</h2>
+  <p>
+    Es besteht keine Verpflichtung und keine Bereitschaft zur Teilnahme an einem
+    Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle.
+  </p>
+</LegalLayout>

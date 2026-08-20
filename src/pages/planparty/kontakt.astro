@@ -1,0 +1,25 @@
+---
+import ContactForm from "../../components/ContactForm.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planparty}
+  title="PlanParty Support und Kontakt"
+  description="Hilfe, Feedback und Datenschutzanfragen zur PlanParty-App."
+  canonicalPath="/kontakt/"
+>
+  <main class="shell contact-page" id="main-content">
+    <section class="contact-intro" data-reveal>
+      <p class="eyebrow">PlanParty Support</p><h1>Wie können wir helfen?</h1><p>
+        Beschreibe bei Fehlern bitte Anlass, Gästezahl, ausgewählte Produkte, App-Version
+        und Android-Version. Planungsdaten werden nicht automatisch an uns übertragen.
+      </p><p class="legal-note">
+        Da PlanParty ohne Konto arbeitet, kannst du lokale Daten selbst in der App oder
+        über die Systemeinstellungen löschen.
+      </p>
+    </section>
+    <ContactForm site={SITES.planparty} source="/kontakt" />
+  </main>
+</BaseLayout>

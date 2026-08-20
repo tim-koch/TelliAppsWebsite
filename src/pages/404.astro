@@ -1,0 +1,20 @@
+---
+import Button from "../components/Button.astro";
+import { SITES } from "../config/sites";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.telliapps}
+  title="Seite nicht gefunden"
+  description="Die gesuchte TelliApps-Seite wurde nicht gefunden."
+  canonicalPath="/404/"
+  noindex
+>
+  <main class="shell not-found" id="main-content">
+    <p class="eyebrow">Fehler 404</p>
+    <h1>Hier ist gerade keine App gelandet.</h1>
+    <p>Der Link ist möglicherweise veraltet oder die Seite wurde verschoben.</p>
+    <Button href="/">Zur App Collection</Button>
+  </main>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import { Picture } from "astro:assets";
+
+/* global ImageMetadata */
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { src, alt, eager = false, class: className } = Astro.props;
+---
+
+<figure class:list={["phone-frame", className]}>
+  <span class="phone-frame__speaker" aria-hidden="true"></span>
+  <Picture
+    {src}
+    {alt}
+    formats={["avif", "webp"]}
+    widths={[320, 480, 640]}
+    sizes={eager ? "(max-width: 720px) 72vw, 18rem" : "(max-width: 720px) 72vw, 22rem"}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : "auto"}
+    decoding="async"
+  />
+</figure>

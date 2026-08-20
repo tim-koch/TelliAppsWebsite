@@ -1,0 +1,97 @@
+---
+import { LEGAL_OWNER, SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+const analyticsEnabled = Boolean(
+  import.meta.env.PUBLIC_UMAMI_SRC && import.meta.env.PUBLIC_UMAMI_WEBSITE_ID,
+);
+---
+
+<LegalLayout
+  site={SITES.planparty}
+  title="Datenschutzerklärung"
+  description="Datenschutzhinweise für die PlanParty-App, Website und Beta-Anmeldung."
+  canonicalPath="/datenschutz/"
+>
+  <h2>1. Verantwortlicher</h2><address>
+    {LEGAL_OWNER.name}<br />{LEGAL_OWNER.street}<br />{LEGAL_OWNER.city}<br />E-Mail: <a
+      href={`mailto:${SITES.planparty.email}`}>{SITES.planparty.email}</a
+    >
+  </address>
+  <h2>2. Wichtigster Grundsatz der App</h2><p class="legal-note">
+    PlanParty funktioniert nach aktuellem Release-1-Stand ohne Konto, Backend oder Cloud.
+    Partyplanungen, Einkaufsstatus, Checklisten und Verbrauchsrückblicke werden lokal auf
+    deinem Gerät gespeichert und nicht automatisch an uns übertragen.
+  </p>
+  <h2>3. Lokal verarbeitete App-Daten</h2>
+  <ul>
+    <li>Art, Name, Zeitpunkt und Dauer geplanter Feiern</li><li>
+      Anzahl von Erwachsenen und Kindern
+    </li><li>
+      Ernährungsformen, Appetit, Trinkverhalten und Anzahl erwachsener Alkoholtrinker
+    </li><li>gewählte Produkte, berechnete Mengen und lokale Anpassungsfaktoren</li><li>
+      Status von Einkaufsliste und Party-Checkliste
+    </li><li>eigene Checklisteneinträge, Archivstatus und lokale Zeitstempel</li>
+  </ul>
+  <p>
+    Die Speicherung erfolgt im lokalen App-Speicher (AsyncStorage). Rechtsgrundlage für
+    die ausschließlich von dir veranlasste lokale Verarbeitung ist die Bereitstellung der
+    angeforderten App-Funktion. Wir erhalten diese Daten nicht.
+  </p>
+  <h2>4. Teilen-Funktion</h2><p>
+    Wenn du eine Einkaufsliste teilst, öffnet PlanParty den systemeigenen Teilen-Dialog
+    deines Geräts. Erst du wählst einen Empfänger oder eine andere App aus. Für die
+    anschließende Verarbeitung gelten die Hinweise des ausgewählten Dienstes.
+  </p>
+  <h2>5. App-Berechtigungen und Diagnose</h2><p>
+    Release 1 benötigt für die Kernplanung keine Kamera, Kontakte oder Standortdaten.
+    Betriebssystem und App-Store können technische Installations-, Update- und
+    Absturzdaten nach deren eigenen Bedingungen verarbeiten. Vor Veröffentlichung im Store
+    sind die Angaben im Google-Play-Bereich „Datensicherheit“ mit dem finalen Build und
+    allen aktivierten Diagnosewerkzeugen abzugleichen.
+  </p>
+  <h2>6. Daten löschen</h2><p>
+    Einzelne Planungen lassen sich in der App löschen. Sämtliche lokalen App-Daten kannst
+    du durch Löschen des App-Speichers in den Android-Systemeinstellungen oder durch
+    Deinstallation entfernen. Eine bebilderte Anleitung steht unter <a
+      href={`${SITES.planparty.origin}/daten-loeschen/`}>Daten löschen</a
+    >.
+  </p>
+  <h2>7. Website und Server-Protokolle</h2><p>
+    Beim Abruf der Website verarbeitet der Hosting-Server technisch erforderliche
+    Verbindungsdaten wie IP-Adresse, Zeitpunkt, Zieladresse, Referrer, Browser und
+    Betriebssystem. Zwecke sind sichere Bereitstellung und Missbrauchsabwehr gemäß Art. 6
+    Abs. 1 lit. f DSGVO. Das Farbschema wird nur lokal unter <code>telliapps-theme</code> gespeichert.
+  </p>
+  <h3>Reichweitenmessung</h3><p>
+    {
+      analyticsEnabled
+        ? "Die Website verwendet eine cookielose Umami-Installation für aggregierte Seiten- und Klickstatistiken. Werbeprofile werden nicht erstellt; „Do Not Track“ wird respektiert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO."
+        : "In diesem Build ist keine Reichweitenmessung konfiguriert. Es wird kein Analyse- oder Tracking-Skript geladen."
+    }
+  </p>
+  <h2 id="beta-formular">8. Kontakt- und Beta-Formulare</h2><p>
+    Beim Absenden verarbeiten wir Name, Anliegen, Nachricht, E-Mail-Adresse und bei
+    Beta-Anfragen ausdrücklich die Google-Mail-Adresse, die zur Aufnahme in den
+    Play-Store-Test benötigt wird. Weitere Personen dürfen nur mit deren Einverständnis
+    eingetragen werden.
+  </p><p>
+    Formspree, Inc. verarbeitet die Angaben als technischer Dienstleister und kann Daten
+    in den USA verarbeiten. Nach Angaben des Dienstes werden für Drittlandübermittlungen
+    geeignete Garantien wie EU-Standardvertragsklauseln eingesetzt. Rechtsgrundlage ist
+    Art. 6 Abs. 1 lit. b, f oder bei freiwilliger Beta-Anmeldung lit. a DSGVO.
+    Abgeschlossene Anfragen werden grundsätzlich innerhalb von 90 Tagen gelöscht, soweit
+    keine Pflichten oder laufenden Vorgänge entgegenstehen.
+  </p>
+  <h2>9. Google Groups und Google Play</h2><p>
+    Wenn du den direkten Gruppen- oder Play-Store-Link nutzt, verlässt du diese Website.
+    Google verarbeitet dabei insbesondere Konto-, Nutzungs- und Gerätedaten nach den
+    eigenen Datenschutzbedingungen. Die Gruppenmitgliedschaft ist optional; alternativ
+    kannst du das Beta-Formular nutzen.
+  </p>
+  <h2>10. Rechte</h2><p>
+    Für Daten, die wir tatsächlich erhalten, hast du insbesondere Rechte auf Auskunft,
+    Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und Widerspruch nach Art.
+    15 bis 21 DSGVO. Einwilligungen können für die Zukunft widerrufen werden. Es besteht
+    ein Beschwerderecht bei einer Datenschutzaufsichtsbehörde.
+  </p>
+</LegalLayout>

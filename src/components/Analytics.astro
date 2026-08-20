@@ -1,0 +1,18 @@
+---
+const src = import.meta.env.PUBLIC_UMAMI_SRC;
+const websiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+---
+
+{
+  src && websiteId && (
+    <script
+      is:inline
+      async
+      defer
+      src={src}
+      data-website-id={websiteId}
+      data-do-not-track="true"
+      data-domains="www.telli-apps.de,planteller.telli-apps.de,planparty.telli-apps.de"
+    />
+  )
+}

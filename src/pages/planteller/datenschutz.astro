@@ -1,0 +1,131 @@
+---
+import { LEGAL_OWNER, SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+const analyticsEnabled = Boolean(
+  import.meta.env.PUBLIC_UMAMI_SRC && import.meta.env.PUBLIC_UMAMI_WEBSITE_ID,
+);
+---
+
+<LegalLayout
+  site={SITES.planteller}
+  title="Datenschutzerklärung"
+  description="Datenschutzhinweise für die PlanTeller-Website, Beta-Formulare und Android-App."
+  canonicalPath="/datenschutz/"
+>
+  <h2>1. Verantwortlicher</h2>
+  <address>
+    {LEGAL_OWNER.name}<br />{LEGAL_OWNER.street}<br />{LEGAL_OWNER.city}<br />E-Mail: <a
+      href={`mailto:${SITES.planteller.email}`}>{SITES.planteller.email}</a
+    >
+  </address>
+
+  <h2>2. Website und Server-Protokolle</h2>
+  <p>
+    Beim Abruf verarbeitet der Hosting-Server technisch erforderliche Verbindungsdaten wie
+    IP-Adresse, Zeitpunkt, aufgerufene Adresse, Referrer, Browser und Betriebssystem.
+    Zweck sind sichere Bereitstellung, Stabilität und Missbrauchsabwehr gemäß Art. 6 Abs.
+    1 lit. f DSGVO.
+  </p>
+  <p>
+    Das Farbschema wird ausschließlich lokal unter <code>telliapps-theme</code> gespeichert.
+    Einwilligungsbedürftige Marketing-Cookies werden nicht eingesetzt.
+  </p>
+  <h3>Reichweitenmessung</h3>
+  <p>
+    {
+      analyticsEnabled
+        ? "Die Website verwendet eine cookielose Umami-Installation für aggregierte Seiten- und Klickstatistiken. Es werden keine geräteübergreifenden Werbeprofile erstellt; „Do Not Track“ wird respektiert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO."
+        : "In diesem Build ist keine Reichweitenmessung konfiguriert; es wird kein Analyse- oder Tracking-Skript geladen."
+    }
+  </p>
+
+  <h2 id="kontaktformular">3. Kontakt- und Beta-Formulare</h2>
+  <p>
+    Beim Absenden verarbeiten wir Anliegen, E-Mail-Adresse, Nachricht, optional Name sowie
+    technische Metadaten. Bei Beta-Anfragen wird ausdrücklich die Google-Mail-Adresse
+    verarbeitet, die zur Freischaltung des Play-Store-Tests erforderlich ist. Weitere
+    Personen dürfen nur mit deren Einverständnis eingetragen werden.
+  </p>
+  <p>
+    Formspree, Inc. verarbeitet die Formulardaten als Dienstleister und kann Daten in den
+    USA verarbeiten. Für Drittlandübermittlungen werden nach Angaben des Anbieters
+    EU-Standardvertragsklauseln eingesetzt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
+    bei vorvertraglichen Anfragen, sonst Art. 6 Abs. 1 lit. f DSGVO; bei der freiwilligen
+    Beta-Teilnahme zusätzlich die abgegebene Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO.
+  </p>
+  <p>
+    Abgeschlossene Anfragen werden grundsätzlich innerhalb von 90 Tagen gelöscht, soweit
+    keine laufenden Vorgänge oder gesetzliche Pflichten entgegenstehen.
+  </p>
+
+  <h2>4. PlanTeller-App</h2>
+  <h3>Kontodaten</h3>
+  <ul>
+    <li>E-Mail-Adresse und Passwort-Hash beziehungsweise Google-Anmeldekennung</li><li>
+      optionaler Anzeigename sowie Registrierungs- und Loginzeitpunkte
+    </li><li>Sitzungs- und Sicherheitstoken</li>
+  </ul>
+  <h3>Haushalts- und Inhaltsdaten</h3>
+  <ul>
+    <li>Haushaltsname, Mitgliedschaften, Rollen, Einladungen und Zuordnungen</li><li>
+      Rezepte, Zutaten, Schritte, Bilder, Kategorien, Tags, Notizen und Sammlungen
+    </li><li>Einkaufslisten, Vorräte sowie Wochen- und Menüplanungsdaten</li><li>
+      Freitexte für Planungs-, Import- oder Assistenzfunktionen
+    </li>
+  </ul>
+  <h3>Geräte- und Berechtigungsdaten</h3>
+  <ul>
+    <li>technische Verbindungs-, Sicherheits- und Fehlerdaten</li><li>
+      Push-Token, wenn Benachrichtigungen aktiviert werden
+    </li><li>
+      Kamera- oder Dateizugriff nur bei aktiver Nutzung entsprechender Funktionen
+    </li><li>lokale Filter-, Anzeige- und Bedienungseinstellungen</li>
+  </ul>
+
+  <h2>5. Zwecke und Rechtsgrundlagen</h2>
+  <ul>
+    <li>Bereitstellung der App und Vertragserfüllung, Art. 6 Abs. 1 lit. b DSGVO</li><li>
+      Sicherheit, Missbrauchsabwehr und Stabilität, Art. 6 Abs. 1 lit. f DSGVO
+    </li><li>Erfüllung rechtlicher Pflichten, Art. 6 Abs. 1 lit. c DSGVO</li><li>
+      optionale einwilligungsbasierte Funktionen, Art. 6 Abs. 1 lit. a DSGVO
+    </li>
+  </ul>
+
+  <h2>6. KI- und automatisierte Verarbeitung</h2>
+  <p>
+    Bei aktiv genutzten Funktionen können Rezepttexte, Bilder, Scans, Nutzereingaben und
+    erforderlicher Kontext für OCR, Strukturierung, Klassifizierung oder textbasierte
+    Assistenz verarbeitet werden. Wenn externe Dienste erforderlich sind, werden die dafür
+    notwendigen Inhalte übermittelt. Details und Grenzen erläutern die <a
+      href={`${SITES.planteller.origin}/ki-hinweise/`}>KI-Hinweise</a
+    >.
+  </p>
+
+  <h2>7. Empfänger und Drittlandübermittlungen</h2>
+  <p>
+    Erforderliche Daten können an Hosting-, Infrastruktur-, Datenbank-, Speicher-, E-Mail-
+    oder Push-Dienstleister und bei aktiv genutzten Funktionen an externe KI-Dienste
+    gehen. Daten werden nicht zu Werbezwecken verkauft. Bei Empfängern außerhalb des EWR
+    werden geeignete Garantien eingesetzt, soweit erforderlich.
+  </p>
+
+  <h2>8. Speicherdauer</h2>
+  <ul>
+    <li>
+      Kontodaten bis zur Kontolöschung, danach nur soweit rechtlich oder technisch
+      erforderlich
+    </li><li>
+      Inhaltsdaten bis zur Löschung oder Auflösung des Kontos beziehungsweise Haushalts
+    </li><li>Sicherheits- und Fehlerprotokolle zeitlich begrenzt</li><li>
+      gesetzlich relevante Daten für die jeweiligen Aufbewahrungsfristen
+    </li>
+  </ul>
+
+  <h2>9. Betroffenenrechte</h2>
+  <p>
+    Du hast insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung,
+    Datenübertragbarkeit und Widerspruch nach Art. 15 bis 21 DSGVO. Einwilligungen können
+    mit Wirkung für die Zukunft widerrufen werden. Es besteht ein Beschwerderecht bei
+    einer Datenschutzaufsichtsbehörde.
+  </p>
+</LegalLayout>

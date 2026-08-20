@@ -1,0 +1,54 @@
+---
+import BetaForm from "../../components/BetaForm.astro";
+import GoogleGroupsGuide from "../../components/GoogleGroupsGuide.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planparty}
+  title="PlanParty Beta testen"
+  description="Melde dich mit deiner Google-Mail-Adresse für den internen Android-Test von PlanParty an oder beantrage den Beitritt zur Google-Gruppe."
+  canonicalPath="/beta/"
+>
+  <main id="main-content">
+    <section class="section shell beta-page">
+      <div class="beta-intro" data-reveal>
+        <span class="status-pill"><span></span>Interner Android-Test</span>
+        <p class="eyebrow">Früh testen</p>
+        <h1>Plane deine nächste Feier mit PlanParty.</h1>
+        <p>
+          Für die Aufnahme in einen Google-Play-Test wird die Gmail-/Googlemail-Adresse
+          benötigt, die auf deinem Android-Gerät im Play Store aktiv ist.
+        </p>
+        <ol class="beta-process">
+          <li>
+            <span>1</span><div>
+              <strong>Google-Konto nennen</strong><p>
+                Die Adresse dient ausschließlich der Freischaltung und Testkommunikation.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>2</span><div>
+              <strong>Testlink öffnen</strong><p>
+                Nach der Aufnahme installierst du PlanParty über Google Play.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>3</span><div>
+              <strong>Feier planen</strong><p>
+                Teste typische und schwierige Fälle und teile dein Feedback.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+      <BetaForm site={SITES.planparty} source="/beta" />
+    </section>
+    <section class="section groups-section">
+      <div class="shell"><GoogleGroupsGuide /></div>
+    </section>
+  </main>
+</BaseLayout>

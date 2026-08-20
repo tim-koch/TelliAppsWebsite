@@ -1,0 +1,61 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planparty}
+  title="Nutzungsbedingungen"
+  description="Nutzungsbedingungen und wichtige Grenzen der PlanParty-Mengenplanung."
+  canonicalPath="/nutzungsbedingungen/"
+>
+  <h2>1. Geltungsbereich</h2><p>
+    Diese Bedingungen gelten für die Nutzung der PlanParty-App und freiwilliger
+    Testversionen. Anbieter ist Tim Koch; Kontaktdaten stehen im <a
+      href={`${SITES.planparty.origin}/impressum/`}>Impressum</a
+    >.
+  </p>
+  <h2>2. Testphase</h2><p>
+    PlanParty befindet sich in der Testphase. Funktionen, Berechnungsparameter,
+    Verfügbarkeit und Datenformat können sich ändern. Es besteht kein Anspruch auf
+    Aufnahme in den Test oder auf dauerhafte Bereitstellung.
+  </p>
+  <h2>3. Lokale Nutzung</h2><p>
+    PlanParty arbeitet nach aktuellem Stand ohne Konto und Server. Du bist für
+    Geräteschutz, Datensicherung und die Kontrolle lokal gespeicherter Planungen
+    verantwortlich. Bei Deinstallation oder Löschen des App-Speichers können lokale Daten
+    unwiederbringlich verloren gehen.
+  </p>
+  <h2>4. Richtwerte, keine Garantie</h2><p>
+    Alle Mengen sind Planungshilfen. Tatsächlicher Bedarf hängt unter anderem von Gästen,
+    Wetter, Dauer, Angebot, Tageszeit und individuellen Gewohnheiten ab. Prüfe die
+    Empfehlung und passe sie eigenverantwortlich an.
+  </p>
+  <h2>5. Ernährung, Allergene und Alkohol</h2><p>
+    PlanParty ersetzt keine Ernährungs-, Allergie- oder medizinische Beratung.
+    Ernährungsformen werden rechnerisch berücksichtigt, Produktzutaten und
+    Kreuzkontaminationen jedoch nicht geprüft. Alkoholmengen dienen ausschließlich der
+    Vorratsplanung und sind weder Zielkonsum noch gesundheitliche Empfehlung. Alkohol darf
+    nur im gesetzlichen Rahmen angeboten werden.
+  </p>
+  <h2>6. Teilen und eigene Inhalte</h2><p>
+    Beim Teilen bist du für Empfänger, Inhalt und verwendeten Drittanbieter selbst
+    verantwortlich. Eigene Namen und Checklistentexte dürfen keine rechtswidrigen Inhalte
+    oder unberechtigte personenbezogene Daten enthalten.
+  </p>
+  <h2>7. Verfügbarkeit und Änderungen</h2><p>
+    Eine jederzeit fehlerfreie Funktion wird nicht zugesichert. Funktionen dürfen aus
+    sachlichem Grund angepasst, ergänzt oder eingestellt werden. Vor einem Update sollten
+    wichtige Planungen kontrolliert werden.
+  </p>
+  <h2>8. Haftung</h2><p>
+    Der Anbieter haftet unbeschränkt bei Vorsatz, grober Fahrlässigkeit und Verletzung von
+    Leben, Körper oder Gesundheit. Bei einfacher Fahrlässigkeit nur bei Verletzung
+    wesentlicher Pflichten, begrenzt auf den vorhersehbaren typischen Schaden. Für
+    Fehlkäufe oder Reste aufgrund ungeprüfter Richtwerte wird keine Gewähr übernommen.
+  </p>
+  <h2>9. Rechtswahl</h2><p>
+    Es gilt deutsches Recht unter Wahrung zwingender Verbraucherschutzvorschriften am
+    gewöhnlichen Aufenthaltsort.
+  </p>
+</LegalLayout>

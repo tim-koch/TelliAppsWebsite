@@ -1,0 +1,92 @@
+---
+import Analytics from "../components/Analytics.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import ThemeInit from "../components/ThemeInit.astro";
+import type { SiteConfig } from "../config/sites";
+import "../styles/global.css";
+
+interface Props {
+  site: SiteConfig;
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  bodyClass?: string;
+}
+
+const {
+  site,
+  title,
+  description,
+  canonicalPath = "/",
+  image = "/assets/og-default.png",
+  noindex = false,
+  structuredData,
+  bodyClass,
+} = Astro.props;
+const canonical = new URL(canonicalPath, site.origin).toString();
+const socialImage = new URL(image, site.origin).toString();
+const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="de" data-site={site.id}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
+    <link rel="canonical" href={canonical} />
+    <title>{fullTitle}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <ThemeInit />
+    {
+      structuredData && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
+    <Analytics />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">Zum Hauptinhalt</a>
+    <Header {site} />
+    <slot />
+    <Footer {site} />
+    <div class="page-transition" aria-hidden="true" data-page-transition>
+      <div class="page-transition__mark"></div>
+      <p data-transition-label>App wird geöffnet</p>
+    </div>
+    <script>
+      import "../scripts/site-shell";
+    </script>
+  </body>
+</html>

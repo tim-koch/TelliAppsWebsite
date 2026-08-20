@@ -1,0 +1,91 @@
+---
+import { LEGAL_OWNER, SITES } from "../config/sites";
+import LegalLayout from "../layouts/LegalLayout.astro";
+
+const analyticsEnabled = Boolean(
+  import.meta.env.PUBLIC_UMAMI_SRC && import.meta.env.PUBLIC_UMAMI_WEBSITE_ID,
+);
+---
+
+<LegalLayout
+  site={SITES.telliapps}
+  title="Datenschutzerklärung"
+  description="Datenschutzhinweise für die TelliApps-Website und ihre Kontaktmöglichkeiten."
+  canonicalPath="/datenschutz/"
+>
+  <h2>1. Verantwortlicher</h2>
+  <address>
+    {LEGAL_OWNER.name}<br />{LEGAL_OWNER.street}<br />{LEGAL_OWNER.city}<br />E-Mail: <a
+      href={`mailto:${SITES.telliapps.email}`}>{SITES.telliapps.email}</a
+    >
+  </address>
+
+  <h2>2. Bereitstellung der Website</h2>
+  <p>
+    Beim Abruf der Website verarbeitet der Hosting-Server technisch erforderliche
+    Verbindungsdaten, insbesondere IP-Adresse, Zeitpunkt, aufgerufene Adresse, übertragene
+    Datenmenge, Referrer, Browser und Betriebssystem. Die Verarbeitung dient der sicheren
+    und stabilen Bereitstellung sowie der Missbrauchsabwehr auf Grundlage von Art. 6 Abs.
+    1 lit. f DSGVO.
+  </p>
+
+  <h2>3. Lokale Einstellungen</h2>
+  <p>
+    Das gewählte Farbschema wird nur im lokalen Speicher deines Browsers unter <code
+      >telliapps-theme</code
+    > gespeichert. Diese Einstellung verlässt dein Gerät nicht und kann über die Browserdaten
+    gelöscht werden. Einwilligungsbedürftige Marketing-Cookies werden nicht gesetzt.
+  </p>
+
+  <h2>4. Reichweitenmessung</h2>
+  {
+    analyticsEnabled ? (
+      <p>
+        Diese Website verwendet eine cookielose Umami-Installation zur aggregierten
+        Reichweiten- und Klickmessung. Es werden keine geräteübergreifenden Profile
+        erstellt. „Do Not Track“ wird respektiert. Die Verarbeitung dient der
+        bedarfsgerechten Verbesserung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Die
+        konkrete Hosting- und Löschkonfiguration muss vor Veröffentlichung mit der
+        tatsächlich verwendeten Umami-Instanz abgeglichen werden.
+      </p>
+    ) : (
+      <p>
+        Die optionale Umami-Reichweitenmessung ist in diesem Build nicht konfiguriert. Es
+        wird derzeit kein Analyse- oder Tracking-Skript geladen.
+      </p>
+    )
+  }
+
+  <h2 id="kontaktformular">5. Kontaktformular über Formspree</h2>
+  <p>
+    Beim Absenden verarbeiten wir Anliegen, E-Mail-Adresse, Nachricht, optional den Namen
+    sowie technische Metadaten zur Bearbeitung und Missbrauchsabwehr. Rechtsgrundlage ist
+    Art. 6 Abs. 1 lit. b DSGVO bei vorvertraglichen oder vertraglichen Anfragen, sonst
+    Art. 6 Abs. 1 lit. f DSGVO.
+  </p>
+  <p>
+    Formspree, Inc. verarbeitet die Formulardaten als technischer Dienstleister und kann
+    Daten in den USA verarbeiten. Für Drittlandübermittlungen werden nach Angaben des
+    Dienstes geeignete Garantien, insbesondere EU-Standardvertragsklauseln, eingesetzt.
+    Das Formular sendet erst nach deiner aktiven Bestätigung.
+  </p>
+  <p>
+    Abgeschlossene Anfragen werden grundsätzlich innerhalb von 90 Tagen gelöscht, soweit
+    keine gesetzlichen Aufbewahrungspflichten oder laufenden Vorgänge entgegenstehen.
+  </p>
+
+  <h2>6. App-Websites</h2>
+  <p>
+    Für PlanTeller und PlanParty gelten ergänzende, produktspezifische Datenschutzhinweise
+    auf den jeweiligen Subdomains. PlanParty verarbeitet seine Planungsdaten nach
+    aktuellem Produktstand ausschließlich lokal auf dem Endgerät.
+  </p>
+
+  <h2>7. Rechte betroffener Personen</h2>
+  <p>
+    Du hast insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung,
+    Datenübertragbarkeit und Widerspruch gemäß Art. 15 bis 21 DSGVO. Einwilligungen können
+    mit Wirkung für die Zukunft widerrufen werden. Außerdem besteht ein Beschwerderecht
+    bei einer Datenschutzaufsichtsbehörde.
+  </p>
+</LegalLayout>

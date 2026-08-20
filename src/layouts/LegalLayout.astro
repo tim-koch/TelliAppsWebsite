@@ -1,0 +1,27 @@
+---
+import type { SiteConfig } from "../config/sites";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  site: SiteConfig;
+  title: string;
+  description: string;
+  canonicalPath: string;
+  updated?: string;
+}
+
+const { site, title, description, canonicalPath, updated = "20.08.2026" } = Astro.props;
+---
+
+<BaseLayout {site} {title} {description} {canonicalPath}>
+  <main class="shell legal-page" id="main-content">
+    <header class="legal-page__header">
+      <p class="eyebrow">Rechtliches & Transparenz</p>
+      <h1>{title}</h1>
+      <p>Stand: {updated}</p>
+    </header>
+    <article class="legal-content">
+      <slot />
+    </article>
+  </main>
+</BaseLayout>

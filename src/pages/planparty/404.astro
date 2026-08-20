@@ -1,0 +1,18 @@
+---
+import Button from "../../components/Button.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planparty}
+  title="PlanParty-Seite nicht gefunden"
+  description="Die gesuchte PlanParty-Seite wurde nicht gefunden."
+  canonicalPath="/404/"
+  noindex
+  ><main class="shell not-found" id="main-content">
+    <p class="eyebrow">Fehler 404</p><h1>Diese Party steht nicht auf der Liste.</h1><p>
+      Der Link ist möglicherweise veraltet oder wurde falsch kopiert.
+    </p><Button href={SITES.planparty.origin}>Zur PlanParty-Startseite</Button>
+  </main></BaseLayout
+>

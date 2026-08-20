@@ -1,0 +1,50 @@
+---
+import Button from "../../components/Button.astro";
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planteller}
+  title="PlanTeller-Konto löschen"
+  description="Anleitung zur Löschung deines PlanTeller-Kontos und der damit verbundenen Daten."
+  canonicalPath="/konto-loeschen/"
+>
+  <p class="legal-note">
+    Die schnellste und sicherste Löschung erfolgt angemeldet direkt in der App. Sichere
+    vorher Inhalte, die du behalten möchtest.
+  </p>
+  <h2>Löschung in der App</h2>
+  <ol>
+    <li>Öffne PlanTeller und melde dich an.</li><li>
+      Öffne „Mehr“ beziehungsweise die Einstellungen.
+    </li><li>Wähle den Bereich „Konto und Sicherheit“.</li><li>
+      Wähle „Konto löschen“ und bestätige die Sicherheitsabfrage.
+    </li>
+  </ol>
+  <h2>Löschung ohne App-Zugriff</h2>
+  <p>
+    Wenn du dich nicht mehr anmelden kannst, sende über das Kontaktformular eine Anfrage
+    mit dem Anliegen „Datenschutz“ oder „Konto löschen“. Verwende möglichst die im Konto
+    hinterlegte E-Mail-Adresse. Zur Verhinderung unberechtigter Löschungen kann eine
+    Identitätsprüfung erforderlich sein.
+  </p>
+  <p>
+    <Button href={`${SITES.planteller.origin}/kontakt/?anliegen=konto-loeschen`}
+      >Löschung anfragen</Button
+    >
+  </p>
+  <h2>Was gelöscht wird</h2>
+  <p>
+    Persönliche Kontodaten und dem Konto allein zugeordnete Inhalte werden gelöscht oder
+    anonymisiert, soweit keine gesetzlichen Pflichten oder Rechte anderer
+    Haushaltsmitglieder entgegenstehen. Sicherheitskopien werden im Rahmen der technischen
+    Löschzyklen überschrieben.
+  </p>
+  <h2>Gemeinsame Haushalte</h2>
+  <p>
+    Vor der Löschung sollte die Verwaltung gemeinsamer Haushalte an ein anderes Mitglied
+    übertragen werden. Geteilte Inhalte können für verbleibende Haushaltsmitglieder
+    erhalten bleiben, wenn sie dem gemeinsamen Haushalt zugeordnet sind.
+  </p>
+</LegalLayout>

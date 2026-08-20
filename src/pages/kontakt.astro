@@ -1,0 +1,33 @@
+---
+import ContactForm from "../components/ContactForm.astro";
+import Icon from "../components/Icon.astro";
+import { SITES } from "../config/sites";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.telliapps}
+  title="Kontakt zu TelliApps"
+  description="Fragen, Feedback oder Interesse an einer TelliApps-Beta? Sende eine Nachricht direkt über das Kontaktformular."
+  canonicalPath="/kontakt/"
+>
+  <main class="shell contact-page" id="main-content">
+    <section class="contact-intro" data-reveal>
+      <p class="eyebrow">Lass uns sprechen</p>
+      <h1>Dein Feedback bringt die Apps weiter.</h1>
+      <p>
+        Ob Testanfrage, Idee, Fehlermeldung oder Datenschutzfrage: Wähle dein Anliegen und
+        wir melden uns persönlich.
+      </p>
+      <ul class="contact-promises">
+        <li><Icon name="shield" /> Angaben nur zur Bearbeitung deiner Anfrage</li>
+        <li>
+          <Icon name="mail" /> Alternativ: <a href={`mailto:${SITES.telliapps.email}`}
+            >{SITES.telliapps.email}</a
+          >
+        </li>
+      </ul>
+    </section>
+    <ContactForm site={SITES.telliapps} />
+  </main>
+</BaseLayout>

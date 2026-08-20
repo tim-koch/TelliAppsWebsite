@@ -1,0 +1,47 @@
+---
+import { SITES } from "../config/sites";
+import LegalLayout from "../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.telliapps}
+  title="Erklärung zur Barrierefreiheit"
+  description="Informationen zur digitalen Barrierefreiheit der TelliApps-Website."
+  canonicalPath="/barrierefreiheit/"
+>
+  <p>
+    TelliApps möchte die Website unabhängig von Gerät, Eingabemethode oder individuellen
+    Einschränkungen gut nutzbar machen. Die Umsetzung orientiert sich an WCAG 2.2 auf
+    Konformitätsstufe AA und an den einschlägigen Anforderungen des
+    Barrierefreiheitsstärkungsgesetzes, soweit sie für das Angebot gelten.
+  </p>
+  <h2>Umgesetzte Maßnahmen</h2>
+  <ul>
+    <li>semantische Überschriften, Landmarken und ein Sprunglink zum Hauptinhalt</li>
+    <li>vollständige Tastaturbedienung mit sichtbarem Fokus</li>
+    <li>ausreichende Kontraste in Hell- und Dunkeldarstellung</li>
+    <li>Beachtung der Systemeinstellung „Bewegung reduzieren“</li>
+    <li>
+      Alternativtexte für inhaltliche Bilder und dekorative Grafiken ohne redundante
+      Ansagen
+    </li>
+    <li>Formulare mit Labels, Hilfetexten, nativer Validierung und Live-Status</li>
+    <li>responsive Darstellung ab 320 CSS-Pixeln ohne horizontales Seiten-Scrolling</li>
+  </ul>
+  <h2>Bekannte Einschränkungen</h2>
+  <p>
+    Automatisierte Tests decken nicht jede Kombination aus Browser und assistiver
+    Technologie ab. Die rechtlichen Texte werden vor dem öffentlichen Start zusätzlich
+    redaktionell und fachlich geprüft. Produktvideos enthalten keine gesprochenen
+    Informationen; ihre Inhalte werden durch umliegende Texte und Screenshots gleichwertig
+    beschrieben.
+  </p>
+  <h2>Feedback und Kontakt</h2>
+  <p>
+    Wenn dir eine Barriere auffällt, sende bitte eine Nachricht über das <a
+      href="/kontakt/">Kontaktformular</a
+    > oder an <a href={`mailto:${SITES.telliapps.email}`}>{SITES.telliapps.email}</a>.
+    Beschreibe möglichst die betroffene Seite, dein Gerät und die verwendete
+    Hilfstechnologie.
+  </p>
+</LegalLayout>

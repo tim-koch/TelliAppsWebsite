@@ -1,0 +1,112 @@
+---
+import type { SiteConfig } from "../config/sites";
+
+interface Props {
+  site: SiteConfig;
+  source: string;
+}
+
+const { site, source } = Astro.props;
+---
+
+<form
+  class="form-card surface-card"
+  action={site.betaEndpoint ?? site.contactEndpoint}
+  method="POST"
+  data-async-form
+  data-beta-form
+  data-product={site.name}
+>
+  <div class="form-card__heading">
+    <p class="eyebrow">Testplatz anfragen</p>
+    <h2>Beta-Anmeldung</h2>
+    <p>Für den Google-Play-Test wird eine Gmail- oder Googlemail-Adresse benötigt.</p>
+  </div>
+
+  <div class="form-field">
+    <label for="beta-name">Name *</label>
+    <input
+      id="beta-name"
+      name="name"
+      type="text"
+      autocomplete="name"
+      maxlength="100"
+      required
+    />
+  </div>
+
+  <fieldset class="email-fieldset">
+    <legend>Google-E-Mail-Adresse *</legend>
+    <div class="split-email">
+      <label class="sr-only" for="beta-email-local">Teil vor dem @-Zeichen</label>
+      <input
+        id="beta-email-local"
+        name="emailLocal"
+        type="text"
+        inputmode="email"
+        autocomplete="username"
+        maxlength="64"
+        required
+        aria-describedby="beta-email-hint"
+      />
+      <span aria-hidden="true">@</span>
+      <label class="sr-only" for="beta-email-domain">E-Mail-Domain</label>
+      <select id="beta-email-domain" name="emailDomain">
+        <option value="gmail.com">gmail.com</option>
+        <option value="googlemail.com">googlemail.com</option>
+      </select>
+    </div>
+    <p class="field-hint" id="beta-email-hint">
+      Bitte verwende genau das Google-Konto, mit dem du den Play Store öffnest.
+    </p>
+  </fieldset>
+
+  <div class="additional-people">
+    <div class="additional-people__header">
+      <div>
+        <h3>Weitere Testpersonen</h3>
+        <p class="field-hint">
+          Optional, maximal vier. Nur mit deren Einverständnis eintragen.
+        </p>
+      </div>
+      <button class="small-button" type="button" data-add-person>Person hinzufügen</button
+      >
+    </div>
+    <div class="additional-people__list" data-people-list></div>
+  </div>
+
+  <label class="consent-field">
+    <input type="checkbox" name="datenschutz_bestaetigt" value="ja" required />
+    <span
+      >Ich habe die <a href={`${site.origin}/datenschutz/#beta-formular`}
+        >Datenschutzhinweise</a
+      > gelesen und bin mit der Verarbeitung zur Organisation des Tests einverstanden. *</span
+    >
+  </label>
+
+  <div class="honeypot" aria-hidden="true">
+    <label for="beta-company">Firma</label>
+    <input
+      id="beta-company"
+      name="_gotcha"
+      type="text"
+      tabindex="-1"
+      autocomplete="off"
+    />
+  </div>
+  <input type="hidden" name="_subject" value={`Beta-Anmeldung ${site.name}`} />
+  <input type="hidden" name="quelle" value={source} />
+  <input type="hidden" name="email" value="" data-complete-email />
+  <input type="hidden" name="weitere_personen" value="Keine" data-additional-summary />
+
+  <p class="form-privacy">
+    Die Angaben werden ausschließlich zur Organisation des Beta-Tests verwendet. Es
+    erfolgt keine automatische Aufnahme; du erhältst die nächsten Schritte per E-Mail.
+  </p>
+  <button class="form-submit" type="submit" data-submit>Beta-Anfrage senden</button>
+  <p class="form-status" role="status" aria-live="polite" data-form-status></p>
+</form>
+
+<script>
+  import "../scripts/forms";
+</script>

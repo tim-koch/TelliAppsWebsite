@@ -1,0 +1,88 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planteller}
+  title="Allgemeine Nutzungsbedingungen"
+  description="Nutzungsbedingungen für die PlanTeller-App und ihre Freigabefunktionen."
+  canonicalPath="/agb/"
+>
+  <h2>1. Geltungsbereich</h2>
+  <p>
+    Diese Bedingungen gelten für die Nutzung der PlanTeller-App, zugehöriger Web-Fallbacks
+    sowie freiwilliger Testversionen. Anbieter ist Tim Koch; Kontaktdaten stehen im <a
+      href={`${SITES.planteller.origin}/impressum/`}>Impressum</a
+    >.
+  </p>
+  <h2>2. Testphase und Leistungsumfang</h2>
+  <p>
+    PlanTeller befindet sich in einer geschlossenen Testphase. Funktionsumfang,
+    Datenmodelle und Verfügbarkeit können sich ändern. Es besteht kein Anspruch auf
+    Aufnahme in den Test oder auf dauerhafte Bereitstellung einzelner Funktionen.
+  </p>
+  <h2>3. Konto und Zugangsdaten</h2>
+  <p>
+    Nutzende müssen richtige Angaben machen, Zugangsdaten schützen und unberechtigte
+    Nutzung unverzüglich melden. Ein Konto darf nicht missbräuchlich automatisiert oder
+    zur Beeinträchtigung anderer verwendet werden.
+  </p>
+  <h2>4. Haushalte und geteilte Inhalte</h2>
+  <p>
+    Inhalte innerhalb eines Haushalts können für aktive Haushaltsmitglieder sichtbar und
+    bearbeitbar sein. Einladungs- und Freigabelinks dürfen nur an berechtigte Personen
+    weitergegeben werden. Wer Inhalte teilt, muss über die dafür notwendigen Rechte
+    verfügen.
+  </p>
+  <h2>5. Nutzungsrechte an eigenen Inhalten</h2>
+  <p>
+    Die Rechte an selbst eingestellten Inhalten verbleiben bei den Nutzenden. Der App wird
+    ein auf Bereitstellung, Synchronisierung, Sicherung und aktiv ausgelöste Verarbeitung
+    beschränktes Nutzungsrecht eingeräumt.
+  </p>
+  <h2>6. Unzulässige Nutzung</h2>
+  <ul>
+    <li>rechtswidrige, schädliche oder fremde Rechte verletzende Inhalte</li><li>
+      Umgehung von Sicherheits-, Zugriffs- oder Nutzungslimits
+    </li><li>Störung der Infrastruktur oder automatisierter Massenabruf</li><li>
+      Weitergabe fremder personenbezogener Daten ohne Rechtsgrundlage
+    </li>
+  </ul>
+  <h2>7. KI-, OCR- und Importfunktionen</h2>
+  <p>
+    Automatisierte Ergebnisse können falsch oder unvollständig sein. Sie sind vor
+    Übernahme, Einkauf und Zubereitung zu prüfen. Importierte Inhalte dürfen nur im
+    rechtlich zulässigen Umfang verwendet werden.
+  </p>
+  <h2>8. Lebensmittel- und Gesundheitshinweise</h2>
+  <p>
+    PlanTeller ersetzt keine Ernährungs-, Allergie- oder medizinische Beratung. Maßgeblich
+    bleiben individuelle Vorgaben, Produktkennzeichnungen, sichere Lagerung, Hygiene und
+    eigenverantwortliche Zubereitung.
+  </p>
+  <h2>9. Verfügbarkeit und Änderungen</h2>
+  <p>
+    Eine jederzeit störungsfreie Verfügbarkeit wird nicht geschuldet. Wartung,
+    Sicherheitsupdates und Drittanbieterausfälle können zu Unterbrechungen führen.
+    Funktionen dürfen aus sachlichem Grund angepasst oder eingestellt werden.
+  </p>
+  <h2>10. Haftung</h2>
+  <p>
+    Der Anbieter haftet unbeschränkt bei Vorsatz, grober Fahrlässigkeit und Verletzung von
+    Leben, Körper oder Gesundheit. Bei einfacher Fahrlässigkeit nur bei Verletzung
+    wesentlicher Pflichten, begrenzt auf den vorhersehbaren typischen Schaden. Für KI-,
+    OCR- und Drittinhalte wird keine Gewähr für Richtigkeit oder Eignung übernommen.
+  </p>
+  <h2>11. Kontolöschung und Beendigung</h2>
+  <p>
+    Ein Konto kann jederzeit über die vorgesehene Funktion gelöscht werden. Bei
+    schwerwiegenden oder wiederholten Verstößen kann der Zugang gesperrt werden. Details
+    enthält die <a href={`${SITES.planteller.origin}/konto-loeschen/`}>Löschanleitung</a>.
+  </p>
+  <h2>12. Rechtswahl</h2>
+  <p>
+    Es gilt deutsches Recht unter Wahrung zwingender Verbraucherschutzvorschriften am
+    gewöhnlichen Aufenthaltsort.
+  </p>
+</LegalLayout>

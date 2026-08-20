@@ -1,0 +1,22 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  icon:
+    "calendar" | "check" | "clock" | "group" | "heart" | "plate" | "shield" | "sparkles";
+  title: string;
+  text: string;
+  badge?: string;
+}
+
+const { icon, title, text, badge } = Astro.props;
+---
+
+<article class="feature-card surface-card" data-reveal>
+  <div class="feature-card__top">
+    <span class="feature-card__icon"><Icon name={icon} /></span>
+    {badge && <span class="feature-card__badge">{badge}</span>}
+  </div>
+  <h3>{title}</h3>
+  <p>{text}</p>
+</article>

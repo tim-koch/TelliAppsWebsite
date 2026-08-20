@@ -1,0 +1,8 @@
+import type { APIRoute } from "astro";
+import { SITES } from "../config/sites";
+
+export const GET: APIRoute = () =>
+  new Response(
+    `User-agent: *\nAllow: /\n\nSitemap: ${SITES.telliapps.origin}/sitemap.xml\n`,
+    { headers: { "Content-Type": "text/plain; charset=utf-8" } },
+  );

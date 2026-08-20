@@ -1,0 +1,96 @@
+---
+import { SITES, siteUrl, type SiteConfig } from "../config/sites";
+import Logo from "./Logo.astro";
+
+interface Props {
+  site: SiteConfig;
+}
+
+const { site } = Astro.props;
+const year = new Date().getFullYear();
+
+const legalLinks =
+  site.id === "planparty"
+    ? [
+        ["Datenschutz", "/datenschutz/"],
+        ["Nutzungsbedingungen", "/nutzungsbedingungen/"],
+        ["Impressum", "/impressum/"],
+        ["Daten löschen", "/daten-loeschen/"],
+      ]
+    : site.id === "planteller"
+      ? [
+          ["Datenschutz", "/datenschutz/"],
+          ["AGB", "/agb/"],
+          ["Impressum", "/impressum/"],
+          ["KI-Hinweise", "/ki-hinweise/"],
+          ["Konto löschen", "/konto-loeschen/"],
+        ]
+      : [
+          ["Datenschutz", "/datenschutz/"],
+          ["Impressum", "/impressum/"],
+          ["Barrierefreiheit", "/barrierefreiheit/"],
+        ];
+---
+
+<footer class="site-footer">
+  <div class="shell site-footer__grid">
+    <section class="site-footer__intro">
+      <a href={site.origin} aria-label={`${site.name} Startseite`}><Logo {site} /></a>
+      <p>{site.description}</p>
+      {
+        site.status && (
+          <span class="status-pill">
+            <span />
+            {site.status}
+          </span>
+        )
+      }
+    </section>
+
+    <section>
+      <h2>Kontakt</h2>
+      <ul>
+        <li><a href={siteUrl(site, "/kontakt/")}>Kontaktformular</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Rechtliches</h2>
+      <ul>
+        {
+          legalLinks.map(([label, path]) => (
+            <li>
+              <a href={siteUrl(site, path)}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h2>App Collection</h2>
+      <ul>
+        <li><a href={SITES.telliapps.origin}>TelliApps</a></li>
+        <li>
+          <a
+            href={SITES.planteller.origin}
+            data-app-transition="true"
+            data-transition-name="sage">PlanTeller</a
+          >
+        </li>
+        <li>
+          <a
+            href={SITES.planparty.origin}
+            data-app-transition="true"
+            data-transition-name="violet">PlanParty</a
+          >
+        </li>
+      </ul>
+    </section>
+  </div>
+  <div class="shell site-footer__bottom">
+    <p>© {year} {site.name} · Tim Koch</p>
+    <p>Mit Ruhe geplant. Mit Sorgfalt gebaut.</p>
+  </div>
+</footer>

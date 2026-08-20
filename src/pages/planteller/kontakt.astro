@@ -1,0 +1,30 @@
+---
+import ContactForm from "../../components/ContactForm.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planteller}
+  title="Kontakt und Hilfe zu PlanTeller"
+  description="Sende Fragen, Feedback, Fehlermeldungen oder Datenschutzanfragen rund um PlanTeller."
+  canonicalPath="/kontakt/"
+>
+  <main class="shell contact-page" id="main-content">
+    <section class="contact-intro" data-reveal>
+      <p class="eyebrow">PlanTeller Support</p>
+      <h1>Wobei können wir helfen?</h1>
+      <p>
+        Für technische Fragen sind App-Version, Android-Version und eine kurze
+        Beschreibung der letzten Schritte besonders hilfreich. Bitte sende keine
+        Passwörter.
+      </p>
+      <p class="legal-note">
+        Kontolöschungen kannst du direkt in der App oder über die <a
+          href={`${SITES.planteller.origin}/konto-loeschen/`}>Löschseite</a
+        > anstoßen.
+      </p>
+    </section>
+    <ContactForm site={SITES.planteller} source="/kontakt" />
+  </main>
+</BaseLayout>

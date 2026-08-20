@@ -1,0 +1,54 @@
+---
+import { SITES } from "../config/sites";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  route: "recipe-share" | "collection-share" | "invite" | "reset-password";
+  tokenLabel: string;
+  instruction: string;
+}
+
+const { title, description, route, tokenLabel, instruction } = Astro.props;
+---
+
+<BaseLayout
+  site={SITES.planteller}
+  {title}
+  {description}
+  canonicalPath={`/${route}/`}
+  noindex
+>
+  <main
+    class="shell app-link-page"
+    id="main-content"
+    data-app-link-page
+    data-route={route}
+  >
+    <section class="surface-card app-link-card">
+      <span class="app-link-card__icon" aria-hidden="true">↗</span>
+      <p class="eyebrow">PlanTeller App-Link</p>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div class="token-box">
+        <span>{tokenLabel}</span>
+        <strong data-share-token>Wird geladen …</strong>
+      </div>
+      <div class="app-link-actions">
+        <a class="button button--primary" data-open-app>In PlanTeller öffnen</a>
+        <button class="button button--secondary" type="button" data-copy-token
+          >Code kopieren</button
+        >
+      </div>
+      <p class="text-muted">{instruction}</p>
+      <p class="app-link-status" role="status" aria-live="polite" data-share-status></p>
+      <a class="button button--quiet" href={SITES.planteller.origin}
+        >← Zur PlanTeller-Startseite</a
+      >
+    </section>
+  </main>
+  <script>
+    import "../scripts/app-link";
+  </script>
+</BaseLayout>

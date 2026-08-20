@@ -1,0 +1,44 @@
+---
+import { SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planteller}
+  title="Hinweise zu KI und automatisierter Verarbeitung"
+  description="Transparenz über KI-, OCR- und Importfunktionen in PlanTeller."
+  canonicalPath="/ki-hinweise/"
+>
+  <p class="legal-note">
+    KI und OCR unterstützen bei Strukturierung und Vorschlägen. Sie ersetzen keine Prüfung
+    durch dich und treffen keine verbindlichen Entscheidungen.
+  </p>
+  <h2>Wofür Automatisierung eingesetzt werden kann</h2>
+  <ul>
+    <li>Rezepte aus Texten, Bildern, PDFs oder unterstützten Links strukturieren</li><li>
+      Zutaten, Einheiten, Schritte, Kategorien oder Tags vorschlagen
+    </li><li>Texte übersetzen, vereinheitlichen oder ergänzen</li><li>
+      bei Rezeptideen und Planungsentwürfen unterstützen
+    </li>
+  </ul>
+  <h2>Welche Daten verarbeitet werden</h2>
+  <p>
+    Nur wenn du eine entsprechende Funktion aktiv auslöst, können Eingaben, Rezepttexte,
+    Bilder oder der für die Aufgabe notwendige Kontext verarbeitet werden. Vermeide
+    sensible personenbezogene Daten und Inhalte, für deren Verarbeitung du keine Rechte
+    hast.
+  </p>
+  <h2>Grenzen und eigene Prüfung</h2>
+  <p>
+    Automatisierte Ergebnisse können Zutaten auslassen, Mengen falsch erkennen, Allergene
+    übersehen oder unpassende Zubereitungsschritte erzeugen. Prüfe deshalb Originalquelle,
+    Produktkennzeichnung, Allergien, Garzeiten, Temperaturen und Hygiene selbst.
+  </p>
+  <h2>Kontrolle</h2>
+  <p>
+    Vorschläge werden als solche behandelt und sollen vor der dauerhaften Übernahme
+    bearbeitbar bleiben. Weitere Angaben zu Empfängern und Rechtsgrundlagen stehen in der <a
+      href={`${SITES.planteller.origin}/datenschutz/`}>Datenschutzerklärung</a
+    >.
+  </p>
+</LegalLayout>

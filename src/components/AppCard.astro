@@ -1,0 +1,48 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "./Icon.astro";
+
+/* global ImageMetadata */
+
+interface Props {
+  name: string;
+  eyebrow: string;
+  text: string;
+  href: string;
+  image: ImageMetadata;
+  alt: string;
+  tone: "sage" | "violet";
+  status: string;
+}
+
+const { name, eyebrow, text, href, image, alt, tone, status } = Astro.props;
+---
+
+<article class:list={["app-card", `app-card--${tone}`]} data-reveal>
+  <div class="app-card__content">
+    <p class="eyebrow">{eyebrow}</p>
+    <h3>{name}</h3>
+    <p>{text}</p>
+    <span class="status-pill"><span></span>{status}</span>
+    <a
+      class="app-card__link"
+      {href}
+      data-app-transition="true"
+      data-transition-name={tone}
+      data-analytics-event={`${name.toLowerCase()}_collection_open`}
+    >
+      Website öffnen <Icon name="arrow" />
+    </a>
+  </div>
+  <div class="app-card__visual">
+    <Picture
+      src={image}
+      {alt}
+      formats={["avif", "webp"]}
+      widths={[300, 480, 720]}
+      sizes="(max-width: 760px) 70vw, 25rem"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</article>

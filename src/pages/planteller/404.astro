@@ -1,0 +1,19 @@
+---
+import Button from "../../components/Button.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  site={SITES.planteller}
+  title="PlanTeller-Seite nicht gefunden"
+  description="Die gesuchte PlanTeller-Seite wurde nicht gefunden."
+  canonicalPath="/404/"
+  noindex
+>
+  <main class="shell not-found" id="main-content">
+    <p class="eyebrow">Fehler 404</p><h1>Dieser Teller ist noch leer.</h1><p>
+      Der Link ist möglicherweise veraltet oder unvollständig.
+    </p><Button href={SITES.planteller.origin}>Zur PlanTeller-Startseite</Button>
+  </main>
+</BaseLayout>

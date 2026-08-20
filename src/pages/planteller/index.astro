@@ -1,0 +1,333 @@
+---
+import { Picture } from "astro:assets";
+import hero from "../../assets/planteller/hero.png";
+import impression1 from "../../assets/planteller/impression-1.png";
+import impression2 from "../../assets/planteller/impression-2.png";
+import impression3 from "../../assets/planteller/impression-3.png";
+import impression4 from "../../assets/planteller/impression-4.png";
+import impression5 from "../../assets/planteller/impression-5.png";
+import impression6 from "../../assets/planteller/impression-6.png";
+import Button from "../../components/Button.astro";
+import DemoVideo from "../../components/DemoVideo.astro";
+import Faq from "../../components/Faq.astro";
+import FeatureCard from "../../components/FeatureCard.astro";
+import Icon from "../../components/Icon.astro";
+import PhoneFrame from "../../components/PhoneFrame.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const faq = [
+  {
+    question: "Ist PlanTeller schon verfügbar?",
+    answer:
+      "PlanTeller ist aktuell ausschließlich für Android als geschlossene Beta verfügbar. Über die Beta-Seite kannst du einen Testplatz anfragen.",
+  },
+  {
+    question: "Was ist Telli?",
+    answer:
+      "Telli ist der kleine Assistent in PlanTeller. Er begleitet die Einführung und soll schrittweise an weiteren Stellen verständliche Unterstützung anbieten.",
+  },
+  {
+    question: "Funktioniert PlanTeller für Haushalte?",
+    answer:
+      "Ja. Rezepte, Vorräte, Wochenplanung und Einkauf können innerhalb eines Haushalts synchron gehalten werden.",
+  },
+  {
+    question: "Werden KI-Ergebnisse ungeprüft übernommen?",
+    answer:
+      "Nein. KI- und OCR-Ergebnisse dienen als Unterstützung und müssen vor der Übernahme geprüft oder angepasst werden.",
+  },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "PlanTeller",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Android",
+    description: SITES.planteller.description,
+    url: SITES.planteller.origin,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/PreOrder",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
+
+const gallery = [
+  [
+    impression1,
+    "Rezeptübersicht",
+    "Eigene Rezepte, Importe, Kategorien und Favoriten ruhig organisiert.",
+  ],
+  [
+    impression2,
+    "Rezeptdetails",
+    "Zutaten, Schritte und Aktionen dort, wo sie beim Kochen gebraucht werden.",
+  ],
+  [
+    impression3,
+    "Einkaufsliste",
+    "Zutaten bündeln, nach Bereichen sortieren und gemeinsam abhaken.",
+  ],
+  [
+    impression4,
+    "Vorräte",
+    "Vorhandene Lebensmittel im Blick behalten und Doppelkäufe reduzieren.",
+  ],
+  [
+    impression5,
+    "Wochenplanung",
+    "Mahlzeiten flexibel planen und ohne Abschreiben in den Einkauf übernehmen.",
+  ],
+  [
+    impression6,
+    "Haushalt",
+    "Mitglieder, Einstellungen und Synchronisierung verständlich verwalten.",
+  ],
+] as const;
+---
+
+<BaseLayout
+  site={SITES.planteller}
+  title="PlanTeller – Rezepte, Wochenplanung und Einkauf gemeinsam organisieren"
+  description="PlanTeller verbindet Rezepte, Vorräte, Wochenplanung und eine synchronisierte Einkaufsliste in einer ruhigen Android-App. Jetzt für die geschlossene Beta bewerben."
+  image="/assets/og-planteller.jpg"
+  {structuredData}
+>
+  <main id="main-content">
+    <section class="app-hero app-hero--planteller">
+      <div class="shell app-hero__grid">
+        <div class="app-hero__content">
+          <span class="status-pill"><span></span>Geschlossene Android-Beta</span>
+          <p class="eyebrow">Von der Rezeptidee bis zum Einkauf</p>
+          <h1>Weniger Essensstress. Mehr Plan auf dem Teller.</h1>
+          <p>
+            Rezepte sammeln, die Woche planen und den Einkauf gemeinsam erledigen – ruhig,
+            übersichtlich und an einem Ort.
+          </p>
+          <div class="hero-actions">
+            <Button
+              href={`${SITES.planteller.origin}/beta/`}
+              analyticsEvent="planteller_beta_hero">Für die Beta bewerben</Button
+            >
+            <Button href="#funktionen" variant="secondary">Funktionen entdecken</Button>
+          </div>
+          <ul class="trust-list">
+            <li><Icon name="group" /> Haushalt synchron</li>
+            <li><Icon name="sparkles" /> KI mit Kontrolle</li>
+            <li><Icon name="shield" /> Ohne Werbetracking</li>
+          </ul>
+        </div>
+        <div class="app-hero__visual">
+          <PhoneFrame
+            src={hero}
+            alt="PlanTeller App mit geöffneter Rezeptübersicht"
+            eager
+          />
+          <div class="app-hero__badge app-hero__badge--top">
+            <Icon name="plate" /> Rezepte
+          </div>
+          <div class="app-hero__badge app-hero__badge--bottom">
+            <Icon name="calendar" /> Wochenplan
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="vorteile">
+      <SectionHeading
+        eyebrow="Warum PlanTeller?"
+        title="Von der Idee bis zum Einkauf verbunden."
+        text="PlanTeller nimmt dir nicht das Kochen ab. Aber die vielen kleinen Entscheidungen davor werden deutlich leichter."
+      />
+      <div class="benefit-row">
+        <article data-reveal>
+          <span>01</span><h3>Rezepte, die mitdenken</h3><p>
+            Eigene Rezepte, Web- und Social-Importe sowie KI-Unterstützung landen in einer
+            gemeinsamen Sammlung.
+          </p>
+        </article>
+        <article data-reveal>
+          <span>02</span><h3>Ein Plan, der wirklich hilft</h3><p>
+            Plane Mahlzeiten flexibel und überführe benötigte Zutaten ohne Abschreiben in
+            den Einkauf.
+          </p>
+        </article>
+        <article data-reveal>
+          <span>03</span><h3>Gemeinsam aktuell</h3><p>
+            Haushaltsmitglieder sehen denselben Stand bei Rezepten, Vorräten, Planung und
+            Einkauf.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section telli-section">
+      <div class="shell telli-section__grid">
+        <div class="telli-orb" data-reveal aria-hidden="true">
+          <div class="telli-orb__hat"></div>
+          <div class="telli-orb__face"><span></span><span></span><i></i></div>
+          <div class="telli-orb__ring"></div>
+        </div>
+        <div data-reveal>
+          <p class="eyebrow">Hallo, ich bin Telli</p>
+          <h2>Der kleine Assistent in Ausbildung.</h2>
+          <p>
+            Telli begleitet dich durch die Einführung, erklärt wichtige Wege und hilft
+            dabei, PlanTeller schneller kennenzulernen. Neue Hilfen werden bewusst Schritt
+            für Schritt ergänzt.
+          </p>
+          <div class="telli-points">
+            <span><Icon name="check" /> Kontext statt Dauerbeschallung</span>
+            <span><Icon name="check" /> Hinweise bleiben kontrollierbar</span>
+            <span><Icon name="check" /> Geplante Funktionen klar markiert</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="funktionen">
+      <SectionHeading
+        eyebrow="Funktionen"
+        title="Alles Wichtige ohne App-Chaos."
+        text="Jede Funktion greift in die nächste – damit Informationen nicht mehrfach gepflegt werden müssen."
+      />
+      <div class="feature-grid feature-grid--six">
+        <FeatureCard
+          icon="plate"
+          title="Rezeptverwaltung"
+          text="Rezepte, Kategorien, Tags, Favoriten, Menüs und Sammlungen verwalten."
+          badge="Schon dabei"
+        />
+        <FeatureCard
+          icon="sparkles"
+          title="KI-Rezepte & Import"
+          text="Rezepte strukturieren, übersetzen und bei der Erstellung unterstützen lassen."
+          badge="Schon dabei"
+        />
+        <FeatureCard
+          icon="group"
+          title="Gemeinsamer Haushalt"
+          text="Inhalte sicher mit den Menschen synchron halten, mit denen du planst."
+          badge="Schon dabei"
+        />
+        <FeatureCard
+          icon="calendar"
+          title="Wochenplanung"
+          text="Frühstück, Mittag und Abend flexibel planen und jederzeit verschieben."
+          badge="Schon dabei"
+        />
+        <FeatureCard
+          icon="check"
+          title="Sortierter Einkauf"
+          text="Benötigte Zutaten bündeln und passend zu Einkaufsbereichen sortieren."
+          badge="Schon dabei"
+        />
+        <FeatureCard
+          icon="heart"
+          title="Nährwerte & Makros"
+          text="Eine verständliche Übersicht wird erst veröffentlicht, wenn die Daten verlässlich sind."
+          badge="In Entwicklung"
+        />
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="einblicke">
+      <div class="shell">
+        <SectionHeading
+          eyebrow="Echte App-Einblicke"
+          title="So fühlt sich Planung ruhig an."
+          text="Die Aufnahmen stammen direkt aus der aktuellen PlanTeller-App und werden ohne Zuschnitt vollständig dargestellt."
+        />
+      </div>
+      <div
+        class="screenshot-gallery"
+        role="region"
+        aria-label="PlanTeller App-Screenshots – horizontal scrollbar"
+        tabindex="0"
+      >
+        {
+          gallery.map(([src, title, text]) => (
+            <figure class="screenshot-card" data-reveal>
+              <div class="screenshot-card__image">
+                <Picture
+                  src={src}
+                  alt={`PlanTeller ${title}`}
+                  formats={["avif", "webp"]}
+                  widths={[320, 480, 720]}
+                  sizes="(max-width: 600px) 76vw, 22rem"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption>
+                <>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section shell demo-section">
+      <div>
+        <p class="eyebrow">10 Sekunden PlanTeller</p>
+        <h2>Ein kurzer Blick auf den ganzen Ablauf.</h2>
+        <p>
+          Die Vorschau verbindet echte App-Aufnahmen von Rezepten, Einkauf, Wochenplanung
+          und Vorräten – ohne Ton und jederzeit pausierbar.
+        </p>
+      </div>
+      <DemoVideo
+        appName="PlanTeller"
+        source="/media/planteller-intro.webm"
+        poster="/assets/planteller-video-poster.webp"
+        transcript={[
+          "PlanTeller zeigt die Rezeptübersicht.",
+          "Die gemeinsame Einkaufsliste wird geöffnet.",
+          "Der Wochenplan ordnet Mahlzeiten nach Tagen.",
+          "Die Vorratsübersicht zeigt vorhandene Lebensmittel.",
+        ]}
+      />
+    </section>
+
+    <section class="section shell">
+      <SectionHeading eyebrow="Kurz erklärt" title="Häufige Fragen." align="center" />
+      <div class="faq-wrap"><Faq items={faq} /></div>
+    </section>
+
+    <section class="section shell">
+      <div class="app-beta-cta" data-reveal>
+        <div>
+          <p class="eyebrow">Mitgestalten</p>
+          <h2>Teste PlanTeller in der Beta.</h2>
+          <p>
+            Erzähl kurz, wie du heute Rezepte und Einkäufe organisierst. Wir melden uns
+            persönlich mit den nächsten Schritten.
+          </p>
+        </div>
+        <Button
+          href={`${SITES.planteller.origin}/beta/`}
+          analyticsEvent="planteller_beta_footer">Beta-Anfrage senden</Button
+        >
+      </div>
+    </section>
+  </main>
+</BaseLayout>

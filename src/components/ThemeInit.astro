@@ -1,0 +1,9 @@
+<script is:inline>
+  (() => {
+    document.documentElement.dataset.js = "true";
+    const saved = localStorage.getItem("telliapps-theme");
+    if (saved === "light" || saved === "dark") {
+      document.documentElement.dataset.theme = saved;
+    }
+  })();
+</script>

@@ -1,0 +1,45 @@
+---
+import type { SiteConfig } from "../config/sites";
+
+interface Props {
+  site: SiteConfig;
+  compact?: boolean;
+}
+
+const { site, compact = false } = Astro.props;
+---
+
+<span class:list={["brand-logo", compact && "brand-logo--compact"]}>
+  <svg class="brand-logo__mark" viewBox="0 0 48 48" aria-hidden="true">
+    {
+      site.id === "planparty" ? (
+        <>
+          <path d="M13 24c0-5 3.4-8.2 8-8.2 1.1 0 2.1.2 3 .6.9-.4 1.9-.6 3-.6 4.6 0 8 3.2 8 8.2 0 7.2-5.8 11.8-11 15-5.2-3.2-11-7.8-11-15Z" />
+          <path
+            d="M18 12 16 7m8 4V5m6 7 3-4M18 25h12M21 20v10m6-10v10"
+            class="brand-logo__line"
+          />
+        </>
+      ) : site.id === "planteller" ? (
+        <>
+          <path d="M9 13c0-3.3 2.7-6 6-6h18c3.3 0 6 2.7 6 6v12c0 3.3-2.7 6-6 6H22l-8.5 7v-7.2A6 6 0 0 1 9 25V13Z" />
+          <path d="M16 19h16M19 24h10" class="brand-logo__line" />
+        </>
+      ) : (
+        <>
+          <rect x="6" y="6" width="24" height="24" rx="8" />
+          <rect
+            x="18"
+            y="18"
+            width="24"
+            height="24"
+            rx="8"
+            class="brand-logo__secondary"
+          />
+          <path d="M15 16h10M20 16v18" class="brand-logo__line" />
+        </>
+      )
+    }
+  </svg>
+  <span class="brand-logo__text">{site.name}</span>
+</span>

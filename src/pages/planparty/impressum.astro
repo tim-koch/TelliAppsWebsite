@@ -1,0 +1,28 @@
+---
+import { LEGAL_OWNER, SITES } from "../../config/sites";
+import LegalLayout from "../../layouts/LegalLayout.astro";
+---
+
+<LegalLayout
+  site={SITES.planparty}
+  title="Impressum"
+  description="Anbieterkennzeichnung und Supportkontakt für PlanParty."
+  canonicalPath="/impressum/"
+>
+  <h2>Angaben gemäß § 5 DDG</h2><address>
+    {LEGAL_OWNER.name}<br />{LEGAL_OWNER.street}<br />{LEGAL_OWNER.city}<br />Deutschland
+  </address>
+  <h2>Kontakt und App-Support</h2><p>
+    E-Mail: <a href={`mailto:${SITES.planparty.email}`}>{SITES.planparty.email}</a><br
+    />Supportformular: <a href={`${SITES.planparty.origin}/kontakt/`}
+      >planparty.telli-apps.de/kontakt</a
+    >
+  </p>
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2><p>
+    Tim Koch, Anschrift wie oben.
+  </p>
+  <h2>Verbraucherstreitbeilegung gemäß § 36 VSBG</h2><p>
+    Es besteht keine Verpflichtung und keine Bereitschaft zur Teilnahme an einem
+    Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle.
+  </p>
+</LegalLayout>

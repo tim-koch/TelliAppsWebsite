@@ -1,0 +1,339 @@
+---
+import { Picture } from "astro:assets";
+import appIcon from "../../assets/planparty/icon.png";
+import start from "../../assets/planparty/start.png";
+import event from "../../assets/planparty/event.png";
+import result from "../../assets/planparty/result.png";
+import shopping from "../../assets/planparty/shopping.png";
+import checklist from "../../assets/planparty/checklist.png";
+import Button from "../../components/Button.astro";
+import DemoVideo from "../../components/DemoVideo.astro";
+import Faq from "../../components/Faq.astro";
+import FeatureCard from "../../components/FeatureCard.astro";
+import Icon from "../../components/Icon.astro";
+import PhoneFrame from "../../components/PhoneFrame.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import { SITES } from "../../config/sites";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const faq = [
+  {
+    question: "Brauche ich ein Konto?",
+    answer:
+      "Nein. PlanParty funktioniert ohne Konto, Backend oder Cloud. Deine Planungen bleiben nach aktuellem Release-1-Stand lokal auf deinem Gerät.",
+  },
+  {
+    question: "Sind die Mengen garantiert genau?",
+    answer:
+      "Nein. PlanParty berechnet nachvollziehbare Richtwerte und praktische Einkaufseinheiten. Wetter, Dauer, Gäste und individuelle Vorlieben können den tatsächlichen Verbrauch verändern.",
+  },
+  {
+    question: "Welche Feiern werden unterstützt?",
+    answer:
+      "Aktuell gibt es acht Profile: Grillparty, Geburtstag, Weihnachtsfeier, Silvester, Gartenparty, Kindergeburtstag, Spieleabend und allgemeine Feier.",
+  },
+  {
+    question: "Kann ich meine Einkaufsliste teilen?",
+    answer:
+      "Ja. Die Liste lässt sich abhaken und über den systemeigenen Teilen-Dialog deines Geräts weitergeben.",
+  },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "PlanParty",
+    applicationCategory: "LifestyleApplication",
+    operatingSystem: "Android, iOS, Web",
+    description: SITES.planparty.description,
+    url: SITES.planparty.origin,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/PreOrder",
+    },
+    featureList:
+      "Mengenplanung, Einkaufsliste, Party-Checkliste, lokale Party-Bibliothek",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
+
+const gallery = [
+  [start, "Schnell starten", "Neue Party beginnen oder eine lokale Planung fortsetzen."],
+  [
+    event,
+    "Anlass auswählen",
+    "Acht Profile liefern eine passende, direkt nutzbare Vorauswahl.",
+  ],
+  [
+    result,
+    "Einkaufsempfehlung",
+    "Richtwerte werden in Stück, Packungen und Flaschen übersetzt.",
+  ],
+  [
+    shopping,
+    "Einkauf abhaken",
+    "Die berechnete Liste bleibt lokal und kann systemweit geteilt werden.",
+  ],
+  [
+    checklist,
+    "Party vorbereiten",
+    "Automatische und eigene Aufgaben passend zur ausgewählten Feier.",
+  ],
+] as const;
+---
+
+<BaseLayout
+  site={SITES.planparty}
+  title="PlanParty – Essen und Getränke für deine Feier realistisch planen"
+  description="PlanParty berechnet in etwa einer Minute realistische Mengen für Essen und Getränke, erstellt eine Einkaufsliste und passende Party-Checkliste – ohne Konto und vollständig lokal."
+  image="/assets/og-planparty.jpg"
+  {structuredData}
+>
+  <main id="main-content">
+    <section class="app-hero app-hero--planparty">
+      <div class="shell app-hero__grid">
+        <div class="app-hero__content">
+          <span class="status-pill"><span></span>Interner Android-Test</span>
+          <p class="eyebrow">Mengen planen statt raten</p>
+          <h1>Wie viel brauche ich für meine Feier?</h1>
+          <p>
+            PlanParty führt dich durch Anlass, Gäste und Angebot – und macht daraus eine
+            realistische Einkaufsempfehlung, die du sofort abhaken kannst.
+          </p>
+          <div class="hero-actions">
+            <Button
+              href={`${SITES.planparty.origin}/beta/`}
+              analyticsEvent="planparty_beta_hero">PlanParty testen</Button
+            >
+            <Button href="#ablauf" variant="secondary">So funktioniert’s</Button>
+          </div>
+          <ul class="trust-list">
+            <li><Icon name="clock" /> In etwa einer Minute</li>
+            <li><Icon name="shield" /> Alles bleibt lokal</li>
+            <li><Icon name="check" /> Praktische Einkaufsgrößen</li>
+          </ul>
+        </div>
+        <div class="app-hero__visual">
+          <PhoneFrame src={start} alt="Startansicht der PlanParty App" eager />
+          <Picture
+            class="planparty-icon-float"
+            src={appIcon}
+            alt=""
+            formats={["avif", "webp"]}
+            widths={[96, 160]}
+            sizes="6rem"
+            loading="eager"
+          />
+          <div class="app-hero__badge app-hero__badge--bottom">
+            <Icon name="shield" /> Offline-first
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="ablauf">
+      <SectionHeading
+        eyebrow="Ein klarer Weg"
+        title="Von der Feier zur Einkaufsliste."
+        text="Sinnvolle Standards bringen dich schnell ans Ziel. Details kannst du anpassen, ohne dich durch Tabellen arbeiten zu müssen."
+      />
+      <ol class="process-track">
+        <li data-reveal>
+          <span>01</span><Icon name="calendar" /><h3>Anlass wählen</h3><p>
+            Grillparty, Geburtstag, Spieleabend und fünf weitere Profile.
+          </p>
+        </li>
+        <li data-reveal>
+          <span>02</span><Icon name="group" /><h3>Gäste beschreiben</h3><p>
+            Erwachsene, Kinder, Ernährungsformen, Appetit und Trinkverhalten.
+          </p>
+        </li>
+        <li data-reveal>
+          <span>03</span><Icon name="check" /><h3>Angebot prüfen</h3><p>
+            Passende Vorauswahl übernehmen oder Produkte bewusst anpassen.
+          </p>
+        </li>
+        <li data-reveal>
+          <span>04</span><Icon name="sparkles" /><h3>Richtwerte nutzen</h3><p>
+            Mengen, Einkaufsliste und Aufgaben lokal speichern und teilen.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section planparty-calc-section">
+      <div class="shell calc-grid">
+        <div data-reveal>
+          <p class="eyebrow">Mit Augenmaß gerechnet</p>
+          <h2>Viele Faktoren. Ein verständliches Ergebnis.</h2>
+          <p>
+            Die Berechnung trennt Mahlzeiten, Snacks und Getränke, berücksichtigt Kinder,
+            Dauer, Tageszeit und Ernährungsformen – ohne das Gesamtbudget durch mehr
+            Produktauswahl künstlich zu vervielfachen.
+          </p>
+          <ul class="calc-list">
+            <li><Icon name="check" /> Einkaufseinheiten werden nie abgerundet.</li>
+            <li>
+              <Icon name="check" /> Vegane und vegetarische Gäste erhalten passende Budgets.
+            </li>
+            <li>
+              <Icon name="check" /> Längere Dauer erhöht Getränke stärker als Hauptgerichte.
+            </li>
+            <li>
+              <Icon name="check" /> Verbrauchsrückblicke passen nur deine lokale Kopie an.
+            </li>
+          </ul>
+          <Button href={`${SITES.planparty.origin}/quellen/`} variant="secondary"
+            >Berechnungsgrundlagen verstehen</Button
+          >
+        </div>
+        <PhoneFrame
+          src={result}
+          alt="PlanParty Einkaufsempfehlung mit Grillgut und Beilagen"
+        />
+      </div>
+    </section>
+
+    <section class="section shell" id="funktionen">
+      <SectionHeading
+        eyebrow="Release 1"
+        title="Alles für die nächste Feier – ohne Konto."
+        text="Der aktuelle Funktionsumfang konzentriert sich vollständig auf Planung, Einkauf und Vorbereitung."
+      />
+      <div class="feature-grid feature-grid--six">
+        <FeatureCard
+          icon="calendar"
+          title="Acht Feierprofile"
+          text="Von Grillparty und Geburtstag bis zu Silvester und Spieleabend."
+          badge="Lokal"
+        />
+        <FeatureCard
+          icon="group"
+          title="Gäste & Ernährung"
+          text="Erwachsene, Kinder, Mischkost, vegetarisch und vegan konsistent planen."
+          badge="Lokal"
+        />
+        <FeatureCard
+          icon="clock"
+          title="Zeit & Verhalten"
+          text="Dauer, Tageszeit, Appetit, Trinkverhalten und Alkoholtrinker berücksichtigen."
+          badge="Lokal"
+        />
+        <FeatureCard
+          icon="check"
+          title="Einkaufsliste"
+          text="Praktische Mengen abhaken und über den Systemdialog teilen."
+          badge="Lokal"
+        />
+        <FeatureCard
+          icon="sparkles"
+          title="Party-Checkliste"
+          text="Passende Aufgaben automatisch vorschlagen und eigene ergänzen."
+          badge="Lokal"
+        />
+        <FeatureCard
+          icon="heart"
+          title="Aus Erfahrung lernen"
+          text="Zu viel, passend oder zu wenig bewerten und eine Kopie lokal anpassen."
+          badge="Optional"
+        />
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="einblicke">
+      <div class="shell">
+        <SectionHeading
+          eyebrow="Direkt aus der App"
+          title="Planung, die ruhig bleibt."
+          text="Die Aufnahmen wurden aus dem aktuellen Release-1-Build selbst erstellt und werden vollständig ohne Zuschnitt gezeigt."
+        />
+      </div>
+      <div
+        class="screenshot-gallery"
+        role="region"
+        aria-label="PlanParty App-Screenshots – horizontal scrollbar"
+        tabindex="0"
+      >
+        {
+          gallery.map(([src, title, text]) => (
+            <figure class="screenshot-card" data-reveal>
+              <div class="screenshot-card__image screenshot-card__image--planparty">
+                <Picture
+                  src={src}
+                  alt={`PlanParty ${title}`}
+                  formats={["avif", "webp"]}
+                  widths={[360, 540, 720]}
+                  sizes="(max-width: 600px) 76vw, 22rem"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <figcaption>
+                <>
+                  <strong>{title}</strong>
+                  <span>{text}</span>
+                </>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section shell demo-section">
+      <div>
+        <p class="eyebrow">10 Sekunden PlanParty</p>
+        <h2>Vom Anlass zur fertigen Liste.</h2>
+        <p>
+          Die tonlose Vorschau zeigt den aktuellen Release-1-Build vollständig im
+          Hochformat. Sie lässt sich jederzeit pausieren und wiederholen.
+        </p>
+      </div>
+      <DemoVideo
+        appName="PlanParty"
+        source="/media/planparty-intro.webm"
+        poster="/assets/planparty-video-poster.webp"
+        transcript={[
+          "PlanParty startet eine neue Planung.",
+          "Ein Anlass und die Gäste werden ausgewählt.",
+          "Die App berechnet nachvollziehbare Einkaufsmengen.",
+          "Einkauf und Party-Aufgaben können abgehakt werden.",
+        ]}
+      />
+    </section>
+
+    <section class="section shell">
+      <SectionHeading eyebrow="Kurz erklärt" title="Häufige Fragen." align="center" />
+      <div class="faq-wrap"><Faq items={faq} /></div>
+    </section>
+
+    <section class="section shell">
+      <div class="app-beta-cta" data-reveal>
+        <div>
+          <p class="eyebrow">Teste mit</p><h2>
+            Die nächste Feier darf entspannter werden.
+          </h2><p>
+            Melde dich mit deinem Google-Konto zur Testgruppe an oder sende eine
+            Beta-Anfrage. Dein Feedback hilft bei Mengen, Bedienung und fehlenden
+            Feierprofilen.
+          </p>
+        </div>
+        <Button
+          href={`${SITES.planparty.origin}/beta/`}
+          analyticsEvent="planparty_beta_footer">Zur Beta-Anmeldung</Button
+        >
+      </div>
+    </section>
+  </main>
+</BaseLayout>

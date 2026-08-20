@@ -1,0 +1,82 @@
+---
+const groupUrl = "https://groups.google.com/g/planteller";
+const subscribeEmail = "planteller+subscribe@googlegroups.com";
+---
+
+<section class="groups-guide" aria-labelledby="groups-title">
+  <header class="section-heading">
+    <p class="eyebrow">Direkter Weg</p>
+    <h2 id="groups-title">Selbst zur Google-Testgruppe anmelden</h2>
+    <p>
+      Wenn die Gruppe öffentlich zur Aufnahme bereitsteht, kannst du die Mitgliedschaft
+      mit deinem Play-Store-Konto selbst anfragen.
+    </p>
+  </header>
+  <ol class="groups-steps">
+    <li class="surface-card" data-reveal>
+      <div class="groups-illustration" aria-hidden="true">
+        <span class="browser-dot"></span><span class="browser-dot"></span><span
+          class="browser-dot"></span>
+        <div class="browser-bar">groups.google.com</div>
+        <div class="browser-content">
+          <strong>PlanTeller Testgruppe</strong><span>Gruppe ansehen</span>
+        </div>
+      </div>
+      <span class="step-number">01</span>
+      <h3>Gruppe öffnen</h3>
+      <p>
+        Öffne die angegebene Google-Gruppe und melde dich mit deiner
+        Gmail-/Googlemail-Adresse an.
+      </p>
+    </li>
+    <li class="surface-card" data-reveal>
+      <div class="groups-illustration" aria-hidden="true">
+        <div class="account-chip">
+          <span>G</span><strong>Dein Play-Store-Konto</strong>
+        </div>
+        <div class="account-row">
+          <span>✓</span><div>
+            <strong>gmail.com</strong><small>Dasselbe Konto verwenden</small>
+          </div>
+        </div>
+      </div>
+      <span class="step-number">02</span>
+      <h3>Konto prüfen</h3>
+      <p>
+        Die Gruppenadresse muss zu demselben Google-Konto gehören, das auf deinem
+        Android-Gerät im Play Store aktiv ist.
+      </p>
+    </li>
+    <li class="surface-card" data-reveal>
+      <div class="groups-illustration" aria-hidden="true">
+        <div class="fake-button">Beitritt beantragen</div>
+        <div class="fake-confirm">✓ Anfrage gesendet</div>
+      </div>
+      <span class="step-number">03</span>
+      <h3>Beitritt bestätigen</h3>
+      <p>
+        Wähle „Beitritt beantragen“. Nach Freigabe kannst du den bereitgestellten
+        Google-Play-Testlink öffnen.
+      </p>
+    </li>
+  </ol>
+  <div class="groups-actions">
+    <a
+      class="button button--primary"
+      href={groupUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-analytics-event="planparty_google_group_open">Google-Gruppe öffnen</a
+    >
+    <a
+      class="button button--secondary"
+      href={`mailto:${subscribeEmail}?subject=PlanParty%20Beta-Gruppe%20abonnieren`}
+      >Per E-Mail abonnieren</a
+    >
+  </div>
+  <p class="groups-note">
+    Angegebene Gruppenadresse: <strong>planteller@googlegroups.com</strong>. Falls der
+    Beitritt nicht verfügbar ist, nutze bitte das Beta-Formular; die Gruppenfreigabe kann
+    manuell erfolgen.
+  </p>
+</section>
