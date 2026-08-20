@@ -1,0 +1,42 @@
+name: Qualität
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v5
+      - name: Node.js einrichten
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Abhängigkeiten installieren
+        run: npm ci
+      - name: Browser installieren
+        run: npx playwright install --with-deps chromium
+      - name: Formatierung prüfen
+        run: npm run format:check
+      - name: Code prüfen
+        run: npm run lint
+      - name: Astro und TypeScript prüfen
+        run: npm run check
+      - name: Unit-Tests ausführen
+        run: npm test
+      - name: Website bauen
+        run: npm run build
+      - name: Barrierefreiheit und Browser testen
+        run: npm run test:e2e
+      - name: Interne Links prüfen
+        run: npm run test:links
+      - name: Lighthouse-Zielwerte prüfen
+        run: npm run test:lighthouse

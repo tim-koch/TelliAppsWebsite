@@ -1,0 +1,10 @@
+{
+  "name": "PlanParty",
+  "short_name": "PlanParty",
+  "description": "Realistische Mengen für Feiern planen.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#faf8fc",
+  "theme_color": "#4f19b7",
+  "lang": "de"
+}

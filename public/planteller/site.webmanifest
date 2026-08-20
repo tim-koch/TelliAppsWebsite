@@ -1,0 +1,10 @@
+{
+  "name": "PlanTeller",
+  "short_name": "PlanTeller",
+  "description": "Rezepte, Wochenplanung und Einkauf gemeinsam organisieren.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#f5f1eb",
+  "theme_color": "#667d62",
+  "lang": "de"
+}

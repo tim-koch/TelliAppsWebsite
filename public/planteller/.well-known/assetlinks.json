@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "de.timkoch.kochbuch",
+      "sha256_cert_fingerprints": [
+        "5F:30:6A:A8:31:CE:3D:46:0A:74:1F:A8:2F:AB:C2:D0:B8:0E:2C:6C:41:71:FE:43:37:F3:59:BD:C5:24:96:67"
+      ]
+    }
+  }
+]

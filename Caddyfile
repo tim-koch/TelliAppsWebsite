@@ -1,0 +1,89 @@
+(security) {
+  encode zstd gzip
+  @immutable path /_astro/*
+  header @immutable Cache-Control "public, max-age=31536000, immutable"
+  @media path /assets/* /media/*
+  header @media Cache-Control "public, max-age=604800"
+  header {
+    -Server
+    Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+    Referrer-Policy "strict-origin-when-cross-origin"
+    Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Content-Security-Policy "default-src 'self'; base-uri 'self'; connect-src 'self' https://formspree.io https:; form-action 'self' https://formspree.io; frame-ancestors 'none'; img-src 'self' data:; media-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline'"
+  }
+}
+
+telli-apps.de {
+  redir https://www.telli-apps.de{uri} permanent
+}
+
+www.telli-apps.de {
+  import security
+  root * /srv
+
+  @planteller path_regexp planteller ^/planteller(?:/(.*))?$
+  redir @planteller https://planteller.telli-apps.de/{re.planteller.1} permanent
+  @planparty path_regexp planparty ^/planparty(?:/(.*))?$
+  redir @planparty https://planparty.telli-apps.de/{re.planparty.1} permanent
+
+  try_files {path} {path}/index.html =404
+  file_server
+  handle_errors {
+    rewrite * /404.html
+    file_server
+  }
+}
+
+planteller.telli-apps.de {
+  import security
+
+  @shared path /_astro/* /assets/* /media/*
+  handle @shared {
+    root * /srv
+    file_server
+  }
+
+  handle {
+    root * /srv/planteller
+    @recipe path /recipe-share/*
+    rewrite @recipe /recipe-share/index.html
+    @collection path /collection-share/*
+    rewrite @collection /collection-share/index.html
+    @invite path /invite/*
+    rewrite @invite /invite/index.html
+    @reset path /reset-password/*
+    rewrite @reset /reset-password/index.html
+    try_files {path} {path}/index.html =404
+    file_server
+  }
+
+  handle_errors {
+    root * /srv/planteller
+    rewrite * /404/index.html
+    file_server
+  }
+}
+
+planparty.telli-apps.de {
+  import security
+
+  @shared path /_astro/* /assets/* /media/*
+  handle @shared {
+    root * /srv
+    file_server
+  }
+
+  handle {
+    root * /srv/planparty
+    try_files {path} {path}/index.html =404
+    file_server
+  }
+
+  handle_errors {
+    root * /srv/planparty
+    rewrite * /404/index.html
+    file_server
+  }
+}
