@@ -296,14 +296,18 @@
     display: none;
   }
   .brand-logo--hero {
+    width: 100%;
+    min-width: 0;
     gap: clamp(0.9rem, 3vw, 1.4rem);
   }
   .brand-logo--hero .brand-logo__mark {
-    width: clamp(5rem, 17vw, 7.5rem);
-    height: clamp(5rem, 17vw, 7.5rem);
+    width: clamp(4.5rem, 22cqi, 7.5rem);
+    height: clamp(4.5rem, 22cqi, 7.5rem);
+    flex: none;
   }
   .brand-logo--hero .brand-logo__text {
-    font-size: clamp(2.35rem, 9vw, 4.5rem);
+    min-width: 0;
+    font-size: clamp(2.2rem, 11.5cqi, 4rem);
     letter-spacing: -0.055em;
   }
   .icon {
@@ -1150,6 +1154,7 @@
   }
   .home-brand-stage {
     position: relative;
+    container-type: inline-size;
     width: min(100%, 34rem);
     padding: clamp(1.4rem, 6vw, 3rem);
     border: 1px solid var(--line);
@@ -1184,6 +1189,9 @@
     margin-top: 1.2rem;
     color: var(--muted);
     font-weight: 650;
+  }
+  .home-brand-stage__identity {
+    min-width: 0;
   }
   .home-brand-stage__apps {
     display: grid;
