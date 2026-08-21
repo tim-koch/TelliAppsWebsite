@@ -69,21 +69,23 @@ const { site, source = "/kontakt" } = Astro.props;
     <span
       >Ich habe die <a href={`${site.origin}/datenschutz/#kontaktformular`}
         >Datenschutzhinweise</a
-      > zur Kenntnis genommen. Meine Angaben werden über Formspree übermittelt. *</span
+      > zur Kenntnis genommen. Meine Angaben werden über den TelliApps-Server übermittelt. *</span
     >
   </label>
 
   <div class="honeypot" aria-hidden="true">
     <label for="company">Firma</label>
-    <input id="company" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+    <input id="company" name="website" type="text" tabindex="-1" autocomplete="off" />
   </div>
-  <input type="hidden" name="_subject" value={`${site.name} Website – Kontaktanfrage`} />
+  <input type="hidden" name="site" value={site.id} />
   <input type="hidden" name="quelle" value={source} />
+  <input type="hidden" name="startedAt" value="" data-form-started-at />
 
   <p class="form-privacy">
-    Formspree verarbeitet die Formulardaten erst beim Absenden. Abgeschlossene Anfragen
-    werden grundsätzlich innerhalb von 90 Tagen gelöscht, sofern keine Pflicht zur
-    längeren Aufbewahrung besteht.
+    Die Angaben werden erst beim Absenden an unseren Server übertragen und per E-Mail an
+    das zuständige TelliApps-Postfach zugestellt. Abgeschlossene Anfragen werden
+    grundsätzlich innerhalb von 90 Tagen gelöscht, sofern keine Pflicht zur längeren
+    Aufbewahrung besteht.
   </p>
   <button class="form-submit" type="submit" data-submit>Nachricht senden</button>
   <p class="form-status" role="status" aria-live="polite" data-form-status></p>

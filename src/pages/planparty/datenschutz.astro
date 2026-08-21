@@ -75,12 +75,14 @@ const analyticsEnabled = Boolean(
     Play-Store-Test benötigt wird. Weitere Personen dürfen nur mit deren Einverständnis
     eingetragen werden.
   </p><p>
-    Formspree, Inc. verarbeitet die Angaben als technischer Dienstleister und kann Daten
-    in den USA verarbeiten. Nach Angaben des Dienstes werden für Drittlandübermittlungen
-    geeignete Garantien wie EU-Standardvertragsklauseln eingesetzt. Rechtsgrundlage ist
-    Art. 6 Abs. 1 lit. b, f oder bei freiwilliger Beta-Anmeldung lit. a DSGVO.
-    Abgeschlossene Anfragen werden grundsätzlich innerhalb von 90 Tagen gelöscht, soweit
-    keine Pflichten oder laufenden Vorgänge entgegenstehen.
+    Die Angaben werden verschlüsselt an den eigenen TelliApps-Server übertragen, dort
+    validiert und per TLS-gesicherter SMTP-Verbindung an das zuständige TelliApps-Postfach
+    bei unserem E-Mail-Dienstleister zugestellt. Zur Missbrauchsabwehr wird die IP-Adresse
+    für das Rate-Limit kurzzeitig im Arbeitsspeicher verarbeitet; eine separate
+    Inhaltsdatenbank wird nicht angelegt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b, f oder
+    bei freiwilliger Beta-Anmeldung lit. a DSGVO. Abgeschlossene Anfragen werden
+    grundsätzlich innerhalb von 90 Tagen gelöscht, soweit keine Pflichten oder laufenden
+    Vorgänge entgegenstehen.
   </p>
   <h2>9. Google Groups und Google Play</h2><p>
     Wenn du den direkten Gruppen- oder Play-Store-Link nutzt, verlässt du diese Website.

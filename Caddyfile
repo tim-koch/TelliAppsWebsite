@@ -11,7 +11,7 @@
     X-Frame-Options "DENY"
     Referrer-Policy "strict-origin-when-cross-origin"
     Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-    Content-Security-Policy "default-src 'self'; base-uri 'self'; connect-src 'self' https://formspree.io https:; form-action 'self' https://formspree.io; frame-ancestors 'none'; img-src 'self' data:; media-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline'"
+    Content-Security-Policy "default-src 'self'; base-uri 'self'; connect-src 'self' https:; form-action 'self'; frame-ancestors 'none'; img-src 'self' data:; media-src 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline'"
   }
 }
 
@@ -22,6 +22,8 @@ telli-apps.de {
 www.telli-apps.de {
   import security
   root * /srv
+
+  reverse_proxy /api/forms/* form-api:3000
 
   @planteller path_regexp planteller ^/planteller(?:/(.*))?$
   redir @planteller https://planteller.telli-apps.de/{re.planteller.1} permanent
@@ -38,6 +40,8 @@ www.telli-apps.de {
 
 planteller.telli-apps.de {
   import security
+
+  reverse_proxy /api/forms/* form-api:3000
 
   @site_meta path /planteller/favicon.png /planteller/apple-touch-icon.png /planteller/site.webmanifest
   handle @site_meta {
@@ -75,6 +79,8 @@ planteller.telli-apps.de {
 
 planparty.telli-apps.de {
   import security
+
+  reverse_proxy /api/forms/* form-api:3000
 
   @site_meta path /planparty/favicon.png /planparty/apple-touch-icon.png /planparty/site.webmanifest
   handle @site_meta {

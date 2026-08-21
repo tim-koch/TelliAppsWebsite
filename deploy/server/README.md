@@ -40,13 +40,20 @@ cd /opt/telliapps
 Bei einem privaten Repository muss statt eines persönlichen Tokens ein read-only Deploy
 Key oder ein bereits eingerichteter GitHub-Zugang verwendet werden.
 
-Soll Umami direkt zum Start aktiv sein, wird vorher ausschließlich auf dem Server eine
-nicht eingecheckte Umgebungsdatei angelegt:
+Vor dem Start wird ausschließlich auf dem Server eine nicht eingecheckte Umgebungsdatei
+angelegt. Die SMTP-Werte sind für den Formulardienst erforderlich; Umami bleibt optional:
 
 ```sh
-cp deploy/environment.example deploy/.env
-editor deploy/.env
+cp deploy/environment.example .env
+chmod 600 .env
+editor .env
 ```
+
+Für Hetzner-Webhosting wird `mail.your-server.de` mit Port `587` und STARTTLS verwendet.
+`SMTP_USER` ist die vollständige Adresse des sendenden Postfachs. Das SMTP-Passwort darf
+nur in `.env` auf dem Server stehen und wird weder gebaut noch in das Container-Image
+kopiert. `noreply@telli-apps.de` dient als technischer Absender; Antworten werden über den
+`Reply-To`-Header direkt an die anfragende Person adressiert.
 
 ## Website und HTTP-VHost installieren
 
@@ -99,7 +106,7 @@ cd /opt/telliapps
 ./deploy/server/verify-live.sh
 ```
 
-Danach folgen Formspree-Testsendungen, reale Android-Deep-Link-Tests, Search Console und
+Danach folgen SMTP-Formular-Testsendungen, reale Android-Deep-Link-Tests, Search Console und
 optional die Umami-Konfiguration.
 
 ## Aktualisierung und Rollback

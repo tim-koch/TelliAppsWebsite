@@ -56,7 +56,7 @@ const analyticsEnabled = Boolean(
     )
   }
 
-  <h2 id="kontaktformular">5. Kontaktformular über Formspree</h2>
+  <h2 id="kontaktformular">5. Kontaktformular und E-Mail-Versand</h2>
   <p>
     Beim Absenden verarbeiten wir Anliegen, E-Mail-Adresse, Nachricht, optional den Namen
     sowie technische Metadaten zur Bearbeitung und Missbrauchsabwehr. Rechtsgrundlage ist
@@ -64,10 +64,12 @@ const analyticsEnabled = Boolean(
     Art. 6 Abs. 1 lit. f DSGVO.
   </p>
   <p>
-    Formspree, Inc. verarbeitet die Formulardaten als technischer Dienstleister und kann
-    Daten in den USA verarbeiten. Für Drittlandübermittlungen werden nach Angaben des
-    Dienstes geeignete Garantien, insbesondere EU-Standardvertragsklauseln, eingesetzt.
-    Das Formular sendet erst nach deiner aktiven Bestätigung.
+    Das Formular übermittelt die Angaben verschlüsselt an den eigenen TelliApps-Server.
+    Dort werden sie validiert, zur Missbrauchsabwehr kurzzeitig anhand der IP-Adresse
+    begrenzt und anschließend per TLS-gesicherter SMTP-Verbindung an das zuständige
+    TelliApps-Postfach bei unserem E-Mail-Dienstleister übermittelt. Der Formulardienst
+    legt keine eigene Inhaltsdatenbank an. Das Formular sendet erst nach deiner aktiven
+    Bestätigung.
   </p>
   <p>
     Abgeschlossene Anfragen werden grundsätzlich innerhalb von 90 Tagen gelöscht, soweit

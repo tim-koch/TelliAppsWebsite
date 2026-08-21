@@ -1,0 +1,12 @@
+{
+  "name": "telliapps-form-service",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "nodemailer": "9.0.5"
+  }
+}

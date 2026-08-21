@@ -1,3 +1,14 @@
 # Optional. Ohne beide Werte bleibt die Reichweitenmessung deaktiviert.
 PUBLIC_UMAMI_SRC=
 PUBLIC_UMAMI_WEBSITE_ID=
+
+# Eigener Formularversand über das Hetzner-Postfach.
+SMTP_HOST=mail.your-server.de
+SMTP_PORT=587
+SMTP_USER=noreply@telli-apps.de
+SMTP_PASSWORD=
+MAIL_FROM=noreply@telli-apps.de
+MAIL_TO_TELLIAPPS=kontakt@telli-apps.de
+MAIL_TO_PLANTELLER=planteller@telli-apps.de
+MAIL_TO_PLANPARTY=planparty@telli-apps.de
+TRUSTED_ORIGINS=https://www.telli-apps.de,https://planteller.telli-apps.de,https://planparty.telli-apps.de
