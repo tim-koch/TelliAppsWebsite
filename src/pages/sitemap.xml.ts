@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { SITES, siteUrl } from "../config/sites";
 
-const paths = ["/", "/kontakt/", "/datenschutz/", "/impressum/", "/barrierefreiheit/"];
+const paths = ["/", "/kontakt/"];
 
 export const GET: APIRoute = () => {
   const urls = paths

@@ -25,6 +25,10 @@ assert(files.length >= 29, `Nur ${files.length} HTML-Seiten im Pages-Build gefun
 
 for (const file of files) {
   const html = await readFile(file, "utf8");
+  assert(
+    html.includes('name="robots" content="noindex, follow"'),
+    `${file}: Die öffentliche GitHub-Pages-Vorschau muss noindex sein.`,
+  );
   const rootRelativeReferences = [
     ...html.matchAll(/(?:href|src|poster)=["'](\/(?!\/)[^"']*)["']/g),
   ].map((match) => match[1]);
@@ -50,6 +54,12 @@ assert(
   homepage.includes(`${pagesOrigin}${basePath}/planparty`),
   "Der PlanParty-Link zeigt nicht auf die Pages-Vorschau.",
 );
+if (homepage.includes("data-website-id")) {
+  assert(
+    homepage.includes(`data-domains="${new URL(pagesOrigin).hostname}"`),
+    "Umami ist nicht auf den GitHub-Pages-Host begrenzt.",
+  );
+}
 
 process.stdout.write(
   `${files.length} HTML-Seiten sind für ${pagesOrigin}${basePath}/ bereit.\n`,
