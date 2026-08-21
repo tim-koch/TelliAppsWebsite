@@ -422,6 +422,26 @@ test("App-Deep-Links behalten ihren Token", async ({ page }) => {
   await expect(page.locator("[data-share-token]")).toHaveText("demo-token");
 });
 
+test("Lange App-Link-Titel bleiben innerhalb der Karte", async ({ page }) => {
+  test.skip(test.info().project.name !== "mobile");
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto("/planteller/invite/?token=demo-token");
+
+  const card = page.locator(".app-link-card");
+  const heading = card.locator("h1");
+  const [cardBox, headingBox] = await Promise.all([
+    card.boundingBox(),
+    heading.boundingBox(),
+  ]);
+
+  expect(cardBox).not.toBeNull();
+  expect(headingBox).not.toBeNull();
+  expect(headingBox!.x).toBeGreaterThanOrEqual(cardBox!.x);
+  expect(headingBox!.x + headingBox!.width).toBeLessThanOrEqual(
+    cardBox!.x + cardBox!.width,
+  );
+});
+
 test("Kanonische URLs zeigen auf die vorgesehenen Hosts", async ({ page }) => {
   const expectations = [
     ["/", "https://www.telli-apps.de/"],

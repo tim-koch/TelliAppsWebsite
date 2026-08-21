@@ -1115,7 +1115,10 @@
   }
   .app-link-card h1 {
     margin-block: 0.65rem 1rem;
-    font-size: clamp(2.5rem, 7vw, 4.8rem);
+    margin-inline: -0.75rem;
+    font-size: clamp(1.75rem, 7vw, 4.8rem);
+    hyphens: auto;
+    overflow-wrap: anywhere;
   }
   .app-link-card > p:not(.eyebrow) {
     margin-top: 1rem;
