@@ -628,42 +628,68 @@
   }
 
   .app-card {
+    --card-accent: var(--brand);
     position: relative;
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 1rem;
     min-height: 20rem;
-    padding: clamp(1rem, 3vw, 1.5rem);
     border: 1px solid var(--line);
     border-radius: clamp(1.35rem, 4vw, 2rem);
     overflow: hidden;
+    transition:
+      transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.28s ease,
+      box-shadow 0.28s ease;
   }
   .app-card--sage {
+    --card-accent: #667d62;
     background: #e7ebe1;
     color: #2f2b27;
   }
   .app-card--violet {
+    --card-accent: #6f32d4;
     background: #eee6fb;
     color: #19132a;
   }
   :root[data-theme="dark"] .app-card--sage {
+    --card-accent: #a5b59b;
     background: #273229;
     color: #f3eee7;
   }
   :root[data-theme="dark"] .app-card--violet {
+    --card-accent: #c4a5ff;
     background: #2b203c;
     color: #f8f4ff;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) .app-card--sage {
+      --card-accent: #a5b59b;
       background: #273229;
       color: #f3eee7;
     }
     :root:not([data-theme="light"]) .app-card--violet {
+      --card-accent: #c4a5ff;
       background: #2b203c;
       color: #f8f4ff;
     }
+  }
+  .app-card:focus-within {
+    outline: 3px solid var(--accent);
+    outline-offset: 4px;
+  }
+  .app-card__link {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    color: inherit;
+    text-decoration: none;
+  }
+  .app-card__link:focus-visible {
+    outline: none;
   }
   .app-card__content {
     position: relative;
@@ -690,7 +716,7 @@
     color: inherit;
     font-size: 0.62rem;
   }
-  .app-card__link {
+  .app-card__action {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -702,11 +728,33 @@
   .app-card__visual {
     width: clamp(3.75rem, 17vw, 5.5rem);
     filter: drop-shadow(0 0.7rem 1rem rgb(0 0 0 / 0.13));
+    transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .app-card__visual picture,
   .app-card__visual img {
     width: 100%;
     border-radius: clamp(1rem, 3vw, 1.5rem);
+  }
+  .app-card__action .icon {
+    transition: transform 0.24s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .app-card:hover {
+      transform: translateY(-0.3rem);
+      border-color: color-mix(in srgb, var(--card-accent) 55%, var(--line));
+      box-shadow:
+        0 1.3rem 2.8rem color-mix(in srgb, var(--card-accent) 18%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--card-accent) 12%, transparent);
+    }
+    .app-card:hover .app-card__visual {
+      transform: translateY(-0.12rem) scale(1.045) rotate(-1.5deg);
+    }
+    .app-card:hover .app-card__action .icon {
+      transform: translateX(0.28rem);
+    }
+  }
+  .app-card:active {
+    transform: scale(0.99);
   }
 
   .faq-list {
@@ -2054,7 +2102,7 @@
     margin-block: 1rem;
     padding-left: 1.4rem;
   }
-  .legal-content a {
+  .legal-content a:not(.button) {
     color: var(--brand-strong);
     font-weight: 700;
   }
@@ -2144,6 +2192,8 @@
 @media (max-width: 25rem) {
   .app-card {
     min-height: 16.5rem;
+  }
+  .app-card__link {
     padding: 0.85rem;
   }
   .app-card .eyebrow {
