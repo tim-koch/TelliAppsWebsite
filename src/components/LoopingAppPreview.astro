@@ -4,14 +4,18 @@ import { withBase } from "../config/deployment";
 interface Props {
   appName: string;
   source: string;
+  darkSource: string;
   poster: string;
+  darkPoster: string;
   transcript: readonly string[];
 }
 
-const { appName, source, poster, transcript } = Astro.props;
+const { appName, source, darkSource, poster, darkPoster, transcript } = Astro.props;
 const descriptionId = `${appName.toLowerCase()}-preview-description`;
 const videoSource = withBase(source);
+const darkVideoSource = withBase(darkSource);
 const videoPoster = withBase(poster);
+const darkVideoPoster = withBase(darkPoster);
 ---
 
 <div class="loop-preview" data-loop-preview>
@@ -23,6 +27,10 @@ const videoPoster = withBase(poster);
     playsinline
     preload="metadata"
     poster={videoPoster}
+    data-light-source={videoSource}
+    data-dark-source={darkVideoSource}
+    data-light-poster={videoPoster}
+    data-dark-poster={darkVideoPoster}
     aria-label={`${appName} in einer kurzen, wiederholten App-Vorschau`}
     aria-describedby={descriptionId}
   >
@@ -41,17 +49,40 @@ const videoPoster = withBase(poster);
     const toggle = preview.querySelector<HTMLButtonElement>("[data-loop-toggle]");
     if (!video || !toggle || preview.dataset.ready) continue;
     preview.dataset.ready = "true";
+    const root = document.documentElement;
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let activeSource = "";
 
     const updateButton = () => {
       toggle.textContent = video.paused ? "Animation abspielen" : "Animation pausieren";
       preview.toggleAttribute("data-paused", video.paused);
     };
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      video.pause();
-    } else {
-      void video.play().catch(updateButton);
-    }
+    const useDarkMedia = () =>
+      root.dataset.theme === "dark" ||
+      (root.dataset.theme !== "light" && colorScheme.matches);
+
+    const applyColorScheme = () => {
+      const dark = useDarkMedia();
+      const source = dark ? video.dataset.darkSource : video.dataset.lightSource;
+      const poster = dark ? video.dataset.darkPoster : video.dataset.lightPoster;
+      if (!source || source === activeSource) return;
+      activeSource = source;
+      if (poster) video.poster = poster;
+      video.src = source;
+      video.load();
+      if (!reducedMotion.matches) void video.play().catch(updateButton);
+    };
+
+    applyColorScheme();
+    new MutationObserver(applyColorScheme).observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    colorScheme.addEventListener("change", applyColorScheme);
+
+    if (reducedMotion.matches) video.pause();
 
     toggle.addEventListener("click", () => {
       if (video.paused) void video.play();

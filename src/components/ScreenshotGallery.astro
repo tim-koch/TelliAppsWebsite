@@ -1,5 +1,5 @@
 ---
-import { Picture } from "astro:assets";
+import { getImage, Picture } from "astro:assets";
 
 /* global ImageMetadata */
 
@@ -17,6 +17,17 @@ interface Props {
 
 const { appName, items, ratio } = Astro.props;
 const dialogTitleId = `${appName.toLowerCase()}-screenshot-dialog-title`;
+const optimizedItems = await Promise.all(
+  items.map(async (item) => ({
+    ...item,
+    full: await getImage({
+      src: item.src,
+      width: Math.min(item.src.width, 1080),
+      format: "webp",
+      quality: 90,
+    }),
+  })),
+);
 ---
 
 <div class="screenshot-carousel" data-screenshot-carousel>
@@ -28,13 +39,13 @@ const dialogTitleId = `${appName.toLowerCase()}-screenshot-dialog-title`;
     data-screenshot-track
   >
     {
-      items.map(({ src, title, text }, index) => (
+      optimizedItems.map(({ src, title, text, full }, index) => (
         <figure class="screenshot-card" data-reveal>
           <button
             type="button"
             class:list={["screenshot-card__image", `screenshot-card__image--${ratio}`]}
             data-screenshot-open
-            data-full-src={src.src}
+            data-full-src={full.src}
             data-title={title}
             data-text={text}
             data-alt={`${appName} ${title}`}
@@ -45,8 +56,8 @@ const dialogTitleId = `${appName.toLowerCase()}-screenshot-dialog-title`;
               src={src}
               alt={`${appName} ${title}`}
               formats={["avif", "webp"]}
-              widths={[360, 540, 720, 1080]}
-              sizes="(max-width: 600px) 88vw, 27rem"
+              widths={[280, 360, 540, 720]}
+              sizes="(max-width: 600px) 72vw, 17.5rem"
               loading={index === 0 ? "eager" : "lazy"}
               decoding="async"
             />
@@ -163,10 +174,25 @@ const dialogTitleId = `${appName.toLowerCase()}-screenshot-dialog-title`;
     const updateDialog = () => {
       const trigger = openButtons[activeIndex];
       if (!trigger) return;
-      lightboxImage.src = trigger.dataset.fullSrc || "";
+      const fullSource = trigger.dataset.fullSrc || "";
+      const previewSource = trigger.querySelector<HTMLImageElement>("img")?.currentSrc;
+      lightboxImage.src = previewSource || fullSource;
       lightboxImage.alt = trigger.dataset.alt || "";
       lightboxTitle.textContent = trigger.dataset.title || "Screenshot";
       lightboxCaption.textContent = trigger.dataset.text || "";
+
+      if (previewSource && fullSource && previewSource !== fullSource) {
+        const requestedIndex = activeIndex;
+        const fullImage = new Image();
+        fullImage.addEventListener(
+          "load",
+          () => {
+            if (activeIndex === requestedIndex) lightboxImage.src = fullSource;
+          },
+          { once: true },
+        );
+        fullImage.src = fullSource;
+      }
     };
 
     const show = (index: number) => {

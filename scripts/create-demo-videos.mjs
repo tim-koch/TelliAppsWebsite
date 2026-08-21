@@ -2,7 +2,10 @@ import { chromium } from "@playwright/test";
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { extname, resolve } from "node:path";
 
+/* global document */
+
 const outputDirectory = resolve("public/media");
+const posterDirectory = resolve("public/assets");
 const temporaryDirectory = resolve(".media-tmp");
 
 const demos = [
@@ -11,11 +14,26 @@ const demos = [
     name: "PlanTeller",
     color: "#667d62",
     background: "#f5f1eb",
+    darkColor: "#a5b59b",
+    darkBackground: "#1b1b1b",
+    darkInk: "#f0e9df",
     frames: [
-      ["src/assets/planteller/hero.png", "Rezepte an einem Ort"],
-      ["src/assets/planteller/impression-3.png", "Einkauf gemeinsam erledigen"],
-      ["src/assets/planteller/impression-5.png", "Die Woche entspannt planen"],
-      ["src/assets/planteller/impression-4.png", "Vorräte im Blick behalten"],
+      [
+        "src/assets/planteller/screenshots/recipes.png",
+        "Eigene Rezepte durchsuchen und filtern",
+      ],
+      [
+        "src/assets/planteller/screenshots/weekly-plan-detail.png",
+        "Ein geplantes Abendessen öffnen und ändern",
+      ],
+      [
+        "src/assets/planteller/screenshots/smart-shopping-list.png",
+        "Den Einkauf nach dem Regalprofil sortieren",
+      ],
+      [
+        "src/assets/planteller/screenshots/telli-helper.png",
+        "Telli hilft beim Einkauf und in der App",
+      ],
     ],
   },
   {
@@ -23,11 +41,14 @@ const demos = [
     name: "PlanParty",
     color: "#4f19b7",
     background: "#faf8fc",
+    darkColor: "#c4a5ff",
+    darkBackground: "#110d1b",
+    darkInk: "#f8f5fc",
     frames: [
-      ["src/assets/planparty/start.png", "In etwa einer Minute starten"],
-      ["src/assets/planparty/event.png", "Anlass und Gäste beschreiben"],
-      ["src/assets/planparty/result.png", "Realistische Richtwerte erhalten"],
-      ["src/assets/planparty/checklist.png", "Einkauf und Aufgaben abhaken"],
+      ["src/assets/planparty/start.png", "Eine neue Party planen"],
+      ["src/assets/planparty/event.png", "Den passenden Anlass auswählen"],
+      ["src/assets/planparty/result.png", "Einkaufsmengen und Packungsgrößen prüfen"],
+      ["src/assets/planparty/checklist.png", "Party-Aufgaben vorbereiten und abhaken"],
     ],
   },
 ];
@@ -51,11 +72,16 @@ async function dataUrl(path) {
   return `data:${mime};base64,${content.toString("base64")}`;
 }
 
-async function renderDemo(browser, demo) {
+async function renderDemo(browser, demo, theme) {
+  const dark = theme === "dark";
+  const color = dark ? demo.darkColor : demo.color;
+  const background = dark ? demo.darkBackground : demo.background;
+  const ink = dark ? demo.darkInk : "#211f1d";
+  const suffix = dark ? "-dark" : "";
   const context = await browser.newContext({
     viewport: { width: 720, height: 1280 },
-    colorScheme: "light",
-    recordVideo: { dir: temporaryDirectory, size: { width: 360, height: 640 } },
+    colorScheme: theme,
+    recordVideo: { dir: temporaryDirectory, size: { width: 720, height: 1280 } },
   });
   const page = await context.newPage();
   const frames = await Promise.all(
@@ -76,44 +102,42 @@ async function renderDemo(browser, demo) {
           body {
             position: relative;
             background:
-              radial-gradient(circle at 80% 8%, ${demo.color}26, transparent 27%),
-              ${demo.background};
-            color: #211f1d;
+              radial-gradient(circle at 80% 8%, ${color}26, transparent 27%),
+              ${background};
+            color: ${ink};
             font-family: "Segoe UI", system-ui, sans-serif;
           }
-          .brand { position: absolute; z-index: 10; top: 56px; left: 56px; }
-          .brand small { display: block; color: ${demo.color}; font-size: 22px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-          .brand strong { display: block; margin-top: 2px; font-size: 48px; letter-spacing: -.04em; }
-          .stage { position: absolute; inset: 150px 0 0; }
+          .brand { position: absolute; z-index: 10; top: 64px; left: 88px; }
+          .brand small { display: block; color: ${color}; font-size: 18px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+          .brand strong { display: block; margin-top: 1px; font-size: 42px; letter-spacing: -.04em; }
+          .stage { position: absolute; inset: 118px 0 0; }
           .frame {
             position: absolute;
             inset: 0;
             display: grid;
-            grid-template-rows: 1fr auto;
+            grid-template-rows: minmax(0, 1fr) 92px;
             place-items: center;
-            padding: 40px 56px 64px;
+            padding: 18px 48px 38px;
             opacity: 0;
             transform: translateX(70px) scale(.98);
             transition: opacity .55s ease, transform .65s cubic-bezier(.2,.8,.2,1);
           }
           .frame.active { opacity: 1; transform: none; }
           .phone {
-            width: min(500px, 86%);
-            height: 900px;
+            height: 100%;
+            aspect-ratio: 1080 / 2392;
             display: grid;
             place-items: center;
-            padding: 17px;
             overflow: hidden;
-            border: 8px solid #1d1b20;
-            border-radius: 58px;
-            background: #111;
-            box-shadow: 0 34px 80px rgba(25,20,31,.22);
+            border-radius: 48px;
+            background: #fff;
+            box-shadow: 0 30px 72px rgba(25,20,31,.18);
           }
-          .phone img { width: 100%; height: 100%; object-fit: contain; border-radius: 40px; background: #fff; }
-          .label { min-height: 105px; display: grid; place-items: center; padding: 20px; text-align: center; }
-          .label strong { max-width: 560px; color: ${demo.color}; font-size: 36px; line-height: 1.12; letter-spacing: -.025em; }
-          .progress { position: absolute; z-index: 10; right: 56px; bottom: 38px; left: 56px; height: 5px; overflow: hidden; border-radius: 10px; background: ${demo.color}2b; }
-          .progress::after { content: ""; display: block; width: 100%; height: 100%; background: ${demo.color}; transform-origin: left; animation: progress 10s linear forwards; }
+          .phone img { width: 100%; height: 100%; object-fit: contain; border-radius: inherit; background: #fff; }
+          .label { display: grid; place-items: center; padding: 14px 20px 0; text-align: center; }
+          .label strong { max-width: 580px; color: ${color}; font-size: 30px; line-height: 1.12; letter-spacing: -.025em; }
+          .progress { position: absolute; z-index: 10; right: 56px; bottom: 38px; left: 56px; height: 5px; overflow: hidden; border-radius: 10px; background: ${color}2b; }
+          .progress::after { content: ""; display: block; width: 100%; height: 100%; background: ${color}; transform-origin: left; animation: progress 10s linear forwards; }
           @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
         </style>
       </head>
@@ -136,13 +160,21 @@ async function renderDemo(browser, demo) {
       </body>
     </html>`);
 
-  await page.waitForTimeout(10_200);
+  await page.waitForFunction(() => [...document.images].every((image) => image.complete));
+  await page.waitForTimeout(200);
+  await page.screenshot({
+    path: resolve(posterDirectory, `${demo.id}-video-poster${suffix}.webp`),
+    type: "webp",
+    quality: 90,
+  });
+  await page.waitForTimeout(10_000);
   const video = page.video();
   await context.close();
-  await video.saveAs(resolve(outputDirectory, `${demo.id}-intro.webm`));
+  await video.saveAs(resolve(outputDirectory, `${demo.id}-intro${suffix}.webm`));
 }
 
 await mkdir(outputDirectory, { recursive: true });
+await mkdir(posterDirectory, { recursive: true });
 await rm(temporaryDirectory, { recursive: true, force: true });
 await mkdir(temporaryDirectory, { recursive: true });
 
@@ -150,7 +182,10 @@ const browser = await chromium.launch(
   process.env.CI ? { headless: true } : { headless: true, channel: "msedge" },
 );
 try {
-  for (const demo of demos) await renderDemo(browser, demo);
+  for (const demo of demos) {
+    await renderDemo(browser, demo, "light");
+    await renderDemo(browser, demo, "dark");
+  }
 } finally {
   await browser.close();
   await rm(temporaryDirectory, { recursive: true, force: true });

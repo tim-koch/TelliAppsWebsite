@@ -1,11 +1,14 @@
 ---
 import { Picture } from "astro:assets";
-import impression1 from "../../assets/planteller/impression-1.png";
-import impression2 from "../../assets/planteller/impression-2.png";
-import impression3 from "../../assets/planteller/impression-3.png";
-import impression4 from "../../assets/planteller/impression-4.png";
-import impression5 from "../../assets/planteller/impression-5.png";
-import impression6 from "../../assets/planteller/impression-6.png";
+import household from "../../assets/planteller/screenshots/household.png";
+import pantryList from "../../assets/planteller/screenshots/pantry-list.png";
+import planningReview from "../../assets/planteller/screenshots/planning-review.png";
+import recipeDetail from "../../assets/planteller/screenshots/recipe-detail.png";
+import recipes from "../../assets/planteller/screenshots/recipes.png";
+import smartShoppingList from "../../assets/planteller/screenshots/smart-shopping-list.png";
+import telliHelper from "../../assets/planteller/screenshots/telli-helper.png";
+import weeklyPlanDetail from "../../assets/planteller/screenshots/weekly-plan-detail.png";
+import weeklyPlan from "../../assets/planteller/screenshots/weekly-plan.png";
 import telliAvatar from "../../assets/planteller/telli-avatar.png";
 import Button from "../../components/Button.astro";
 import Faq from "../../components/Faq.astro";
@@ -69,34 +72,49 @@ const structuredData = [
 
 const gallery = [
   {
-    src: impression1,
+    src: recipes,
     title: "Rezeptübersicht",
-    text: "Eigene Rezepte, Importe, Kategorien und Favoriten ruhig organisiert.",
+    text: "Eigene Rezepte durchsuchen, filtern, sortieren oder in Sammlungen wechseln.",
   },
   {
-    src: impression2,
-    title: "Rezeptdetails",
-    text: "Zutaten, Schritte und Aktionen dort, wo sie beim Kochen gebraucht werden.",
+    src: recipeDetail,
+    title: "Rezeptdetail",
+    text: "Coq au vin mit Bild, Portionswahl, Aktionen und den ersten Zutaten im Detail.",
   },
   {
-    src: impression3,
-    title: "Einkaufsliste",
-    text: "Zutaten bündeln, nach Bereichen sortieren und gemeinsam abhaken.",
+    src: weeklyPlan,
+    title: "Wochenplan",
+    text: "Mahlzeiten nach Tagen und Tageszeit planen und daraus eine Einkaufsliste erstellen.",
   },
   {
-    src: impression4,
-    title: "Vorräte",
-    text: "Vorhandene Lebensmittel im Blick behalten und Doppelkäufe reduzieren.",
+    src: weeklyPlanDetail,
+    title: "Geplantes Gericht",
+    text: "Das Abendessen öffnen, ändern, entfernen oder um passende Beilagen ergänzen.",
   },
   {
-    src: impression5,
-    title: "Wochenplanung",
-    text: "Mahlzeiten flexibel planen und ohne Abschreiben in den Einkauf übernehmen.",
+    src: smartShoppingList,
+    title: "Smarte Einkaufsliste",
+    text: "Einkäufe nach dem Edeka-Regalprofil sortiert sehen und Artikel direkt abhaken.",
   },
   {
-    src: impression6,
+    src: pantryList,
+    title: "Vorratsliste",
+    text: "Aktive Vorräte durchsuchen, ergänzen, abhaken oder aus der Liste löschen.",
+  },
+  {
+    src: telliHelper,
+    title: "Telli-Küchenhelfer",
+    text: "Hilfe zu Artikeln, Regalsortierung und Supermarktprofilen sowie Einführungen öffnen.",
+  },
+  {
+    src: household,
     title: "Haushalt",
-    text: "Mitglieder, Einstellungen und Synchronisierung verständlich verwalten.",
+    text: "Mitglieder und Rollen sehen, Einladungscodes teilen oder den Haushalt wechseln.",
+  },
+  {
+    src: planningReview,
+    title: "Planungsrückblick",
+    text: "Im Kalender Tage auswählen und unter „Zuletzt gekocht“ frühere Gerichte wiederfinden.",
   },
 ] as const;
 ---
@@ -136,12 +154,14 @@ const gallery = [
           <LoopingAppPreview
             appName="PlanTeller"
             source="/media/planteller-intro.webm"
+            darkSource="/media/planteller-intro-dark.webm"
             poster="/assets/planteller-video-poster.webp"
+            darkPoster="/assets/planteller-video-poster-dark.webp"
             transcript={[
-              "PlanTeller zeigt die Rezeptübersicht.",
-              "Die gemeinsame Einkaufsliste wird geöffnet.",
-              "Der Wochenplan ordnet Mahlzeiten nach Tagen.",
-              "Die Vorratsübersicht zeigt vorhandene Lebensmittel.",
+              "Die Rezeptübersicht zeigt die eigenen Rezepte mit Suche und Filtern.",
+              "Der Wochenplan öffnet ein geplantes Abendessen mit Details.",
+              "Die Einkaufsliste ist nach dem gewählten Edeka-Regalprofil sortiert.",
+              "Telli bietet Hilfe zum Einkauf und zu wichtigen App-Funktionen.",
             ]}
           />
           <div class="app-hero__badge app-hero__badge--top">
