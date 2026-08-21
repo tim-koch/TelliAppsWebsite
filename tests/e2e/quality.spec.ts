@@ -192,6 +192,72 @@ test("App-Auswahl bleibt auf kleinen Displays zweispaltig", async ({ page }) => 
   expect(Math.abs((first?.y ?? 0) - (second?.y ?? 0))).toBeLessThan(2);
 });
 
+test("App-Karten sind vollständig klickbar und klar fokussierbar", async ({ page }) => {
+  test.skip(test.info().project.name !== "desktop", "Ein Desktop-Durchlauf genügt");
+  await page.goto("/");
+  const card = page.locator(".app-card").first();
+  const link = card.locator(".app-card__link");
+  await card.scrollIntoViewIfNeeded();
+  const cardBox = await card.boundingBox();
+  const linkBox = await link.boundingBox();
+  expect(cardBox).not.toBeNull();
+  expect(linkBox).not.toBeNull();
+  expect(Math.abs((cardBox?.width ?? 0) - (linkBox?.width ?? 0))).toBeLessThanOrEqual(2);
+  expect(Math.abs((cardBox?.height ?? 0) - (linkBox?.height ?? 0))).toBeLessThanOrEqual(
+    2,
+  );
+
+  await link.hover();
+  await expect
+    .poll(() =>
+      card.evaluate((element) => ({
+        shadow: getComputedStyle(element).boxShadow,
+        transform: getComputedStyle(element).transform,
+      })),
+    )
+    .toEqual({
+      shadow: expect.not.stringMatching(/^none$/),
+      transform: expect.not.stringMatching(/^none$/),
+    });
+
+  await link.focus();
+  await expect(link).toBeFocused();
+  await expect
+    .poll(() => card.evaluate((element) => getComputedStyle(element).outlineStyle))
+    .toBe("solid");
+
+  await link.evaluate((element) => element.setAttribute("href", "/planteller/"));
+  await link.click({ position: { x: (linkBox?.width ?? 0) / 2, y: 24 } });
+  await expect(page).toHaveURL(/\/planteller\/$/);
+});
+
+test("Der Button zur Kontolöschung nutzt in Light und Dark die Primärfarben", async ({
+  page,
+}) => {
+  test.skip(test.info().project.name !== "desktop", "Ein Desktop-Durchlauf genügt");
+  for (const theme of ["light", "dark"] as const) {
+    await page.addInitScript((selectedTheme) => {
+      localStorage.setItem("telliapps-theme", selectedTheme);
+    }, theme);
+    await page.goto("/planteller/konto-loeschen/");
+    const button = page.getByRole("link", { name: "Löschung anfragen" });
+    const colors = await button.evaluate((element) => {
+      const probe = document.createElement("span");
+      probe.style.color = "var(--inverse)";
+      document.body.append(probe);
+      const inverse = getComputedStyle(probe).color;
+      probe.remove();
+      return {
+        foreground: getComputedStyle(element).color,
+        background: getComputedStyle(element).backgroundColor,
+        inverse,
+      };
+    });
+    expect(colors.foreground, theme).toBe(colors.inverse);
+    expect(colors.background, theme).not.toBe(colors.foreground);
+  }
+});
+
 test("Screenshot-Strecken öffnen eine große Ansicht im Seitendialog", async ({
   page,
 }) => {

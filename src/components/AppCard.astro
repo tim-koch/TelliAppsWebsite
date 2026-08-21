@@ -19,30 +19,30 @@ const { name, eyebrow, text, href, image, alt, tone, status } = Astro.props;
 ---
 
 <article class:list={["app-card", `app-card--${tone}`]} data-reveal>
-  <div class="app-card__visual">
-    <Picture
-      src={image}
-      {alt}
-      formats={["avif", "webp"]}
-      widths={[96, 160, 256]}
-      sizes="(max-width: 760px) 4.5rem, 5.5rem"
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
-  <div class="app-card__content">
-    <p class="eyebrow">{eyebrow}</p>
-    <h3>{name}</h3>
-    <p>{text}</p>
-    <span class="status-pill"><span></span>{status}</span>
-    <a
-      class="app-card__link"
-      {href}
-      data-app-transition="true"
-      data-transition-name={tone}
-      data-analytics-event={`${name.toLowerCase()}_collection_open`}
-    >
-      Öffnen <Icon name="arrow" />
-    </a>
-  </div>
+  <a
+    class="app-card__link"
+    {href}
+    data-app-transition="true"
+    data-transition-name={tone}
+    data-analytics-event={`${name.toLowerCase()}_collection_open`}
+  >
+    <div class="app-card__visual">
+      <Picture
+        src={image}
+        {alt}
+        formats={["avif", "webp"]}
+        widths={[96, 160, 256]}
+        sizes="(max-width: 760px) 4.5rem, 5.5rem"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <div class="app-card__content">
+      <p class="eyebrow">{eyebrow}</p>
+      <h3>{name}</h3>
+      <p>{text}</p>
+      <span class="status-pill"><span></span>{status}</span>
+      <span class="app-card__action">Öffnen <Icon name="arrow" /></span>
+    </div>
+  </a>
 </article>
