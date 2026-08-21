@@ -32,7 +32,7 @@ export const SITES = {
     origin: configuredOrigin("telliapps", "https://www.telli-apps.de"),
     description:
       "Praktische Apps, die Planung im Alltag verständlicher und ruhiger machen.",
-    email: "kochbuch_app@outlook.de",
+    email: "kontakt@telli-apps.de",
     contactEndpoint: "https://formspree.io/f/mzdnbvbz",
     themeColor: "#355f52",
     locale: "de_DE",
@@ -44,7 +44,7 @@ export const SITES = {
     origin: configuredOrigin("planteller", "https://planteller.telli-apps.de"),
     description:
       "Rezepte, Wochenplanung und Einkauf gemeinsam an einem Ort organisieren.",
-    email: "kochbuch_app@outlook.de",
+    email: "planteller@telli-apps.de",
     status: "Geschlossene Android-Beta",
     contactEndpoint: "https://formspree.io/f/mojgjzlv",
     betaEndpoint: "https://formspree.io/f/xqerklkr",
@@ -58,8 +58,8 @@ export const SITES = {
     origin: configuredOrigin("planparty", "https://planparty.telli-apps.de"),
     description:
       "Realistische Einkaufs- und Getränkemengen für Feiern in etwa einer Minute planen.",
-    email: "kochbuch_app@outlook.de",
-    status: "Interner Android-Test",
+    email: "planparty@telli-apps.de",
+    status: "Geschlossener Android-Test",
     contactEndpoint: "https://formspree.io/f/mzdnbvbz",
     betaEndpoint: "https://formspree.io/f/xqerklkr",
     themeColor: "#4f19b7",

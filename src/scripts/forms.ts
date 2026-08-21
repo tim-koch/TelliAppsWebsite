@@ -78,7 +78,7 @@ if (!document.documentElement.hasAttribute("data-forms-ready")) {
       } catch {
         setStatus(
           form,
-          `Die Übermittlung ist gerade nicht möglich. Bitte schreibe an ${form.closest("body")?.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "kochbuch_app@outlook.de"}.`,
+          `Die Übermittlung ist gerade nicht möglich. Bitte schreibe an ${form.closest("body")?.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "support@telli-apps.de"}.`,
           "error",
         );
       } finally {
