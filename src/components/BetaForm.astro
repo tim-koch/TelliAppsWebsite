@@ -88,14 +88,15 @@ const { site, source } = Astro.props;
     <label for="beta-company">Firma</label>
     <input
       id="beta-company"
-      name="_gotcha"
+      name="website"
       type="text"
       tabindex="-1"
       autocomplete="off"
     />
   </div>
-  <input type="hidden" name="_subject" value={`Beta-Anmeldung ${site.name}`} />
+  <input type="hidden" name="site" value={site.id} />
   <input type="hidden" name="quelle" value={source} />
+  <input type="hidden" name="startedAt" value="" data-form-started-at />
   <input type="hidden" name="email" value="" data-complete-email />
   <input type="hidden" name="weitere_personen" value="Keine" data-additional-summary />
 

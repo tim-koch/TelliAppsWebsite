@@ -4,7 +4,8 @@
 
 - [ ] Impressum, Datenschutz, AGB/Nutzungsbedingungen und KI-Hinweise anwaltlich prüfen
 - [ ] Finale Hosting-Firma, Serverstandort, Log-Aufbewahrung und AV-Verträge eintragen
-- [ ] Formspree-Projekte, Empfänger, Aufbewahrung und Spam-Schutz produktiv verifizieren
+- [ ] Eigenen SMTP-Formulardienst mit produktivem Postfach, Empfängern und Testsendungen
+      verifizieren
 - [ ] Google Group `planteller@googlegroups.com` öffentlich auffindbar bzw. beitretbar machen
 - [ ] PlanParty-Store-Link und finalen Bereich „Datensicherheit“ ergänzen (Paket:
       `de.timkoch.planparty`)

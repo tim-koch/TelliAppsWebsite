@@ -9,6 +9,8 @@ function setStatus(
   status.dataset.state = state;
 }
 
+class FormSubmissionError extends Error {}
+
 function createPersonField(index: number): HTMLFieldSetElement {
   const fieldset = document.createElement("fieldset");
   fieldset.className = "person-fieldset";
@@ -37,6 +39,9 @@ if (!document.documentElement.hasAttribute("data-forms-ready")) {
   });
 
   document.querySelectorAll<HTMLFormElement>("[data-async-form]").forEach((form) => {
+    const startedAt = form.querySelector<HTMLInputElement>("[data-form-started-at]");
+    if (startedAt) startedAt.value = String(Date.now());
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) return;
@@ -66,19 +71,31 @@ if (!document.documentElement.hasAttribute("data-forms-ready")) {
       submit?.setAttribute("disabled", "true");
       setStatus(form, "Wird sicher übermittelt …");
       try {
+        const payload = Object.fromEntries(data.entries());
         const response = await fetch(form.action, {
           method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
+          body: JSON.stringify(payload),
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
         });
-        if (!response.ok) throw new Error("Formularversand fehlgeschlagen");
+        if (!response.ok) {
+          const result = (await response.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          throw new FormSubmissionError(
+            result?.error || "Formularversand fehlgeschlagen",
+          );
+        }
         form.reset();
+        if (startedAt) startedAt.value = String(Date.now());
         form.querySelector<HTMLElement>("[data-people-list]")?.replaceChildren();
         setStatus(form, "Danke! Deine Anfrage wurde erfolgreich gesendet.", "success");
-      } catch {
+      } catch (error) {
+        const reason = error instanceof FormSubmissionError ? error.message : "";
         setStatus(
           form,
-          `Die Übermittlung ist gerade nicht möglich. Bitte schreibe an ${form.closest("body")?.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "support@telli-apps.de"}.`,
+          reason && reason !== "Formularversand fehlgeschlagen"
+            ? reason
+            : `Die Übermittlung ist gerade nicht möglich. Bitte schreibe an ${form.closest("body")?.querySelector<HTMLAnchorElement>('a[href^="mailto:"]')?.textContent ?? "support@telli-apps.de"}.`,
           "error",
         );
       } finally {

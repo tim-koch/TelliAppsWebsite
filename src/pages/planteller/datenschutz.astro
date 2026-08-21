@@ -47,9 +47,11 @@ const analyticsEnabled = Boolean(
     Personen dürfen nur mit deren Einverständnis eingetragen werden.
   </p>
   <p>
-    Formspree, Inc. verarbeitet die Formulardaten als Dienstleister und kann Daten in den
-    USA verarbeiten. Für Drittlandübermittlungen werden nach Angaben des Anbieters
-    EU-Standardvertragsklauseln eingesetzt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
+    Die Angaben werden verschlüsselt an den eigenen TelliApps-Server übertragen, dort
+    validiert und per TLS-gesicherter SMTP-Verbindung an das zuständige TelliApps-Postfach
+    bei unserem E-Mail-Dienstleister zugestellt. Zur Missbrauchsabwehr wird die IP-Adresse
+    für das Rate-Limit kurzzeitig im Arbeitsspeicher verarbeitet; eine separate
+    Inhaltsdatenbank wird nicht angelegt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
     bei vorvertraglichen Anfragen, sonst Art. 6 Abs. 1 lit. f DSGVO; bei der freiwilligen
     Beta-Teilnahme zusätzlich die abgegebene Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO.
   </p>

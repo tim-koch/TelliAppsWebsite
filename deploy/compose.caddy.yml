@@ -3,6 +3,32 @@
 name: telliapps-caddy
 
 services:
+  form-api:
+    build:
+      context: ..
+      dockerfile: deploy/forms/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${FORM_NODE_ENV:-production}
+      FORM_TEST_TRANSPORT: ${FORM_TEST_TRANSPORT:-false}
+      PORT: "3000"
+      SMTP_HOST: ${SMTP_HOST:-mail.your-server.de}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-noreply@telli-apps.de}
+      MAIL_TO_TELLIAPPS: ${MAIL_TO_TELLIAPPS:-kontakt@telli-apps.de}
+      MAIL_TO_PLANTELLER: ${MAIL_TO_PLANTELLER:-planteller@telli-apps.de}
+      MAIL_TO_PLANPARTY: ${MAIL_TO_PLANPARTY:-planparty@telli-apps.de}
+      TRUSTED_ORIGINS: ${TRUSTED_ORIGINS:-https://www.telli-apps.de,https://planteller.telli-apps.de,https://planparty.telli-apps.de}
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
   website:
     build:
       context: ..
@@ -11,6 +37,9 @@ services:
         PUBLIC_UMAMI_SRC: ${PUBLIC_UMAMI_SRC:-}
         PUBLIC_UMAMI_WEBSITE_ID: ${PUBLIC_UMAMI_WEBSITE_ID:-}
     restart: unless-stopped
+    depends_on:
+      form-api:
+        condition: service_healthy
     ports:
       - "80:80"
       - "443:443"

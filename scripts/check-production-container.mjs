@@ -6,15 +6,25 @@ import { stdout } from "node:process";
 const containerHost = process.env.CONTAINER_HOST || "127.0.0.1";
 const containerPort = Number(process.env.CONTAINER_PORT || 8088);
 
-function request(host, path) {
+function request(host, path, options = {}) {
+  const body = options.body ? JSON.stringify(options.body) : undefined;
   return new Promise((resolve, reject) => {
     const call = http.request(
       {
         host: containerHost,
         port: containerPort,
         path,
-        method: "GET",
-        headers: { Host: host },
+        method: options.method || "GET",
+        headers: {
+          Host: host,
+          ...(body
+            ? {
+                "Content-Type": "application/json",
+                "Content-Length": Buffer.byteLength(body),
+              }
+            : {}),
+          ...options.headers,
+        },
       },
       (response) => {
         const chunks = [];
@@ -30,7 +40,7 @@ function request(host, path) {
     );
     call.setTimeout(5_000, () => call.destroy(new Error("Zeitüberschreitung")));
     call.on("error", reject);
-    call.end();
+    call.end(body);
   });
 }
 
@@ -71,10 +81,35 @@ const assetLinks = await request(
 );
 assert.match(assetLinks.body, /de\.timkoch\.kochbuch/);
 
+const formSubmission = await request("planparty.telli-apps.de", "/api/forms/contact", {
+  method: "POST",
+  headers: { Origin: "https://planparty.telli-apps.de" },
+  body: {
+    site: "planparty",
+    quelle: "/kontakt/",
+    anliegen: "feedback",
+    name: "Container-Test",
+    email: "test@example.de",
+    message: "Automatischer Test des eigenen Formulardienstes.",
+    datenschutz_bestaetigt: "ja",
+    website: "",
+    startedAt: Date.now() - 3000,
+  },
+});
+assert.equal(formSubmission.status, 200);
+assert.deepEqual(JSON.parse(formSubmission.body), { ok: true });
+
+const rejectedOrigin = await request("planparty.telli-apps.de", "/api/forms/contact", {
+  method: "POST",
+  headers: { Origin: "https://example.org" },
+  body: {},
+});
+assert.equal(rejectedOrigin.status, 403);
+
 const assetPath = homepage.body.match(/(?:src|href)="(\/_astro\/[^"?]+)"/)?.[1];
 assert.ok(assetPath, "Kein gehashtes Asset in der Startseite gefunden.");
 const asset = await request("www.telli-apps.de", assetPath);
 assert.equal(asset.status, 200);
 assert.match(asset.headers["cache-control"] || "", /max-age=31536000/);
 
-stdout.write(`${checks.length + 5} Produktionscontainer-Prüfungen erfolgreich.\n`);
+stdout.write(`${checks.length + 7} Produktionscontainer-Prüfungen erfolgreich.\n`);
