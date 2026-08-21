@@ -116,7 +116,7 @@ Aktualisierung:
 ```sh
 cd /opt/telliapps
 git pull --ff-only
-docker compose -f deploy/compose.yml up -d --build
+docker compose --env-file .env -f deploy/compose.yml up -d --build
 curl --fail --header "Host: www.telli-apps.de" http://127.0.0.1:8088/healthz
 ```
 
@@ -125,7 +125,7 @@ Rollback auf einen bekannten Commit:
 ```sh
 cd /opt/telliapps
 git switch --detach COMMIT_ID
-docker compose -f deploy/compose.yml up -d --build
+docker compose --env-file .env -f deploy/compose.yml up -d --build
 ```
 
 Vor einem späteren Wechsel zurück auf `main` muss der gewünschte Stand ausdrücklich
