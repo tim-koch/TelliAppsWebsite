@@ -2,23 +2,31 @@ import { mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { chromium } from "@playwright/test";
 
+/* global localStorage */
+
 const output = resolve("test-results/visual");
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch(
   process.env.CI ? { headless: true } : { headless: true, channel: "msedge" },
 );
 
+async function waitForImage(image) {
+  await image.evaluate(async (element) => {
+    if (element.complete && element.naturalWidth > 0) return;
+    await new Promise((resolveLoad) =>
+      element.addEventListener("load", resolveLoad, { once: true }),
+    );
+  });
+}
+
 async function waitForFirstScreenshot(page) {
-  await page
-    .locator(".screenshot-card img")
-    .first()
-    .evaluate(async (image) => {
-      if (image.complete && image.naturalWidth > 0) return;
-      await new Promise((resolveLoad) =>
-        image.addEventListener("load", resolveLoad, { once: true }),
-      );
-    });
+  await waitForImage(page.locator(".screenshot-card img").first());
   await page.waitForTimeout(300);
+}
+
+async function waitForDialogScreenshot(page) {
+  await waitForImage(page.locator("[data-lightbox-image]"));
+  await page.waitForTimeout(100);
 }
 
 try {
@@ -56,6 +64,7 @@ try {
           path: resolve(output, `${name}-screenshot-card.png`),
         });
       await page.locator("[data-screenshot-open]").first().click();
+      await waitForDialogScreenshot(page);
       await page.locator("[data-screenshot-dialog]").screenshot({
         path: resolve(output, `${name}-screenshot-dialog.png`),
       });
@@ -64,6 +73,28 @@ try {
     await page.close();
   }
   await desktop.close();
+
+  const darkDesktop = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    colorScheme: "dark",
+  });
+  await darkDesktop.addInitScript(() => {
+    localStorage.setItem("telliapps-theme", "dark");
+  });
+  for (const [name, path] of [
+    ["planteller", "/planteller/"],
+    ["planparty", "/planparty/"],
+  ]) {
+    const page = await darkDesktop.newPage();
+    await page.goto(`http://127.0.0.1:4321${path}`);
+    await page.locator(".loop-preview video").waitFor();
+    await page.waitForTimeout(300);
+    await page.locator(".app-hero__visual").screenshot({
+      path: resolve(output, `${name}-hero-dark.png`),
+    });
+    await page.close();
+  }
+  await darkDesktop.close();
 
   const mobile = await browser.newContext({
     viewport: { width: 390, height: 844 },
@@ -96,6 +127,7 @@ try {
           path: resolve(output, `${name}-screenshot-card-mobile.png`),
         });
       await page.locator("[data-screenshot-open]").first().click();
+      await waitForDialogScreenshot(page);
       await page.locator("[data-screenshot-dialog]").screenshot({
         path: resolve(output, `${name}-screenshot-dialog-mobile.png`),
       });

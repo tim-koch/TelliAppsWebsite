@@ -109,7 +109,12 @@ test("Alle statisch erzeugten Inhaltsseiten antworten erfolgreich", async ({ pag
 });
 
 test("Beide App-Videos sind erreichbar", async ({ request }) => {
-  for (const path of ["/media/planteller-intro.webm", "/media/planparty-intro.webm"]) {
+  for (const path of [
+    "/media/planteller-intro.webm",
+    "/media/planteller-intro-dark.webm",
+    "/media/planparty-intro.webm",
+    "/media/planparty-intro-dark.webm",
+  ]) {
     const response = await request.get(path);
     expect(response.ok(), path).toBe(true);
     expect(response.headers()["content-type"]).toContain("video/webm");
@@ -135,10 +140,42 @@ test("App-Vorschauen laufen im Hero und lassen sich pausieren", async ({ page })
           .evaluate((element) => getComputedStyle(element).borderTopWidth),
       )
       .toBe("0px");
+    await expect
+      .poll(() =>
+        video.evaluate((element) => getComputedStyle(element).borderTopLeftRadius),
+      )
+      .not.toBe("0px");
+    await expect
+      .poll(() => video.evaluate((element) => getComputedStyle(element).maskImage))
+      .not.toBe("none");
     await page.getByRole("button", { name: "Animation pausieren" }).click();
     await expect
       .poll(() => video.evaluate((element) => (element as HTMLVideoElement).paused))
       .toBe(true);
+  }
+});
+
+test("Hero-Videos laufen im Dark Mode weicher in den Hintergrund aus", async ({
+  page,
+}) => {
+  test.skip(test.info().project.name !== "desktop", "Ein Desktop-Durchlauf genügt");
+  await page.addInitScript(() => localStorage.setItem("telliapps-theme", "dark"));
+  for (const path of ["/planteller/", "/planparty/"]) {
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    const video = page.locator(".loop-preview video");
+    await expect
+      .poll(() => video.evaluate((element) => (element as HTMLVideoElement).currentSrc))
+      .toContain("-dark.webm");
+    await expect
+      .poll(() =>
+        video.evaluate((element) => ({
+          fadeX: getComputedStyle(element).getPropertyValue("--preview-fade-x").trim(),
+          fadeY: getComputedStyle(element).getPropertyValue("--preview-fade-y").trim(),
+          mask: getComputedStyle(element).maskImage,
+        })),
+      )
+      .toEqual({ fadeX: "4%", fadeY: "2%", mask: expect.stringContaining("4%") });
   }
 });
 
@@ -168,7 +205,8 @@ test("Screenshot-Strecken öffnen eine große Ansicht im Seitendialog", async ({
       .poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth))
       .toBeGreaterThan(0);
     const imageBox = await image.boundingBox();
-    expect(imageBox?.width ?? 0).toBeGreaterThan(300);
+    expect(imageBox?.width ?? 0).toBeGreaterThan(200);
+    expect(imageBox?.width ?? 0).toBeLessThan(280);
     const openButton = firstCard.getByRole("button", { name: /Groß ansehen/ });
     await openButton.click();
     const dialog = page.locator("dialog[data-screenshot-dialog]");
@@ -177,6 +215,13 @@ test("Screenshot-Strecken öffnen eine große Ansicht im Seitendialog", async ({
       "src",
       /_astro\//,
     );
+    await expect
+      .poll(() =>
+        dialog
+          .locator("[data-lightbox-image]")
+          .evaluate((element) => (element as HTMLImageElement).naturalWidth),
+      )
+      .toBeGreaterThan(0);
     const results = await new AxeBuilder({ page })
       .include("dialog[data-screenshot-dialog]")
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
@@ -186,6 +231,24 @@ test("Screenshot-Strecken öffnen eine große Ansicht im Seitendialog", async ({
     await expect(dialog).not.toBeVisible();
     await expect(openButton).toBeFocused();
   }
+});
+
+test("Vertikales Scrollen über der Screenshot-Strecke bewegt die Seite", async ({
+  page,
+}) => {
+  test.skip(test.info().project.name !== "desktop", "Ein Desktop-Durchlauf genügt");
+  await page.goto("/planteller/");
+  const track = page.locator("[data-screenshot-track]");
+  await track.scrollIntoViewIfNeeded();
+  const box = await track.boundingBox();
+  expect(box).not.toBeNull();
+  const before = await page.evaluate(() => window.scrollY);
+  await page.mouse.move((box?.x ?? 0) + 100, (box?.y ?? 0) + 100);
+  await page.mouse.wheel(0, 420);
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(before + 200);
+  await expect.poll(() => track.evaluate((element) => element.scrollTop)).toBe(0);
 });
 
 test("App-Seiten verwenden ihre offiziellen Favicons", async ({ page }) => {
