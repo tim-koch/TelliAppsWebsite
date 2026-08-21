@@ -21,7 +21,7 @@ echo "Prüfe die Compose-Konfiguration …"
 docker compose -f "$COMPOSE_FILE" config >/dev/null
 
 echo "Baue und starte den internen Website-Container …"
-docker compose -f "$COMPOSE_FILE" up -d --build --remove-orphans
+docker compose -f "$COMPOSE_FILE" up -d --build
 
 for host_name in www.telli-apps.de planteller.telli-apps.de planparty.telli-apps.de; do
   echo "Prüfe $host_name über 127.0.0.1:8088 …"
