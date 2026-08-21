@@ -36,6 +36,8 @@ jobs:
         env:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           PUBLIC_GITHUB_PAGES_ORIGIN: ${{ steps.pages.outputs.origin }}
+          PUBLIC_UMAMI_SRC: ${{ vars.PUBLIC_UMAMI_SRC }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.PUBLIC_UMAMI_WEBSITE_ID }}
       - name: Pages-Pfade prüfen
         run: node scripts/check-pages-build.mjs
         env:

@@ -8,12 +8,20 @@ interface Props {
   description: string;
   canonicalPath: string;
   updated?: string;
+  noindex?: boolean;
 }
 
-const { site, title, description, canonicalPath, updated = "20.08.2026" } = Astro.props;
+const {
+  site,
+  title,
+  description,
+  canonicalPath,
+  updated = "20.08.2026",
+  noindex = true,
+} = Astro.props;
 ---
 
-<BaseLayout {site} {title} {description} {canonicalPath}>
+<BaseLayout {site} {title} {description} {canonicalPath} {noindex}>
   <main class="shell legal-page" id="main-content">
     <header class="legal-page__header">
       <p class="eyebrow">Rechtliches & Transparenz</p>

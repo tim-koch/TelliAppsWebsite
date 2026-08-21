@@ -11,6 +11,15 @@
 - [ ] DNS-A/AAAA-Einträge für alle drei Hosts auf den Webserver setzen
 - [ ] Alte `planteller.de`-Website erst nach bewusster Migration mit 301-Weiterleitungen ersetzen
 
+## Google und Indexierung
+
+- [ ] DNS-Domain-Property `telli-apps.de` in der Google Search Console bestätigen
+- [ ] `https://www.telli-apps.de/sitemap.xml` einreichen
+- [ ] `https://planteller.telli-apps.de/sitemap.xml` einreichen
+- [ ] `https://planparty.telli-apps.de/sitemap.xml` einreichen
+- [ ] Start-, Beta- und Kontaktseiten mit der URL-Prüfung kontrollieren
+- [ ] Prüfen, dass Rechtliches, Löschseiten und die GitHub-Pages-Vorschau `noindex` liefern
+
 ## Analytics
 
 Ohne Umgebungsvariablen wird kein Analyse-Skript geladen und kein Cookie-Banner
@@ -20,6 +29,11 @@ benötigt. Für cookieloses, bevorzugt selbst gehostetes Umami:
 2. Skript-URL und Website-ID setzen.
 3. Datenschutztext gegen die konkrete Instanz, den Standort und die Löschfristen prüfen.
 4. Mit „Do Not Track“, deaktiviertem JavaScript und Browser-Schutzmechanismen testen.
+
+Bei GitHub Pages werden die Werte als Repository-Variablen `PUBLIC_UMAMI_SRC` und
+`PUBLIC_UMAMI_WEBSITE_ID` gepflegt. Die Vorschau wird dann unter dem GitHub-Pages-Host
+gemessen; im Produktivbetrieb werden `www`, `planteller` und `planparty` gemeinsam
+erfasst. Ohne beide Variablen bleibt Analytics deaktiviert.
 
 Wenn später Cookies, Werbung, Fingerprinting oder andere einwilligungspflichtige Dienste
 hinzukommen, muss vor deren Laden ein Consent-Management ergänzt werden.

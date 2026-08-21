@@ -30,6 +30,32 @@ const generatedPages = [
   "/planparty/nutzungsbedingungen/",
   "/planparty/quellen/",
 ];
+const indexablePages = [
+  "/",
+  "/kontakt/",
+  "/planteller/",
+  "/planteller/beta/",
+  "/planteller/kontakt/",
+  "/planparty/",
+  "/planparty/beta/",
+  "/planparty/kontakt/",
+];
+const noindexPages = [
+  "/barrierefreiheit/",
+  "/datenschutz/",
+  "/impressum/",
+  "/planteller/agb/",
+  "/planteller/datenschutz/",
+  "/planteller/hinweise/",
+  "/planteller/impressum/",
+  "/planteller/ki-hinweise/",
+  "/planteller/konto-loeschen/",
+  "/planparty/daten-loeschen/",
+  "/planparty/datenschutz/",
+  "/planparty/impressum/",
+  "/planparty/nutzungsbedingungen/",
+  "/planparty/quellen/",
+];
 
 for (const path of homepages) {
   test(`${path} hat keinen horizontalen Überlauf`, async ({ page }) => {
@@ -106,6 +132,59 @@ test("Alle statisch erzeugten Inhaltsseiten antworten erfolgreich", async ({ pag
     const response = await page.goto(path);
     expect(response?.ok(), path).toBe(true);
   }
+});
+
+test("Nur suchrelevante Seiten sind für die Indexierung freigegeben", async ({
+  page,
+}) => {
+  test.skip(test.info().project.name !== "mobile", "Ein HTTP-Durchlauf genügt");
+  for (const path of indexablePages) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="robots"]'), path).toHaveAttribute(
+      "content",
+      "index, follow, max-image-preview:large",
+    );
+  }
+  for (const path of noindexPages) {
+    await page.goto(path);
+    await expect(page.locator('meta[name="robots"]'), path).toHaveAttribute(
+      "content",
+      "noindex, follow",
+    );
+  }
+});
+
+test("Sitemaps enthalten keine Noindex-Seiten", async ({ request }) => {
+  test.skip(test.info().project.name !== "mobile", "Ein HTTP-Durchlauf genügt");
+  for (const [path, included, excluded] of [
+    ["/sitemap.xml", ["/kontakt/"], ["/impressum/", "/datenschutz/"]],
+    ["/planteller/sitemap.xml", ["/beta/", "/kontakt/"], ["/agb/", "/konto-loeschen/"]],
+    [
+      "/planparty/sitemap.xml",
+      ["/beta/", "/kontakt/"],
+      ["/nutzungsbedingungen/", "/daten-loeschen/"],
+    ],
+  ] as const) {
+    const response = await request.get(path);
+    expect(response.ok(), path).toBe(true);
+    const body = await response.text();
+    for (const expectedPath of included) expect(body, path).toContain(expectedPath);
+    for (const blockedPath of excluded) expect(body, path).not.toContain(blockedPath);
+  }
+});
+
+test("PlanParty nennt in den Suchdaten nur die verfügbare Plattform", async ({
+  page,
+}) => {
+  test.skip(test.info().project.name !== "mobile", "Ein Browser-Durchlauf genügt");
+  await page.goto("/planparty/");
+  const schemas = await page
+    .locator('script[type="application/ld+json"]')
+    .evaluateAll((scripts) =>
+      scripts.flatMap((script) => JSON.parse(script.textContent || "[]")),
+    );
+  const app = schemas.find((schema) => schema["@type"] === "SoftwareApplication");
+  expect(app?.operatingSystem).toBe("Android");
 });
 
 test("Beide App-Videos sind erreichbar", async ({ request }) => {

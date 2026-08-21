@@ -30,6 +30,8 @@ const {
   bodyClass,
 } = Astro.props;
 const canonical = siteUrl(site, canonicalPath);
+const isGithubPagesPreview = Boolean(import.meta.env.PUBLIC_GITHUB_PAGES_ORIGIN);
+const shouldNoindex = noindex || isGithubPagesPreview;
 const assetOrigin = import.meta.env.PUBLIC_GITHUB_PAGES_ORIGIN || site.origin;
 const socialImage = new URL(withBase(image), assetOrigin).toString();
 const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
@@ -52,7 +54,9 @@ const favicon = withBase(
     <meta name="description" content={description} />
     <meta
       name="robots"
-      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+      content={shouldNoindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large"}
     />
     <link rel="canonical" href={canonical} />
     <title>{fullTitle}</title>
