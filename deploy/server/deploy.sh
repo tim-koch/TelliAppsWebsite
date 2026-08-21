@@ -25,9 +25,20 @@ docker compose -f "$COMPOSE_FILE" up -d --build
 
 for host_name in www.telli-apps.de planteller.telli-apps.de planparty.telli-apps.de; do
   echo "Prüfe $host_name über 127.0.0.1:8088 …"
-  curl --fail --silent --show-error \
+  attempt=1
+  until curl --fail --silent --show-error \
     --header "Host: $host_name" \
-    http://127.0.0.1:8088/healthz >/dev/null
+    http://127.0.0.1:8088/healthz >/dev/null 2>&1; do
+    if [ "$attempt" -ge 20 ]; then
+      echo "$host_name war nach 20 Sekunden nicht erreichbar." >&2
+      docker compose -f "$COMPOSE_FILE" ps >&2
+      docker compose -f "$COMPOSE_FILE" logs --tail 50 website >&2
+      exit 1
+    fi
+
+    attempt=$((attempt + 1))
+    sleep 1
+  done
 done
 
 echo "Installiere den zusätzlichen nginx-VHost …"
