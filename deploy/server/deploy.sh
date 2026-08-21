@@ -4,6 +4,7 @@ set -eu
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPO_DIR=$(CDPATH= cd -- "$SCRIPT_DIR/../.." && pwd)
 COMPOSE_FILE="$REPO_DIR/deploy/compose.yml"
+ENV_FILE="$REPO_DIR/.env"
 NGINX_SOURCE="$REPO_DIR/deploy/server/nginx-telliapps.conf"
 NGINX_TARGET="/etc/nginx/sites-available/telliapps.conf"
 NGINX_LINK="/etc/nginx/sites-enabled/telliapps.conf"
@@ -15,13 +16,28 @@ for command_name in docker curl nginx systemctl; do
   fi
 done
 
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Fehlt: $ENV_FILE. Bitte zuerst die SMTP-Konfiguration anlegen." >&2
+  exit 1
+fi
+
+env_mode=$(stat -c '%a' "$ENV_FILE")
+if [ "$env_mode" != "600" ]; then
+  echo "$ENV_FILE muss die Dateirechte 600 besitzen (aktuell: $env_mode)." >&2
+  exit 1
+fi
+
+compose() {
+  docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" "$@"
+}
+
 cd "$REPO_DIR"
 
 echo "Prüfe die Compose-Konfiguration …"
-docker compose -f "$COMPOSE_FILE" config >/dev/null
+compose config >/dev/null
 
 echo "Baue und starte den internen Website-Container …"
-docker compose -f "$COMPOSE_FILE" up -d --build
+compose up -d --build
 
 for host_name in www.telli-apps.de planteller.telli-apps.de planparty.telli-apps.de; do
   echo "Prüfe $host_name über 127.0.0.1:8088 …"
@@ -31,8 +47,8 @@ for host_name in www.telli-apps.de planteller.telli-apps.de planparty.telli-apps
     http://127.0.0.1:8088/healthz >/dev/null 2>&1; do
     if [ "$attempt" -ge 20 ]; then
       echo "$host_name war nach 20 Sekunden nicht erreichbar." >&2
-      docker compose -f "$COMPOSE_FILE" ps >&2
-      docker compose -f "$COMPOSE_FILE" logs --tail 50 website >&2
+      compose ps >&2
+      compose logs --tail 50 website form-api >&2
       exit 1
     fi
 
