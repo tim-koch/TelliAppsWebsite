@@ -1,0 +1,3 @@
+# Optional. Ohne beide Werte bleibt die Reichweitenmessung deaktiviert.
+PUBLIC_UMAMI_SRC=
+PUBLIC_UMAMI_WEBSITE_ID=

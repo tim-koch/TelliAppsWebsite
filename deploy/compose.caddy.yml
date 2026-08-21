@@ -1,0 +1,22 @@
+# Nur für einen eigenständigen Server ohne vorhandenen Webserver.
+# Auf dem aktuellen PlanTeller-Server stattdessen compose.yml verwenden.
+services:
+  website:
+    build:
+      context: ..
+      dockerfile: deploy/caddy/Dockerfile
+      args:
+        PUBLIC_UMAMI_SRC: ${PUBLIC_UMAMI_SRC:-}
+        PUBLIC_UMAMI_WEBSITE_ID: ${PUBLIC_UMAMI_WEBSITE_ID:-}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

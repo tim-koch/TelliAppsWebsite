@@ -2,8 +2,8 @@
 
 ## Zielbild
 
-Ein Astro-Build erzeugt drei klar getrennte statische Websites. Caddy ordnet die
-Ausgabe beim Hosting den jeweiligen Domains zu:
+Ein Astro-Build erzeugt drei klar getrennte statische Websites. Ein interner nginx-
+Container ordnet die Ausgabe den jeweiligen Domains zu:
 
 | Domain                     | Build-Verzeichnis  | Zweck                    |
 | -------------------------- | ------------------ | ------------------------ |
@@ -11,9 +11,10 @@ Ausgabe beim Hosting den jeweiligen Domains zu:
 | `planteller.telli-apps.de` | `dist/planteller/` | PlanTeller               |
 | `planparty.telli-apps.de`  | `dist/planparty/`  | PlanParty                |
 
-Gemeinsame, von Astro optimierte Assets liegen unter `dist/_astro/`. Caddy stellt sie
-auf allen drei Hosts bereit. Dadurch bleiben Gestaltung, Komponenten, Barrierefreiheit
-und Wartung einheitlich, während jede App eigene Farben, Inhalte und Metadaten erhält.
+Gemeinsame, von Astro optimierte Assets liegen unter `dist/_astro/`. Der Container stellt
+sie auf allen drei Hosts bereit. Auf dem bestehenden Server leitet der bereits laufende
+Host-nginx Anfragen an `127.0.0.1:8088` weiter und verwaltet TLS. Dadurch bleiben die
+vorhandenen PlanTeller-VHosts und die API unangetastet.
 
 ## Rollen bei Änderungen
 
@@ -30,13 +31,15 @@ und Wartung einheitlich, während jede App eigene Farben, Inhalte und Metadaten 
 - `src/config/sites.ts`: Domains, Produktdaten und Formular-Endpunkte
 - `src/data/navigation.ts`: Navigation und Footer je Marke
 - `src/styles/global.css`: Designsystem und responsive Regeln
-- `Caddyfile`: Host-Routing, Deep-Links, Kompression und Sicherheitsheader
+- `deploy/nginx/default.conf`: internes Host-Routing, Deep-Links und Caching
+- `deploy/server/nginx-telliapps.conf`: konfliktfreier Proxy im vorhandenen Host-nginx
+- `Caddyfile`: optionale Standalone-Alternative für einen separaten Server
 - `.env.example`: optionale cookielose Reichweitenmessung
 
 ## PlanTeller-Deep-Links
 
 Die Pfade `/recipe-share`, `/collection-share`, `/invite` und `/reset-password` bleiben
-mit angehängten Tokens erreichbar. Caddy rewritet dynamische Varianten auf die jeweilige
+mit angehängten Tokens erreichbar. nginx rewritet dynamische Varianten auf die jeweilige
 statische Einstiegsseite; JavaScript versucht anschließend den App-Link und bietet einen
 kopierbaren Browser-Fallback. `/.well-known/assetlinks.json` ist für Android App Links
 vorbereitet.
