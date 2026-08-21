@@ -17,6 +17,7 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:container": "node scripts/check-production-container.mjs",
     "test:a11y": "playwright test --grep @a11y",
     "test:links": "linkinator dist --recurse --clean-urls --check-fragments --skip \"^(mailto:|tel:|planteller:|https://)\"",
     "test:lighthouse": "npx --yes @lhci/cli@0.15.1 autorun",

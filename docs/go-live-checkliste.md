@@ -9,6 +9,8 @@
 - [ ] PlanParty-Paketname, Store-Link und finalen Bereich „Datensicherheit“ ergänzen
 - [ ] `assetlinks.json` gegen finales PlanTeller-Paket und Signaturzertifikat prüfen
 - [ ] DNS-A/AAAA-Einträge für alle drei Hosts auf den Webserver setzen
+- [ ] Website-Container auf `127.0.0.1:8088` starten und Host-nginx-Konfiguration prüfen
+- [ ] TLS-Zertifikat für Hauptdomain, `www`, `planteller` und `planparty` ausstellen
 - [ ] Alte `planteller.de`-Website erst nach bewusster Migration mit 301-Weiterleitungen ersetzen
 
 ## Google und Indexierung
@@ -51,6 +53,8 @@ npm run test:e2e
 npm run test:links
 npm run test:lighthouse
 docker build -t telliapps-web .
+docker compose -f deploy/compose.yml up -d --build
+npm run test:container
 ```
 
 Danach reale Geräte (Android/iOS), Formulare ohne Testdatenversand, Deep-Links, 404-Seiten,

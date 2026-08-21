@@ -7,9 +7,9 @@ gemeinsame Astro-Codebasis liefert drei eigenständige Websites für:
 - `planteller.telli-apps.de`
 - `planparty.telli-apps.de`
 
-Die produktiven Subdomains werden über den mitgelieferten Caddy-Container aus einem
-statischen Build bedient. Lokal sind die Bereiche unter `/planteller/` und
-`/planparty/` erreichbar.
+Die produktiven Subdomains werden aus einem gemeinsamen statischen Build bedient. Auf dem
+bestehenden PlanTeller-Server läuft der Website-Container isoliert hinter dem vorhandenen
+Host-nginx. Lokal sind die Bereiche unter `/planteller/` und `/planparty/` erreichbar.
 
 ## Entwicklung
 
@@ -30,6 +30,7 @@ npm test
 npm run build
 npm run test:e2e
 npm run test:links
+npm run test:container
 ```
 
 `npm run media:build` rendert die beiden kurzen WebM-App-Demos aus den eingecheckten
@@ -57,18 +58,25 @@ davon unberührt. In den Repository-Einstellungen muss unter **Settings → Page
 die Option **GitHub Actions** aktiv sein.
 
 GitHub Pages unterstützt für ein Repository nur eine primäre Custom Domain. Die drei
-späteren Hosts `www`, `planteller` und `planparty` werden deshalb weiterhin gemeinsam über
-den Caddy-Container veröffentlicht.
+Produktionshosts `www`, `planteller` und `planparty` werden deshalb gemeinsam über den
+eigenen Server veröffentlicht.
 
 ### Eigener Server / Subdomains
 
 ```sh
 docker compose -f deploy/compose.yml up -d --build
+npm run test:container
 ```
 
-Caddy beschafft TLS-Zertifikate automatisch, komprimiert Dateien, setzt
-Sicherheitsheader und routet die Hosts. Details stehen in [docs/architektur.md](docs/architektur.md),
-offene Produktionspunkte in [docs/go-live-checkliste.md](docs/go-live-checkliste.md).
+Der Container bindet nur `127.0.0.1:8088`; der bereits laufende Host-nginx übernimmt die
+öffentlichen Domains und TLS. Die vollständige Serveranleitung steht unter
+[deploy/server/README.md](deploy/server/README.md). Architekturdetails stehen in
+[docs/architektur.md](docs/architektur.md), offene Produktionspunkte in
+[docs/go-live-checkliste.md](docs/go-live-checkliste.md).
+
+`deploy/compose.caddy.yml` bleibt als Alternative für einen eigenständigen Server ohne
+vorhandenen Webserver erhalten. Es darf auf dem aktuellen PlanTeller-Server wegen der
+bereits durch nginx belegten Ports 80 und 443 nicht verwendet werden.
 
 ## Markenstudie „Telli“
 
