@@ -1,5 +1,7 @@
 # Nur für einen eigenständigen Server ohne vorhandenen Webserver.
 # Auf dem aktuellen PlanTeller-Server stattdessen compose.yml verwenden.
+name: telliapps-caddy
+
 services:
   website:
     build:
